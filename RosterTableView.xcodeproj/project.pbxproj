@@ -1,0 +1,730 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D3023A3025966FD90060A0B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A2F25966FD90060A0B2 /* AppDelegate.swift */; };
+		D3023A3225966FD90060A0B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A3125966FD90060A0B2 /* SceneDelegate.swift */; };
+		D3023A3725966FD90060A0B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3023A3525966FD90060A0B2 /* Main.storyboard */; };
+		D3023A3925966FDC0060A0B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3023A3825966FDC0060A0B2 /* Assets.xcassets */; };
+		D3023A3C25966FDC0060A0B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3023A3A25966FDC0060A0B2 /* LaunchScreen.storyboard */; };
+		D3023A4725966FDC0060A0B2 /* RosterTableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A4625966FDC0060A0B2 /* RosterTableViewTests.swift */; };
+		D3023A5225966FDC0060A0B2 /* RosterTableViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A5125966FDC0060A0B2 /* RosterTableViewUITests.swift */; };
+		D3023A65259670260060A0B2 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3023A64259670260060A0B2 /* CloudKit.framework */; };
+		D3023A6E25967A3D0060A0B2 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A6D25967A3D0060A0B2 /* RosterViewController.swift */; };
+		D3023A942597E5FF0060A0B2 /* TeamTableViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A932597E5FF0060A0B2 /* TeamTableViewTableViewController.swift */; };
+		D3023A992598FF8F0060A0B2 /* TeamDataLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A982598FF8F0060A0B2 /* TeamDataLoad.swift */; };
+		D32FC138264CBFAE001E5BB9 /* PlayerManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */; };
+		D32FC13D265C0D23001E5BB9 /* ReloadTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC13C265C0D23001E5BB9 /* ReloadTableView.swift */; };
+		D35A90AA25EC0CBF00B0B936 /* PlayerTeamData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90A925EC0CBF00B0B936 /* PlayerTeamData.swift */; };
+		D35A90AF25F5A94000B0B936 /* UpdateTeamTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */; };
+		D35A90CC25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90CB25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift */; };
+		D35A90D125FD930100B0B936 /* PlayerStatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90D025FD930100B0B936 /* PlayerStatsCollectionViewCell.swift */; };
+		D3911C7125BA6D7500B19AD2 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */; };
+		D3911C7E25BCF19700B19AD2 /* StatsDataLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C7D25BCF19700B19AD2 /* StatsDataLoad.swift */; };
+		D3963C6025C5E5EA00B33D3F /* StatsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3963C5F25C5E5EA00B33D3F /* StatsCollectionViewController.swift */; };
+		D3963C6525C5E60C00B33D3F /* StatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3963C6425C5E60C00B33D3F /* StatsCollectionViewCell.swift */; };
+		D3A92B3F25ABB24900846458 /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A92B3E25ABB24900846458 /* ScoreViewController.swift */; };
+		D3A92B4425B0ADAE00846458 /* ScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A92B4325B0ADAE00846458 /* ScoreData.swift */; };
+		D3AB49F326168DA800A9BEC7 /* TeamPlayerCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AB49F226168DA800A9BEC7 /* TeamPlayerCheck.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D3023A4325966FDC0060A0B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3023A2425966FD90060A0B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3023A2B25966FD90060A0B2;
+			remoteInfo = RosterTableView;
+		};
+		D3023A4E25966FDC0060A0B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3023A2425966FD90060A0B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3023A2B25966FD90060A0B2;
+			remoteInfo = RosterTableView;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D3023A2C25966FD90060A0B2 /* RosterTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RosterTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3023A2F25966FD90060A0B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D3023A3125966FD90060A0B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		D3023A3625966FD90060A0B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D3023A3825966FDC0060A0B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D3023A3B25966FDC0060A0B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D3023A3D25966FDC0060A0B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3023A4225966FDC0060A0B2 /* RosterTableViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosterTableViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3023A4625966FDC0060A0B2 /* RosterTableViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterTableViewTests.swift; sourceTree = "<group>"; };
+		D3023A4825966FDC0060A0B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3023A4D25966FDC0060A0B2 /* RosterTableViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RosterTableViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3023A5125966FDC0060A0B2 /* RosterTableViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterTableViewUITests.swift; sourceTree = "<group>"; };
+		D3023A5325966FDC0060A0B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3023A62259670200060A0B2 /* RosterTableView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RosterTableView.entitlements; sourceTree = "<group>"; };
+		D3023A64259670260060A0B2 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		D3023A6D25967A3D0060A0B2 /* RosterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
+		D3023A932597E5FF0060A0B2 /* TeamTableViewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTableViewTableViewController.swift; sourceTree = "<group>"; };
+		D3023A982598FF8F0060A0B2 /* TeamDataLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDataLoad.swift; sourceTree = "<group>"; };
+		D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManagement.swift; sourceTree = "<group>"; };
+		D32FC13C265C0D23001E5BB9 /* ReloadTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadTableView.swift; sourceTree = "<group>"; };
+		D35A90A925EC0CBF00B0B936 /* PlayerTeamData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTeamData.swift; sourceTree = "<group>"; };
+		D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamTotals.swift; sourceTree = "<group>"; };
+		D35A90CB25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsCollectionViewController.swift; sourceTree = "<group>"; };
+		D35A90D025FD930100B0B936 /* PlayerStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		D3911C7D25BCF19700B19AD2 /* StatsDataLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDataLoad.swift; sourceTree = "<group>"; };
+		D3963C5F25C5E5EA00B33D3F /* StatsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCollectionViewController.swift; sourceTree = "<group>"; };
+		D3963C6425C5E60C00B33D3F /* StatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D3A92B3E25ABB24900846458 /* ScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
+		D3A92B4325B0ADAE00846458 /* ScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreData.swift; sourceTree = "<group>"; };
+		D3AB49F226168DA800A9BEC7 /* TeamPlayerCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPlayerCheck.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D3023A2925966FD90060A0B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3023A65259670260060A0B2 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3023A3F25966FDC0060A0B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3023A4A25966FDC0060A0B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D3023A2325966FD90060A0B2 = {
+			isa = PBXGroup;
+			children = (
+				D3023A2E25966FD90060A0B2 /* RosterTableView */,
+				D3023A4525966FDC0060A0B2 /* RosterTableViewTests */,
+				D3023A5025966FDC0060A0B2 /* RosterTableViewUITests */,
+				D3023A2D25966FD90060A0B2 /* Products */,
+				D3023A63259670260060A0B2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D3023A2D25966FD90060A0B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D3023A2C25966FD90060A0B2 /* RosterTableView.app */,
+				D3023A4225966FDC0060A0B2 /* RosterTableViewTests.xctest */,
+				D3023A4D25966FDC0060A0B2 /* RosterTableViewUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D3023A2E25966FD90060A0B2 /* RosterTableView */ = {
+			isa = PBXGroup;
+			children = (
+				D3963C5625C5E57100B33D3F /* CollectionView */,
+				D3023A802597D30A0060A0B2 /* TeamTableView */,
+				D3023A6C25967A030060A0B2 /* Roster */,
+				D3023A62259670200060A0B2 /* RosterTableView.entitlements */,
+				D3023A2F25966FD90060A0B2 /* AppDelegate.swift */,
+				D3023A3125966FD90060A0B2 /* SceneDelegate.swift */,
+				D3023A3525966FD90060A0B2 /* Main.storyboard */,
+				D3023A3825966FDC0060A0B2 /* Assets.xcassets */,
+				D3023A3A25966FDC0060A0B2 /* LaunchScreen.storyboard */,
+				D3023A3D25966FDC0060A0B2 /* Info.plist */,
+			);
+			path = RosterTableView;
+			sourceTree = "<group>";
+		};
+		D3023A4525966FDC0060A0B2 /* RosterTableViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				D3023A4625966FDC0060A0B2 /* RosterTableViewTests.swift */,
+				D3023A4825966FDC0060A0B2 /* Info.plist */,
+			);
+			path = RosterTableViewTests;
+			sourceTree = "<group>";
+		};
+		D3023A5025966FDC0060A0B2 /* RosterTableViewUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D3023A5125966FDC0060A0B2 /* RosterTableViewUITests.swift */,
+				D3023A5325966FDC0060A0B2 /* Info.plist */,
+			);
+			path = RosterTableViewUITests;
+			sourceTree = "<group>";
+		};
+		D3023A63259670260060A0B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3023A64259670260060A0B2 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D3023A6C25967A030060A0B2 /* Roster */ = {
+			isa = PBXGroup;
+			children = (
+				D3023A6D25967A3D0060A0B2 /* RosterViewController.swift */,
+				D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */,
+			);
+			path = Roster;
+			sourceTree = "<group>";
+		};
+		D3023A802597D30A0060A0B2 /* TeamTableView */ = {
+			isa = PBXGroup;
+			children = (
+				D3911C6F25BA6D5000B19AD2 /* Stats */,
+				D3A92B2625AB9DF900846458 /* ScoreSheet */,
+				D3023A822597D3350060A0B2 /* View */,
+				D3023A812597D3290060A0B2 /* Model */,
+			);
+			path = TeamTableView;
+			sourceTree = "<group>";
+		};
+		D3023A812597D3290060A0B2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D3023A932597E5FF0060A0B2 /* TeamTableViewTableViewController.swift */,
+				D3023A982598FF8F0060A0B2 /* TeamDataLoad.swift */,
+				D3A92B4325B0ADAE00846458 /* ScoreData.swift */,
+				D3911C7D25BCF19700B19AD2 /* StatsDataLoad.swift */,
+				D35A90A925EC0CBF00B0B936 /* PlayerTeamData.swift */,
+				D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */,
+				D3AB49F226168DA800A9BEC7 /* TeamPlayerCheck.swift */,
+				D32FC13C265C0D23001E5BB9 /* ReloadTableView.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D3023A822597D3350060A0B2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D3911C6F25BA6D5000B19AD2 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		D3963C5625C5E57100B33D3F /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				D3963C5F25C5E5EA00B33D3F /* StatsCollectionViewController.swift */,
+				D3963C6425C5E60C00B33D3F /* StatsCollectionViewCell.swift */,
+				D35A90CB25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift */,
+				D35A90D025FD930100B0B936 /* PlayerStatsCollectionViewCell.swift */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		D3A92B2625AB9DF900846458 /* ScoreSheet */ = {
+			isa = PBXGroup;
+			children = (
+				D3A92B3E25ABB24900846458 /* ScoreViewController.swift */,
+			);
+			path = ScoreSheet;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D3023A2B25966FD90060A0B2 /* RosterTableView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3023A5625966FDC0060A0B2 /* Build configuration list for PBXNativeTarget "RosterTableView" */;
+			buildPhases = (
+				D3023A2825966FD90060A0B2 /* Sources */,
+				D3023A2925966FD90060A0B2 /* Frameworks */,
+				D3023A2A25966FD90060A0B2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RosterTableView;
+			productName = RosterTableView;
+			productReference = D3023A2C25966FD90060A0B2 /* RosterTableView.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D3023A4125966FDC0060A0B2 /* RosterTableViewTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3023A5925966FDC0060A0B2 /* Build configuration list for PBXNativeTarget "RosterTableViewTests" */;
+			buildPhases = (
+				D3023A3E25966FDC0060A0B2 /* Sources */,
+				D3023A3F25966FDC0060A0B2 /* Frameworks */,
+				D3023A4025966FDC0060A0B2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3023A4425966FDC0060A0B2 /* PBXTargetDependency */,
+			);
+			name = RosterTableViewTests;
+			productName = RosterTableViewTests;
+			productReference = D3023A4225966FDC0060A0B2 /* RosterTableViewTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D3023A4C25966FDC0060A0B2 /* RosterTableViewUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3023A5C25966FDC0060A0B2 /* Build configuration list for PBXNativeTarget "RosterTableViewUITests" */;
+			buildPhases = (
+				D3023A4925966FDC0060A0B2 /* Sources */,
+				D3023A4A25966FDC0060A0B2 /* Frameworks */,
+				D3023A4B25966FDC0060A0B2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3023A4F25966FDC0060A0B2 /* PBXTargetDependency */,
+			);
+			name = RosterTableViewUITests;
+			productName = RosterTableViewUITests;
+			productReference = D3023A4D25966FDC0060A0B2 /* RosterTableViewUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D3023A2425966FD90060A0B2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					D3023A2B25966FD90060A0B2 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					D3023A4125966FDC0060A0B2 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = D3023A2B25966FD90060A0B2;
+					};
+					D3023A4C25966FDC0060A0B2 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = D3023A2B25966FD90060A0B2;
+					};
+				};
+			};
+			buildConfigurationList = D3023A2725966FD90060A0B2 /* Build configuration list for PBXProject "RosterTableView" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D3023A2325966FD90060A0B2;
+			productRefGroup = D3023A2D25966FD90060A0B2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D3023A2B25966FD90060A0B2 /* RosterTableView */,
+				D3023A4125966FDC0060A0B2 /* RosterTableViewTests */,
+				D3023A4C25966FDC0060A0B2 /* RosterTableViewUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D3023A2A25966FD90060A0B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3023A3C25966FDC0060A0B2 /* LaunchScreen.storyboard in Resources */,
+				D3023A3925966FDC0060A0B2 /* Assets.xcassets in Resources */,
+				D3023A3725966FD90060A0B2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3023A4025966FDC0060A0B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3023A4B25966FDC0060A0B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D3023A2825966FD90060A0B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D35A90AF25F5A94000B0B936 /* UpdateTeamTotals.swift in Sources */,
+				D3023A992598FF8F0060A0B2 /* TeamDataLoad.swift in Sources */,
+				D3AB49F326168DA800A9BEC7 /* TeamPlayerCheck.swift in Sources */,
+				D3023A3025966FD90060A0B2 /* AppDelegate.swift in Sources */,
+				D32FC13D265C0D23001E5BB9 /* ReloadTableView.swift in Sources */,
+				D3911C7125BA6D7500B19AD2 /* StatsViewController.swift in Sources */,
+				D3023A3225966FD90060A0B2 /* SceneDelegate.swift in Sources */,
+				D3963C6025C5E5EA00B33D3F /* StatsCollectionViewController.swift in Sources */,
+				D35A90AA25EC0CBF00B0B936 /* PlayerTeamData.swift in Sources */,
+				D3023A942597E5FF0060A0B2 /* TeamTableViewTableViewController.swift in Sources */,
+				D3963C6525C5E60C00B33D3F /* StatsCollectionViewCell.swift in Sources */,
+				D3911C7E25BCF19700B19AD2 /* StatsDataLoad.swift in Sources */,
+				D3023A6E25967A3D0060A0B2 /* RosterViewController.swift in Sources */,
+				D3A92B4425B0ADAE00846458 /* ScoreData.swift in Sources */,
+				D35A90D125FD930100B0B936 /* PlayerStatsCollectionViewCell.swift in Sources */,
+				D3A92B3F25ABB24900846458 /* ScoreViewController.swift in Sources */,
+				D32FC138264CBFAE001E5BB9 /* PlayerManagement.swift in Sources */,
+				D35A90CC25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3023A3E25966FDC0060A0B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3023A4725966FDC0060A0B2 /* RosterTableViewTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3023A4925966FDC0060A0B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3023A5225966FDC0060A0B2 /* RosterTableViewUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D3023A4425966FDC0060A0B2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3023A2B25966FD90060A0B2 /* RosterTableView */;
+			targetProxy = D3023A4325966FDC0060A0B2 /* PBXContainerItemProxy */;
+		};
+		D3023A4F25966FDC0060A0B2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3023A2B25966FD90060A0B2 /* RosterTableView */;
+			targetProxy = D3023A4E25966FDC0060A0B2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D3023A3525966FD90060A0B2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3023A3625966FD90060A0B2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D3023A3A25966FDC0060A0B2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3023A3B25966FDC0060A0B2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D3023A5425966FDC0060A0B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D3023A5525966FDC0060A0B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D3023A5725966FDC0060A0B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RosterTableView/RosterTableView.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D5WRV22MD;
+				INFOPLIST_FILE = RosterTableView/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableView";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3023A5825966FDC0060A0B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RosterTableView/RosterTableView.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D5WRV22MD;
+				INFOPLIST_FILE = RosterTableView/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableView";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D3023A5A25966FDC0060A0B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D5WRV22MD;
+				INFOPLIST_FILE = RosterTableViewTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableViewTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RosterTableView.app/RosterTableView";
+			};
+			name = Debug;
+		};
+		D3023A5B25966FDC0060A0B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D5WRV22MD;
+				INFOPLIST_FILE = RosterTableViewTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableViewTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RosterTableView.app/RosterTableView";
+			};
+			name = Release;
+		};
+		D3023A5D25966FDC0060A0B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D5WRV22MD;
+				INFOPLIST_FILE = RosterTableViewUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableViewUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RosterTableView;
+			};
+			name = Debug;
+		};
+		D3023A5E25966FDC0060A0B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D5WRV22MD;
+				INFOPLIST_FILE = RosterTableViewUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableViewUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RosterTableView;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D3023A2725966FD90060A0B2 /* Build configuration list for PBXProject "RosterTableView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3023A5425966FDC0060A0B2 /* Debug */,
+				D3023A5525966FDC0060A0B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3023A5625966FDC0060A0B2 /* Build configuration list for PBXNativeTarget "RosterTableView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3023A5725966FDC0060A0B2 /* Debug */,
+				D3023A5825966FDC0060A0B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3023A5925966FDC0060A0B2 /* Build configuration list for PBXNativeTarget "RosterTableViewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3023A5A25966FDC0060A0B2 /* Debug */,
+				D3023A5B25966FDC0060A0B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3023A5C25966FDC0060A0B2 /* Build configuration list for PBXNativeTarget "RosterTableViewUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3023A5D25966FDC0060A0B2 /* Debug */,
+				D3023A5E25966FDC0060A0B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D3023A2425966FD90060A0B2 /* Project object */;
+}
