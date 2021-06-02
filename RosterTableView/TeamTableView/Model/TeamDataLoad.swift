@@ -108,18 +108,20 @@ class TeamDataLoad {
              
               }  //recordFetchedBlock
               
-     CKContainer.default().publicCloudDatabase.add(qOperation)
-     
-     
+        CKContainer.default().publicCloudDatabase.add(qOperation)
+            
+       
          qOperation.queryCompletionBlock = { cursor, error in
                     
+            DispatchQueue.main.async {
              
            //  print("RosterArray in CompletionBlock: ", rosterArray)
               
              let queryCount = rosterArray.count
             
              print("Number rows in array in queryCompletionBlock: ", queryCount)
-          
+            }  // DispatchQueue
+                
          } // qOperttion queryCompletionBlock
        
      
@@ -132,7 +134,8 @@ class TeamDataLoad {
      print("Counter: ", counter)
      
      print("ResultsValueArray after loop: ", rosterArray)
-     
+    
+        
     return (rosterArray, rosterPicArray)
     
      

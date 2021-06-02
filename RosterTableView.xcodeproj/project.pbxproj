@@ -19,7 +19,6 @@
 		D3023A942597E5FF0060A0B2 /* TeamTableViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A932597E5FF0060A0B2 /* TeamTableViewTableViewController.swift */; };
 		D3023A992598FF8F0060A0B2 /* TeamDataLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A982598FF8F0060A0B2 /* TeamDataLoad.swift */; };
 		D32FC138264CBFAE001E5BB9 /* PlayerManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */; };
-		D32FC13D265C0D23001E5BB9 /* ReloadTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC13C265C0D23001E5BB9 /* ReloadTableView.swift */; };
 		D35A90AA25EC0CBF00B0B936 /* PlayerTeamData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90A925EC0CBF00B0B936 /* PlayerTeamData.swift */; };
 		D35A90AF25F5A94000B0B936 /* UpdateTeamTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */; };
 		D35A90CC25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90CB25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift */; };
@@ -70,7 +69,6 @@
 		D3023A932597E5FF0060A0B2 /* TeamTableViewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTableViewTableViewController.swift; sourceTree = "<group>"; };
 		D3023A982598FF8F0060A0B2 /* TeamDataLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDataLoad.swift; sourceTree = "<group>"; };
 		D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManagement.swift; sourceTree = "<group>"; };
-		D32FC13C265C0D23001E5BB9 /* ReloadTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadTableView.swift; sourceTree = "<group>"; };
 		D35A90A925EC0CBF00B0B936 /* PlayerTeamData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTeamData.swift; sourceTree = "<group>"; };
 		D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamTotals.swift; sourceTree = "<group>"; };
 		D35A90CB25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsCollectionViewController.swift; sourceTree = "<group>"; };
@@ -204,7 +202,6 @@
 				D35A90A925EC0CBF00B0B936 /* PlayerTeamData.swift */,
 				D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */,
 				D3AB49F226168DA800A9BEC7 /* TeamPlayerCheck.swift */,
-				D32FC13C265C0D23001E5BB9 /* ReloadTableView.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -377,7 +374,6 @@
 				D3023A992598FF8F0060A0B2 /* TeamDataLoad.swift in Sources */,
 				D3AB49F326168DA800A9BEC7 /* TeamPlayerCheck.swift in Sources */,
 				D3023A3025966FD90060A0B2 /* AppDelegate.swift in Sources */,
-				D32FC13D265C0D23001E5BB9 /* ReloadTableView.swift in Sources */,
 				D3911C7125BA6D7500B19AD2 /* StatsViewController.swift in Sources */,
 				D3023A3225966FD90060A0B2 /* SceneDelegate.swift in Sources */,
 				D3963C6025C5E5EA00B33D3F /* StatsCollectionViewController.swift in Sources */,

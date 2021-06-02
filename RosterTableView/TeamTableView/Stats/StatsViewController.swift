@@ -142,5 +142,12 @@ class StatsViewController: UIViewController {
    }  // UIStoryboardSegue
     
     
+    @IBAction func unwindBacktoStatsViewController(segue: UIStoryboardSegue) {
+        
+        teamName.text = tName
+        
+     }  // UIStoryboardSegue
+    
+    
     
 }  // StatsViewController

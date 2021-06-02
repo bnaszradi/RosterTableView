@@ -103,6 +103,28 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
     }  //cellForAtItem
         
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
+        if segue.identifier == "BacktoStatsViewController" {
+          //  if segue.destination is PlayerManagement {
+                    print("BacktoStatsViewControlle Segue")
+             
+               
+                    let vcRoster = segue.destination as! UINavigationController
+                   
+                    let vcScore = vcRoster.viewControllers.first as! StatsViewController
+                    
+                   
+              //  vcScore.title = self.team
+                vcScore.tName = self.team
+            
+                print("vcScore.team ", vcScore.tName)
+            
+        } // if segue to RosterviewController
+            
+        } // prepare func
+
+    
 
     // MARK: UICollectionViewDelegate
 

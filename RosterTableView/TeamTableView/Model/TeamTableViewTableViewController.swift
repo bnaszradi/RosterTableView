@@ -29,34 +29,13 @@ class TeamTableViewTableViewController: UITableViewController {
     
   let PlayerCheck = TeamPlayerCheck()
     
-  let refreshTable = ReloadTableView()
-    
-    
-     
+
     
  
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-      // self.refreshControl?.addTarget(self, action: #selector(TeamTableViewTableViewController.handleRefresh(refreshControl:)), for: UIControl.Event.valueChanged)
-        
-        
-       // refreshTable.upDateTable(team: team)
-        
-       // self.tableView.reloadData()
-        
-        
-       // tableView?.dataSource
-       // tableView?.delegate = self
-        
-       // tableView.delegate = self
-       // tableView.dataSource = self
-        
-      //  NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
-        
-        
-        
+       
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -66,39 +45,8 @@ class TeamTableViewTableViewController: UITableViewController {
     } //viewdidLoad
 
     
-    @objc func handleRefresh (refreshControl: UIRefreshControl) {
-      
-       //  resultsArray = manager.rosterPicQuery(tName: team)
-         
-        print("team in handleRefresh: ", team)
-        
-        refreshTable.upDateTable(team: team)
-        
-        DispatchQueue.main.async{
-            self.tableView.reloadData()
-        }
-        
-        //self.tableView.reloadData()
-        refreshControl.endRefreshing()
-         
-     }  // func handleRefresh
-   
+       
     
-    // Refresh tableView - This code doesn't do anything
-    /*
-    override func viewWillAppear(_ animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        
-        refreshTable.upDateTable(team: team)
-        
-        self.tableView.reloadData()
-
-        } // viewWillAppear
-    */
-    
-    
-  //  lazy var resultsArray = manager.rosterQuery(tName: team)
     lazy var resultsArray = manager.rosterPicQuery(tName: team)
     
     
@@ -403,10 +351,6 @@ class TeamTableViewTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
        
-        /*
-        if let playerManagement = segue.destination as? PlayerManagement { playerManagement.teamTableViewTableViewController = self
-        } // playerManagement
-        */
         
         
         if segue.identifier == "toPlayerMgmt" {
@@ -460,45 +404,7 @@ class TeamTableViewTableViewController: UITableViewController {
                     
                 } // to ScoreViewController
           
-          //  }  //  if destination "toPlayer segue
-        
-        
-        
-         // This doesn't work yet
-        
-      /*
-    if let scoreViewController = segue.destination as? ScoreViewController { scoreViewController.TeamTableViewTableViewController = self}
-        */
-        
-        
-      //  let vcRoster = segue.destination as! UINavigationController
-       
-       // let vcScore = vcRoster.viewControllers.first as! ScoreViewController
-    
-       // print("selectedPlayer in prepare: ", selectedPlayer)
-    
-        // This is the old code that worked just for the "toPlayer" segue
-        /*
-        if let selectedPlayer = sender as? String {
-       
-            let vcRoster = segue.destination as! UINavigationController
-           
-            let vcScore = vcRoster.viewControllers.first as! ScoreViewController
-            
-           vcScore.playerN = selectedPlayer
-            
-          //  vcScore.playerN = player
-            
-            print("vcScore.playerN: ", vcScore.playerN)
-            
-            print("vcScore.team ", vcScore.team)
-        
-        vcScore.title = self.team
-        vcScore.team = self.team
-            
-        } // if selecterdPlayer
-        */
-        
+         
             
         } // prepare func
     
@@ -529,180 +435,22 @@ class TeamTableViewTableViewController: UITableViewController {
         print("unwind from PlayerManagement")
         
         print("team name in unwindPlayerManagement: ", team)
-    
-    
-    refreshTable.upDateTable(team: team)
      
+     
+       
+    
+    resultsArray = manager.rosterPicQuery(tName: team)
+    
+    
+    DispatchQueue.main.async {
+       
     self.tableView.reloadData()
      
-    
-    
-    
-    /*
-    DispatchQueue.main.async {
-        self.tableView.reloadData()
-    }
-    */
-    
-   // self.refreshControl?.addTarget(self, action: #selector(TeamTableViewTableViewController.handleRefresh(refreshControl:)), for: UIControl.Event.valueChanged)
-    
-    
-    
-    
+    }  // DispatchQueue
     
    }  // UIStoryboardSegue  unwindPlayerManagementCancel
     
     
-      // refreshTable.upDateTable(team: team)
-        
-     //  self.tableView.reloadData()
-    
-      // navigationController?.popViewController(animated: true)
-        
-        
-       /*
-        DispatchQueue.global(qos: .userInitiated).async {
-            DispatchQueue.main.async {
-               
-                print("DispatchQueue tableView reloadView")
-             
-             //   let resultsArray = self.manager.rosterPicQuery(tName: self.team)
-    
-                self.tableView.reloadData()
-                
-           }  // async
-        }  // DispatchQueue
-       */
-        
-        // This code doesn't work
-       /*
-       let resultsArray = manager.rosterPicQuery(tName: team)
-        
-        
-        func locationItem(at index:IndexPath) -> String {
-            resultsArray.rosterArray[index.item]
-            
-        } //locationItem func
-        
-        func numberOfSections(in tableView: UITableView) -> Int {
-            
-            return 1
-        }  //numberOfSections
-
-        
-        
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-            // let rosterLength = resultsArray.count
-            
-            let rosterLength = resultsArray.rosterArray.count
-            
-            print("rosterLength in PlayerManagement rewind", rosterLength)
-            
-          return rosterLength
-        }  //numberOfRowsInSection
-
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-           
-            let cell = UITableViewCell()
-            
-            player = resultsArray.rosterArray[indexPath.row]
-            
-            print("player in PlayerManagement rewind: ", player)
-            
-            cell.textLabel?.text = player
-            
-                
-            let photoPic = self.resultsArray.rosterPicArray[indexPath.row]
-            let imageData = NSData(contentsOf: photoPic.fileURL!)
-           // print("imageData: ", imageData as Any)
-            
-            if let image = UIImage(data: imageData! as Data) {
-            
-            cell.imageView?.image = image
-            
-            } //if image
-
-            //old code for just displaying names in roster
-            /*
-            let cell = tableView.dequeueReusableCell(withIdentifier: "playerName", for: indexPath)
-          
-            // Configure the cell...
-
-            cell.textLabel?.text = locationItem(at:indexPath)
-            */
-            
-            // Add image to tableView - need to access image URL in Cloudkit. Store in resultsArray? Or create a separate array for the images and call it here?
-           // cell.imageView?.image = locationItem(at: indexPath)
-            
-            
-            return cell
-          
-        }  //tableView func
-       
-        */
-        
-        
-      //  tableView.reloadItems()
-     // self.tableView.reloadData()
-        
-       /*
-        DispatchQueue.main.async{
-            print("DispatchQueue tableView reloadView")
-            self.tableView.reloadData()
-            
-        }  // DispatchQueue
-        */
-        
-        /*
-        DispatchQueue.global(qos: .userInitiated).async {
-            DispatchQueue.main.async {
-               
-                print("DispatchQueue tableView reloadView")
-                
-                self.tableView.reloadData()
-         
-          
-          }  // async
-        }  // DispatchQueue
-       */
-        
-     
-    
-    
-    
-    
-    
-
-    /*
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        super.dismiss(animated: flag, completion: completion)
-        self.tableView.reloadData()
-        
-    } // override func dismiss
-    */
-    
-    
-    // this IBAction func doesn't fire
-    /*
-    @IBAction func TeamTableViewTableViewController(segue: UIStoryboardSegue) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            DispatchQueue.main.async {
-                
-                print("DispatchQueue IBAction func")
-                self.tableView.reloadData()
-            }
-        }
-    }
-    */
-    
-    /*
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        super.dismiss(animated: flag, completion: completion)
-        self.tableView.reloadData()
-    }
-    */
     
  }   // class TeamTableViewController
 

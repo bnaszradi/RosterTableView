@@ -847,6 +847,30 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
 
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
+        if segue.identifier == "BacktoRosterview" {
+          //  if segue.destination is PlayerManagement {
+                    print("BacktoRosterview Segue")
+             
+               
+                    let vcRoster = segue.destination as! UINavigationController
+                   
+                    let vcScore = vcRoster.viewControllers.first as! RosterViewController
+                    
+                   
+              //  vcScore.title = self.team
+                vcScore.name = self.name
+            
+                print("vcScore.team ", vcScore.name)
+            
+        } // if segue to RosterviewController
+            
+        } // prepare func
+
+    
+    
+    
     
     
 

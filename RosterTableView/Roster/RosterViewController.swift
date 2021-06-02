@@ -155,6 +155,15 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
     */
     
     
+    @IBAction func unwindBacktoRosterview (segue: UIStoryboardSegue) {
+        
+        print("unwind from TeamPlayerManagement")
+        
+        teamName.text = name
+        
+        
+     }  // UIStoryboardSegue
+    
     
     
     

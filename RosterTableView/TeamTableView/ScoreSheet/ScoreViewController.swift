@@ -108,6 +108,23 @@ class ScoreViewController: UIViewController {
     }  // makeButton
     
     
+    
+    @IBAction func makeStepper(_ sender: Any) {
+    
+       // let stepperValue: Int = 0
+       // playerMake += 1
+       // makeScore.text = String(playerMake)
+        messageLabel.text = "Great Shot!"
+        
+        makeStepper(makeScore ?? 00)
+        //makeScore.text = String(makeStepper(stepperValue))
+        
+        
+    } // makeStepper
+    
+    
+    
+    
     @IBAction func missButton(_ sender: Any) {
         playerMiss += 1
         missScore.text = String(playerMiss)
@@ -115,6 +132,14 @@ class ScoreViewController: UIViewController {
         messageLabel.text = "Try again!"
         
     }  //  missButton
+    
+    
+    
+    @IBAction func missStepper(_ sender: Any) {
+    
+    } // missStepper
+    
+    
     
     
     @IBOutlet weak var messageLabel: UILabel!
@@ -264,6 +289,30 @@ class ScoreViewController: UIViewController {
         missScore.text = String("00")
         
     }  //resetButton
+    
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
+        if segue.identifier == "BacktoRosterview" {
+          //  if segue.destination is PlayerManagement {
+                    print("BacktoRosterview Segue")
+             
+               
+                    let vcRoster = segue.destination as! UINavigationController
+                   
+                    let vcScore = vcRoster.viewControllers.first as! RosterViewController
+                    
+                   
+              //  vcScore.title = self.team
+                vcScore.name = self.team
+            
+                print("vcScore.team ", vcScore.name)
+            
+        } // if segue to RosterviewController
+            
+        } // prepare func
+
     
     
     
