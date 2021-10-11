@@ -9,13 +9,19 @@ import Foundation
 import CloudKit
 
 
+
 class TeamDataLoad {
 
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
+   let dispatchGroup = DispatchGroup()
     
+    /*
+    @objc func startTimer() {
+        print("Timer works!")
+    }  // startTimer
+    */
     
-
    // This searches for the team roster
    func rosterQuery(tName: String) -> Array<Any> {
     
@@ -77,7 +83,7 @@ class TeamDataLoad {
  
     // This is the query for retrieving roster with photos
     func rosterPicQuery(tName: String) ->  (rosterArray: Array<String>, rosterPicArray: Array<CKAsset>) {
-     
+        
      var rosterArray = [] as Array<String>
      var rosterPicArray = [] as Array<CKAsset>
      
@@ -108,6 +114,7 @@ class TeamDataLoad {
              
               }  //recordFetchedBlock
               
+        
         CKContainer.default().publicCloudDatabase.add(qOperation)
             
        
@@ -125,7 +132,11 @@ class TeamDataLoad {
          } // qOperttion queryCompletionBlock
        
      
-      print("ResultsValueArray before loop: ", rosterArray)
+
+      //  Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(startTimer), userInfo: nil, repeats: false)
+    
+      
+     print("ResultsValueArray before loop: ", rosterArray)
      
      var counter: Int = 0
      while counter <= 700000000 {

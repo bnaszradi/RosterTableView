@@ -19,9 +19,12 @@ class TeamTableViewTableViewController: UITableViewController {
     
     var playerID: CKRecord.ID = CKRecord.ID()
     
-   // var roster: String = ""
+    // set variable for ScoreViewController or EventsCollectionViewController segues
+    var eventVariable: Bool = false
     
-   // var rosterPhoto = CKAsset.self
+    var eventN: String = ""
+    
+    var eventDate: Date = Date()
     
   let manager = TeamDataLoad()
     
@@ -29,8 +32,9 @@ class TeamTableViewTableViewController: UITableViewController {
     
   let PlayerCheck = TeamPlayerCheck()
     
-
+  let dispatchGroup = DispatchGroup()
     
+
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,11 +49,9 @@ class TeamTableViewTableViewController: UITableViewController {
     } //viewdidLoad
 
     
-       
-    
     lazy var resultsArray = manager.rosterPicQuery(tName: team)
     
-    
+   
     func locationItem(at index:IndexPath) -> String {
         resultsArray.rosterArray[index.item]
         
@@ -91,17 +93,6 @@ class TeamTableViewTableViewController: UITableViewController {
         
         } //if image
 
-        //old code for just displaying names in roster
-        /*
-        let cell = tableView.dequeueReusableCell(withIdentifier: "playerName", for: indexPath)
-      
-        // Configure the cell...
-
-        cell.textLabel?.text = locationItem(at:indexPath)
-        */
-        
-        // Add image to tableView - need to access image URL in Cloudkit. Store in resultsArray? Or create a separate array for the images and call it here?
-       // cell.imageView?.image = locationItem(at: indexPath)
          
         return cell
         
@@ -117,7 +108,19 @@ class TeamTableViewTableViewController: UITableViewController {
         let selectedPlayer = locationItem(at: indexPath)
        print("selectedPlayer: ", selectedPlayer)
       
+        
+        // Add if condition for event not "" to go to sponsor collectionview list
+        if eventVariable == false {
+        
         performSegue(withIdentifier: "toPlayer", sender: selectedPlayer)
+            print("event = false. segue toPlayer")
+       
+        } else {
+          
+            performSegue(withIdentifier: "toSponsorList", sender: selectedPlayer)
+            print("event = true, segue toSponsorList")
+            
+        } //if for toSponsorList
         
     } // tableView func didSelectRowAt
     
@@ -203,9 +206,6 @@ class TeamTableViewTableViewController: UITableViewController {
           
          print("textMessDelete: ", textMessDelete)
           
-
-        //  messageTextView.text = textMessDelete
-         
          let dialogMessage = UIAlertController(title: "Player Removed", message: textMessDelete, preferredStyle: .alert)
          
          // Create OK button with action handler
@@ -224,11 +224,8 @@ class TeamTableViewTableViewController: UITableViewController {
               } // func deletePlayer
             
             
-
-      //  } // if delete editing Style
-    
             
-    // This code to insert a player doesn't run
+    // This code to insert a player doesn't work yet
     /*
     } else {
         
@@ -337,7 +334,7 @@ class TeamTableViewTableViewController: UITableViewController {
         
        } // if editingStyle insert
              */
-             // insert player code
+             // insert player code end
  
  
     } // Swipe
@@ -354,7 +351,7 @@ class TeamTableViewTableViewController: UITableViewController {
         
         
         if segue.identifier == "toPlayerMgmt" {
-          //  if segue.destination is PlayerManagement {
+          
                     print("toPlayerMgmt Segue")
              //   if let selectedPlayer = sender as? String {
                
@@ -376,7 +373,9 @@ class TeamTableViewTableViewController: UITableViewController {
            //     } // SelectedPlayer
              //   }   // "toPlayerMgmt segue PlayerManagement
             
-            } else if segue.identifier == "toPlayer" {
+            } //toPlayerMgmt
+        
+           if segue.identifier == "toPlayer" {
                
               //  if segue.destination is ScoreViewController {
                     
@@ -398,11 +397,60 @@ class TeamTableViewTableViewController: UITableViewController {
                     
                     vcScore.title = self.team
                     vcScore.team = self.team
-                        
-                    } // if selecterdPlayer
-
                     
-                } // to ScoreViewController
+                    } // if selected player
+                    }  // segue toPlayer
+            
+                 if segue.identifier == "toSponsorList" {
+                    
+                                    print("toSponsorList")
+                             
+                    if let selectedPlayer = sender as? String {
+                                    let vcRoster = segue.destination as! UINavigationController
+                                   
+                                    let vcScore = vcRoster.viewControllers.first as! SponsorListViewController
+                                    
+                                 //  vcScore.playerN = selectedPlayer
+                                    
+                                  //  vcScore.playerN = player
+                                    
+                                  //  print("vcScore.playerN: ", vcScore.playerN)
+                                    
+                                
+                   //     var eventTitle = team
+                    
+                   // eventTitle.append(",")
+                   //     eventTitle.append(selectedPlayer)
+                    //    eventTitle.append("-")
+                    
+                    var eventTitle = selectedPlayer
+                    eventTitle.append(" ")
+                    eventTitle.append(eventN)
+                 //  let eventTitle = selectedPlayer
+                        
+                    print("eventTitle in TVC: ", eventTitle)
+                        
+                        
+                            vcScore.title = eventTitle
+                            vcScore.team = self.team
+                            vcScore.playerName = selectedPlayer
+                        vcScore.eventName = eventN
+                        vcScore.eventDate = eventDate
+                            
+                        print("team in TVC: ", vcScore.team)
+                      //  print("selectedPlayer in TVC: ", selectedPlayer)
+                        print("playerName in TVC: ", vcScore.playerName)
+                        print("eventName in TVC: ", vcScore.eventName)
+                        print("eventDate in TVC: ", eventDate)
+                           
+
+                    } // if selected player
+                    } //toSponsorList segue
+                        
+                        
+                        
+                    
+           // } // to ScoreViewController
           
          
             
@@ -417,38 +465,46 @@ class TeamTableViewTableViewController: UITableViewController {
     
     
     
-    /*  // This code doesn't seem to do anything
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        super.dismiss(animated: flag, completion: completion)
-        self.tableView.reloadData()
-    }
-    */
-    
     
    
    @IBAction func unwindPlayerManagementCancel(segue: UIStoryboardSegue) {
         
-  //  @IBAction func unwindPlayerManagementCancel(segue: backToTableView) {
-    
-        //This didn't refresh with new player
-        //tableView.reloadData()
+  
         print("unwind from PlayerManagement")
         
         print("team name in unwindPlayerManagement: ", team)
      
+    
+    dispatchGroup.notify(queue: .main) { [self] in
      
-       
+        dispatchGroup.enter()
     
     resultsArray = manager.rosterPicQuery(tName: team)
-    
-    
-    DispatchQueue.main.async {
-       
+  
+        var counter: Int = 0
+        while counter <= 700000000 {
+            counter += 1
+        } // while loop
+        
     self.tableView.reloadData()
+        
+        dispatchGroup.leave()
+        
+    } // dispatchGroup.notify
      
-    }  // DispatchQueue
+  
     
    }  // UIStoryboardSegue  unwindPlayerManagementCancel
+    
+    @IBAction func unwindSponsorListControllerCancel(segue: UIStoryboardSegue) {
+        
+        print("unwind from SponsorListController")
+        
+     }  // UIStoryboardSegue
+    
+    
+    
+    
     
     
     

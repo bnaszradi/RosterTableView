@@ -1,8 +1,8 @@
 //
-//  PlayerStatsCollectionViewController.swift
+//  EventPlayerStatsCollectionViewController.swift
 //  RosterTableView
 //
-//  Created by Brian Naszradi on 3/13/21.
+//  Created by Brian Naszradi on 9/20/21.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import CloudKit
 
 // private let reuseIdentifier = "Cell"
 
-class PlayerStatsCollectionViewController: UICollectionViewController {
+class EventPlayerStatsCollectionViewController: UICollectionViewController {
 
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
@@ -28,32 +28,34 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
     var eventName: String = ""
     var eDate: Date = Date()
     
-   // var eventPlayerVariable: Bool = false
-    
+    var eventPlayerVariable: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-      //  var playerRecord = playerTeam.queryPlayer(pName: player, team: team)
-        
-      //  resultsArray = playerManager.playerQuery(pName: player, teamRecord: playerRecord)
-       
-        
     } //viewDidLoad
 
     
-
-   // if eventPlayerVariable == false {
-    
     
     //code to fetch the CKRecord.ID from team DB for player and teamName fields
-   lazy var playerRecord = playerTeamData.queryPlayer(pName: player, team: team)
+  // lazy var playerRecord = playerTeam.queryPlayer(pName: player, team: team)
+    
+    
+    // Code to fetch the CKRecord.ID from event DB for team, eName, eDate
+    lazy var eventRecord = playerTeamData.queryPlayerEvent(team: team, eventName: eventName, eventDate: eDate)
+
+   // let playerID = playerRecord.recordID
+    
+    
+  //  let recordToMatch = CKRecord.Reference(recordID: playerID, action: .deleteSelf)
+    
+  // lazy var resultsArray = playerManager.playerQuery(pName: player, teamRecord: playerRecord)
+   
+    // Code to query player DB for records for event with CKRecord.ID
+   
+    lazy var resultsArray = statsDataLoad.eventPlayerQuery(pName: player, eventRecord: eventRecord)
     
    
-   lazy var resultsArray = statsDataLoad.playerQuery(pName: player, teamRecord: playerRecord)
-   
-  
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         return 1
@@ -74,9 +76,9 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
        
-        var playerCell = PlayerStatsCollectionViewCell()
+        var playerCell = EventPlayerStatsCollectionViewCell()
         
-        if let playCell = collectionView.dequeueReusableCell(withReuseIdentifier: "playerCell", for: indexPath) as? PlayerStatsCollectionViewCell {
+        if let playCell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventPlayerCell", for: indexPath) as? EventPlayerStatsCollectionViewCell {
         
             playCell.player.text = resultsArray.playerArray[indexPath.row]
             
@@ -128,37 +130,6 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
 
     
 
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
-    }
-    */
-
-        
-        
-}  //PlayerStatsCollectionViewController
+   
+}  // EventPlayerStatsCollectionViewController

@@ -1,31 +1,29 @@
 //
-//  StatsCollectionViewCell.swift
+//  EventPlayerStatsCollectionViewCell.swift
 //  RosterTableView
 //
-//  Created by Brian Naszradi on 1/30/21.
+//  Created by Brian Naszradi on 9/20/21.
 //
 
 import UIKit
 
-class StatsCollectionViewCell: UICollectionViewCell {
+class EventPlayerStatsCollectionViewCell: UICollectionViewCell {
     
-   
+    
     @IBOutlet weak var player: UILabel!
     
     @IBOutlet weak var dateCreated: UILabel!
     
     @IBOutlet weak var attempts: UILabel!
     
-    @IBOutlet weak var percentage: UILabel!
-    
     @IBOutlet weak var makes: UILabel!
     
-    
+    @IBOutlet weak var percentage: UILabel!
     
     func configure(with playerLabel: String, date: Date, shotAttempts: Int, sMakes: Int, percent: Int) {
         
         player.text = playerLabel
-      
+      //  shotType.text = shot
         attempts.text = String(shotAttempts)
         makes.text = String(sMakes)
         percentage.text = String(percent)
@@ -36,10 +34,8 @@ class StatsCollectionViewCell: UICollectionViewCell {
         
         dateCreated.text = dateFormatter.string(from: date)
         
-        
     }  //configure func
    
     
     
-    
-}  // StatsCollectionViewCell
+} // EventPlayerStatsCollectionViewCell

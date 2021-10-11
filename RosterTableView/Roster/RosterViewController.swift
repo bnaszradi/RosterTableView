@@ -7,32 +7,59 @@
 
 import UIKit
 import CloudKit
-//import MobileCoreServices
+
 
 
 class RosterViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var name: String = ""
     
-  //  var playerName: String = ""
-    
-    //var playerArray = [] as Array<String>
+  //  var teamArray = [] as Array<String>
     
    let teamCheck = TeamPlayerCheck()
     
-  //  let playerSearch = UpdateTeamTotals()
- 
-   // var playerID: CKRecord.ID = CKRecord.ID()
-    
-    
- //   var pickerController = UIImagePickerController()
-    
-  // var photoURL = ""
    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-     //   pickerController.delegate = self
+        let tabBar = tabBarController as! InitialTabBarViewController
+       // teamName.text = String(describing: tabBar.teamName)
+        
+        let name =  String(describing: tabBar.teamName)
+        
+        // Remove any blank characters at the end of the team name
+        var teamArray = Array(name)
+        
+        print("teamArray: ", teamArray)
+        
+       var teamNumChar = teamArray.count
+       print("teamNumChar: ", teamNumChar)
+        
+       var extraTeamCharLessOne = teamNumChar - 1
+        print("extraTeamCharLessOne: ", extraTeamCharLessOne)
+        
+        while teamArray[extraTeamCharLessOne] == " " {
+            
+            teamArray.remove(at: extraTeamCharLessOne)
+            print("teamArray after remove end blank character: ", teamArray)
+            
+           teamNumChar = teamArray.count
+           print("teamNumChar: ", teamNumChar)
+            
+        extraTeamCharLessOne = teamNumChar - 1
+        print("extraTeamCharLessOne: ", extraTeamCharLessOne)
+            
+        } // while extraTeamCharLessOne
+        
+        teamName.text = String(teamArray)
+        
+      //  print("tname after parsing blank characters from end: ", teamName.text)
+        
+        // This code hides the navigation bar in the navigation controller
+        super.viewDidLoad()
+            self.navigationController?.isNavigationBarHidden = true
+        
+        
         
     }  //override func
     
@@ -46,44 +73,23 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    @IBOutlet weak var teamName: UITextField!
-    
+    @IBOutlet weak var teamName: UILabel!
     
 
     @IBAction func rosterName(_ sender: Any) {
 
         name = teamName.text!
        
-        if name == "" {
-            
-            // Create Alert for Team
-             let dialogMessage = UIAlertController(title: "Missing Team", message: "Must enter Team", preferredStyle: .alert)
-             
-             // Create OK button with action handler
-             let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                 print("Ok button tapped")
-              })
-             
-             //Add OK button to a dialog message
-             dialogMessage.addAction(ok)
+            // Add check if team roster already exists
 
-             // Present Alert to
-             self.present(dialogMessage, animated: true, completion: nil)
-
-            return
-      
-        } else {
+            let teamVerify = teamCheck.TeamCheck(team: name)
         
-            // Add check if team already exists
+            print("teamVerify.count: ", teamVerify.count)
             
-            let teamN = teamName.text!
-            
-            let teamVerify = teamCheck.TeamCheck(team: teamN)
-        
             if teamVerify.count == 0 {
                 
                 
-                let dialogMessage = UIAlertController(title: "Team not found", message: "Do you want to create this new Team?", preferredStyle: .alert)
+                let dialogMessage = UIAlertController(title: "Team roster not found", message: "Do you want to create this new team roster?", preferredStyle: .alert)
                 
                 // Create OK button with action handler
                 let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
@@ -114,26 +120,73 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
                 
             }  // else Team exists
             
-            
-       // performSegue(withIdentifier: "teamPasser", sender: self)
-        
-        }  // if name
+    
         
     }  //IBAction func rosterName
     
 
+    
+    
+    @IBAction func eventsNames(_ sender: UIButton) {
+        
+        name = teamName.text!
+            
+                performSegue(withIdentifier: "eventsListPasser", sender: self)
+                print("eventsListPasser segue")
+                
+       
+    } // eventsNames
+    
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-       //messageText.text = " "
         
-      //  messageTextView.text = " "
-        
-        let vc = segue.destination as! UINavigationController
-        let tableVC = vc.viewControllers.first as! TeamTableViewTableViewController
-        tableVC.team = self.name
-        tableVC.title = self.name
+        if segue.identifier == "teamPasser" {
+          
+                    print("teamPasser Segue")
+             
+            let vc = segue.destination as! UINavigationController
+            let tableVC = vc.viewControllers.first as! TeamTableViewTableViewController
+            tableVC.team = self.name
+            tableVC.title = self.name
+            
+            
+            
+            } else if segue.identifier == "eventsListPasser" {
+            
+                    
+                    print("eventsListPasser Segue")
+                    
+                  //  if let selectedPlayer = sender as? String {
+                   
+                        let vcEventsList = segue.destination as! UINavigationController
+                       
+                        let vc = vcEventsList.viewControllers.first as! EventsCollectionViewController
+                        
+                       vc.team = name
+                        
+                      //  vcScore.playerN = player
+                        
+                        print("vc.team: ", vc.team)
+                        
+                       // print("vcScore.team ", vcScore.team)
+                    
+                  //  let eventVar: Bool = true
+                    let playerVar: Bool = true
+                    var Title = name
+                    Title.append(" Events")
+                
+                    vc.title = Title
+                    vc.team = self.name
+                 //   vc.eventVariable = eventVar
+                vc.playerVariable = playerVar
+                        
+                 //   } // if selecterdPlayer
+
+                    
+                } // to ScoreViewController
+          
         
         } // prepare func
         
@@ -157,7 +210,7 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @IBAction func unwindBacktoRosterview (segue: UIStoryboardSegue) {
         
-        print("unwind from TeamPlayerManagement")
+        print("unwind from eventsCollectionViewController")
         
         teamName.text = name
         

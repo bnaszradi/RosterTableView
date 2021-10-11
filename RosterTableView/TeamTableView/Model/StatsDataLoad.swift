@@ -10,6 +10,12 @@ import CloudKit
 
 class StatsDataLoad {
 
+    // rosterQuery func
+    // playerQuery func
+    // eventPlayerQuery func
+    
+    
+    
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
     /*
@@ -23,21 +29,15 @@ class StatsDataLoad {
     
   */
 
-   // This is the iCloud code
    
-    //  with tName
     //func rosterQuery(tName: String, pName: String) -> Array<Any> {
     
     func rosterQuery(pName: String, team: String) ->  (playerArray:  Array<String>, dateArray: Array<Date>, attemptArray: Array<Int>, makesArray:Array<Int>, percentArray: Array<Double>) {
     
         
-       // print("tName in DataLoader: ", tName)
-      //  print("pName in StatsDataLoad: ", pName)
         print("team in StatsDataLoad: ", team)
         
        //  let playerTeam = PlayerTeamData()
-        
-    //  var resultsValueArray = [] as Array
         
         var playerArray = [] as Array<String>
        // var shotArray = [] as Array<String>
@@ -51,15 +51,10 @@ class StatsDataLoad {
         let teamPredicate = NSPredicate(format: "teamName == %@", team)
         
         
-        
-      //  let sort = NSSortDescriptor(key: "TotPercentage", ascending: false)
-        
-       // let sort = NSSortDescriptor(key: "LastDate", ascending: false)
-        
         let query = CKQuery(recordType: "team", predicate: teamPredicate)
          
-      //  query.sortDescriptors = [sort]
-    
+        
+       query.sortDescriptors = [NSSortDescriptor(key: "TotPercentage", ascending: false)]
         
         
         // This is the CKReference query code
@@ -274,18 +269,14 @@ class StatsDataLoad {
         // This predicate doesn't work
         
         let teamRef = CKRecord.Reference(record: teamRecord, action: .deleteSelf)
-    print("teamRef is: ", teamRef)
+        print("teamRef is: ", teamRef)
         
         let playerPredicate = NSPredicate(format: "teamReference == %@", teamRef)
         
-        
-      //  let sort = NSSortDescriptor(key: "date", ascending: false)
-        
         let query = CKQuery(recordType: "playername", predicate: playerPredicate)
-         
-       // query.sortDescriptors = [sort]
-    
         
+       
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         
         // This is the CKReference query code
 
@@ -419,7 +410,106 @@ class StatsDataLoad {
  } //playerQuery func
   
     
+    func eventPlayerQuery(pName: String, eventRecord: CKRecord) ->  (playerArray:  Array<String>, dateArray: Array<Date>, attemptArray: Array<Int>, makesArray:Array<Int>, percentArray: Array<Double>) {
+    
+      
+        var playerArray = [] as Array<String>
+       // var shotArray = [] as Array<String>
+        var dateArray = [] as Array<Date>
+        var attemptArray = [] as Array<Int>
+        var makesArray = [] as Array<Int>
+        var percentArray = [] as Array<Double>
+        
+        print("player in playerQuery: ", pName)
+        print("eventRecord in playerQuery: ", eventRecord)
+        
+        let eventRef = CKRecord.Reference(record: eventRecord, action: .deleteSelf)
+        print("eventRef is: ", eventRef)
+        
+        let playerPredicate = NSPredicate(format: "eventReference == %@ AND player ==%@", eventRef, pName)
+        
+        
+      //  let sort = NSSortDescriptor(key: "date", ascending: false)
+        
+        let query = CKQuery(recordType: "playername", predicate: playerPredicate)
+         
+      query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        
+        let queryOp = CKQueryOperation(query: query)
+        
+        
+        queryOp.desiredKeys = ["player", "date", "shotAttempts","shotMakes", "shotPercentage","teamReference"]
+        
+        
+        queryOp.resultsLimit = 25
+       
+        
+        // This is non-structure data fetch
+       //  qOperation.recordFetchedBlock = { record in
+        queryOp.recordFetchedBlock = { record in
+            
+            //(record : CKRecord!) in
+             
+            
+            let player = record["player"] as! String
+            print("player in player recordFetchedBlock: ", player)
+            
+           // let shot = record["shot"] as! String
+            
+            let date = record["date"] as! Date
+            
+            let makes = record["shotMakes"] as! Int
+    
+            let attempts = record["shotAttempts"] as! Int
+            
+            let percentage = record["shotPercentage"] as! Double
+            print("percentage in recordFetchedBlock: ", percentage)
+            
+            
+            playerArray.append(player)
+          //  shotArray.append(shot)
+            dateArray.append(date)
+            attemptArray.append(attempts)
+            makesArray.append(makes)
+            percentArray.append(percentage)
+
+            
+             }  //recordFetchedBlock
+    
+ 
+   // CKContainer.default().publicCloudDatabase.add(qOperation)
+        CKContainer.default().publicCloudDatabase.add(queryOp)
     
     
+      //  qOperation.queryCompletionBlock = { cursor, error in
+        queryOp.queryCompletionBlock = { cursor, error in
+            
+            let queryCount = playerArray.count
+           
+            print("Number rows in array in queryCompletionBlock: ", queryCount)
+         
+        } // qOperation queryCompletionBlock
+    
+    
+          print("playerArray in playerQuery before loop: ", playerArray)
+       
+   // if playerArray.isEmpty  {
+       
+        var counter: Int = 0
+        while counter <= 700000000 {
+            counter += 1
+        } // while loop
+       
+        print("Counter: ", counter)
+        
+   // } else {
+
+     
+   print("playerArray in playerQuery after loop: ", playerArray)
+        
+       return (playerArray, dateArray, attemptArray, makesArray, percentArray)
+   
+ } //eventPlayerQuery func
+  
     
  }  // StatsDataLoad class

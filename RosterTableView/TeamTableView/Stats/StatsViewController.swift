@@ -15,10 +15,46 @@ class StatsViewController: UIViewController {
     
     let teamCheck = TeamPlayerCheck()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let tabBar = tabBarController as! InitialTabBarViewController
+       // teamName.text = String(describing: tabBar.teamName)
+        
+        let name =  String(describing: tabBar.teamName)
+        
+        // Remove any blank characters at the end of the team name
+        var teamArray = Array(name)
+        
+        print("teamArray: ", teamArray)
+        
+       var teamNumChar = teamArray.count
+       print("teamNumChar: ", teamNumChar)
+        
+       var extraTeamCharLessOne = teamNumChar - 1
+        print("extraTeamCharLessOne: ", extraTeamCharLessOne)
+        
+        while teamArray[extraTeamCharLessOne] == " " {
+            
+            teamArray.remove(at: extraTeamCharLessOne)
+            print("teamArray after remove end blank character: ", teamArray)
+            
+           teamNumChar = teamArray.count
+           print("teamNumChar: ", teamNumChar)
+            
+        extraTeamCharLessOne = teamNumChar - 1
+        print("extraTeamCharLessOne: ", extraTeamCharLessOne)
+            
+        } // while extraTeamCharLessOne
+        
+        teamName.text = String(teamArray)
+        
+      //  print("tname after parsing blank characters from end: ", teamName.text)
+        
+        // This code hides the navigation bar in the navigation controller
+        super.viewDidLoad()
+            self.navigationController?.isNavigationBarHidden = true
    
     }  // Override func
     
@@ -28,15 +64,10 @@ class StatsViewController: UIViewController {
           super.touchesBegan(touches, with: event)
           }  // touchesBegan
     
-
-    
-    
     
    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    
-    @IBOutlet weak var teamName: UITextField!
-    
+    @IBOutlet weak var teamName: UILabel!
     
     
     @IBAction func viewStatsButton(_ sender: Any) {
@@ -45,58 +76,6 @@ class StatsViewController: UIViewController {
         //self.playName = playerName.text!
         
         
-        if tName == "" {
-            
-            // Create Alert for Team
-             let dialogMessage = UIAlertController(title: "Missing Team", message: "Must enter Team", preferredStyle: .alert)
-             
-             // Create OK button with action handler
-             let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                 print("Ok button tapped")
-              })
-             
-             //Add OK button to a dialog message
-             dialogMessage.addAction(ok)
-
-             // Present Alert to
-             self.present(dialogMessage, animated: true, completion: nil)
-
-            return
-      
-        } else {
-        
-            // Add check if team already exists
-            
-            let teamN = teamName.text!
-            
-            let teamVerify = teamCheck.TeamCheck(team: teamN)
-        
-            if teamVerify.count == 0 {
-                
-                
-                let dialogMessage = UIAlertController(title: "Team not found", message: "Must enter an existing Team name", preferredStyle: .alert)
-                
-                // Create OK button with action handler
-                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                   // print("Ok button tapped")
-                          
-   
-                })  // UIAlertAction ok
-                
-                
-                dialogMessage.addAction(ok)
-               
-                // Present dialog message to user
-                self.present(dialogMessage, animated: true, completion: nil)
-
-                
-            }  // else Team exists
-            
-            
-        
-        }  // if name
-
-        
         performSegue(withIdentifier: "statsSegue", sender: self)
        
        // print("playName in StatsViewController button: ", playName)
@@ -104,9 +83,40 @@ class StatsViewController: UIViewController {
     }  // viewStatsButton
     
     
+    @IBAction func getEvents(_ sender: UIButton) {
+    
+        tName = teamName.text!
+        //self.playName = playerName.text!
+        
+        print("tName in getEvents: ", tName)
+       
+        
+       performSegue(withIdentifier: "toEvents", sender: self)
+    
+    } //getEvents
+    
+    
+    @IBAction func eventPlayerStats(_ sender: UIButton) {
+        
+        tName = teamName.text!
+        
+        performSegue(withIdentifier: "toEventsList", sender: self)
+        
+        
+    } // eventPlayerStats
+    
+    
+    
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-     //   messageText.text = " "
+      //  tName = teamName.text!
+        
+        if segue.identifier == "statsSegue" {
+          
+        print("statsSegue Segue")
+             
         
         let viewCont = segue.destination as! UINavigationController
         let collectionVC = viewCont.viewControllers.first as! StatsCollectionViewController
@@ -118,36 +128,112 @@ class StatsViewController: UIViewController {
         collectionVC.title = self.tName
         
         
+        } // statsSegue
+        
+        if segue.identifier == "toEvents" {
+          
+        print("toEvents Segue")
+             
+        let viewCont = segue.destination as! UINavigationController
+        let collectionVC = viewCont.viewControllers.first as! EventsCollectionViewController
+        
+        
+       // collectionVC.player = self.playName
+        print("tName in StatsViewController: ", tName)
+      //  collectionVC.team = tName
+            let donVariable: Bool = true
+            
+        var Title = tName
+        Title.append(" Events")
+        
+        collectionVC.team = tName
+        collectionVC.title = Title
+        collectionVC.donationVariable = donVariable
+        
+        } // toEvents segue
+        
+        
+        if segue.identifier == "toEventsList" {
+          
+        print("toEventsList Segue")
+             
+        let viewCont = segue.destination as! UINavigationController
+        let collectionVC = viewCont.viewControllers.first as! EventsCollectionViewController
+        
+        
+       // collectionVC.player = self.playName
+        print("tName in StatsViewController: ", tName)
+      //  collectionVC.team = tName
+            let eventPlayerVariable: Bool = true
+            
+        var Title = tName
+        Title.append(" Events")
+        
+        collectionVC.team = tName
+        collectionVC.title = Title
+        collectionVC.eventPlayerVariable = eventPlayerVariable
+        
+        } // toEventsList segue
        
+        
+        
         
         } // prepare func
     
-    
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     
    @IBAction func unwindStatsCollectionViewControllerCancel(segue: UIStoryboardSegue) {
     
    }  // UIStoryboardSegue
     
     
-    @IBAction func unwindBacktoStatsViewController(segue: UIStoryboardSegue) {
+    @IBAction func unwindBackToStatsViewController(segue: UIStoryboardSegue) {
         
         teamName.text = tName
         
      }  // UIStoryboardSegue
     
+    
+    @IBAction func unwindPlayerStatsViewControllerDone(segue: UIStoryboardSegue) {
+        
+        teamName.text = tName
+        
+     }  // UIStoryboardSegue
+    
+    /*
+    @IBAction func unwindEventsCollectionViewControllerCancel(segue: UIStoryboardSegue) {
+     
+    }  // UIStoryboardSegue
+    */
+    
+    @IBAction func unwindBacktoRosterview (segue: UIStoryboardSegue) {
+        
+        print("unwind from eventsCollectionViewController")
+        
+        teamName.text = tName
+        
+        
+     }  // UIStoryboardSegue
+    
+    
+    
+    
+    
+    @IBAction func unwindSponsorStatsCollectionViewControllerDone(segue: UIStoryboardSegue) {
+     
+    }  // UIStoryboardSegue
+    
+    
+    @IBAction func unwindEventPlayerStatsCollectionViewControllerDone(segue: UIStoryboardSegue) {
+     
+    }  // UIStoryboardSegue
+    
+    
+    
+   /*
+    @IBAction func unwindDonationStatsCollectionViewControllerCancel(segue: UIStoryboardSegue) {
+     
+    }  // UIStoryboardSegue
+    */
     
     
 }  // StatsViewController

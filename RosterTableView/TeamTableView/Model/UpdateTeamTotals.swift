@@ -12,6 +12,11 @@ import UIKit
 
 class UpdateTeamTotals {
 
+    
+    // queryPlayer func
+    // totalsUpdate func
+    
+    
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
    
@@ -72,7 +77,7 @@ class UpdateTeamTotals {
             
             let totAttempts = record.value(forKey: "TotAttempts")
             totalAttempts = totAttempts as! Int
-            print("totalAttemps: ", totalAttempts)
+            print("totalAttempts: ", totalAttempts)
             
             let totMakes = record.value(forKey: "TotMakes")
             totalMakes = totMakes as! Int
@@ -127,8 +132,6 @@ class UpdateTeamTotals {
         
     print("playerID in totalsUpdate: ", playerID)
    
-        
-        
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: playerID) { (record, error) in
             
             guard let record = record, error == nil else {
@@ -140,9 +143,6 @@ class UpdateTeamTotals {
 
             print("Record in fetch: \(record)")
             
-            
-      
-        
         // The following code is to save the updated record once fetched
     //let saveRecord = CKRecord(recordType: "team", recordID: playerID)
 
@@ -154,7 +154,7 @@ class UpdateTeamTotals {
         print("TotAttempts in totalsUpdate: ", attempts)
         
     record["TotMakes"] = totalMakes
-        
+    
     record["TotPercentage"] = shotPercentage
         
     record["LastDate"] = scoreDate

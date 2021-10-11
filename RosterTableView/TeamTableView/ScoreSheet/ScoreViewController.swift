@@ -12,54 +12,85 @@ import CloudKit
 class ScoreViewController: UIViewController {
     
     
-    let playerSearch = PlayerTeamData()
+    //let playerSearch = PlayerTeamData()
+    let playerTeamData = PlayerTeamData()
     
-    let teamSearch = UpdateTeamTotals()
+    //let teamSearch = UpdateTeamTotals()
+    let updateTeamTotals = UpdateTeamTotals()
+    
+    let eventTeamCheck = EventTeamCheck()
+    
+    let updateDonationsTotals = UpdateDonationsTotals()
     
     var team: String = ""
     
+    var eventN: String = ""
+    
+    var eventDate: Date = Date()
+    
     var playerN: String = ""
+    
+    var scoreboardVariable: Bool = false
    
     var playerID: CKRecord.ID = CKRecord.ID()
     
-   // var scoreDate: Date
-   
-   
     var playerMake: Int = 0
+    var playerMiss: Int = 0
+    var eMake: String = ""
+    var eMiss: String = ""
+    
+    var yesScore: Int = 0
+    var noScore: Int = 0
+    
     var totalMakes: Int = 0
     
-    var playerMiss: Int = 0
     
     var nomAttempts: Int = 0
     var attempts: Int = 0
     
     var shotPercent: Double = 0.000
     var sPercentage: Double = 0.000
+    
+    var eventSwitch: Bool = false
+    
+    let dispatchGroup = DispatchGroup()
    
    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
- // let score = ScoreDataLoader (pName: playerPicked, sType: shotType, attempts: nomAttempts, percent: shotPercent)
     
-
     @IBOutlet weak var playerPicked: UILabel!
     
-   
+    
+    let myActivityIndicator = UIActivityIndicatorView(style: .large)
+        
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         
+        // Display text in UILabels from segues
         playerPicked.text = playerN
+        FundEventName.text = eventN
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        //dateFormatter.timeStyle = .short
+        
+        print("eventDate: ", eventDate)
+        FundEventDate.text = dateFormatter.string(from: eventDate)
+        
+        //Update event score
+        tMake.text = eMake
+        tMiss.text = eMiss
+        
         
         // Add query for playerN and team of team record type to retrieve playerPhoto
       
       let playerPicture = TeamPlayerCheck()
         
         let photo = playerPicture.playerPhoto(team: team, player: playerN)
-       // print("photo, TotAttempts: ", photo)
-        
-       // print("photo 0 in array: ", photo[0])
-        
-        //Add code to display playerPhoto
+       
+        //Code to display playerPhoto
         
         if photo.isEmpty {
             
@@ -80,6 +111,19 @@ class ScoreViewController: UIViewController {
         }  // if else
         
         
+        if eventSwitch == false {
+        
+        //Retrieve scores from team DB
+        let recordTotals = self.updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team)
+        
+        let totalAtt = recordTotals.totalAttempts
+        let totalMis = totalAtt - recordTotals.totalMakes
+        
+        // Update scoreboard for totalMake and totalMiss
+        tMake.text = String(recordTotals.totalMakes)
+        tMiss.text = String(totalMis)
+        
+        }  // if eventSwitch = false
         
     }  //viewDidLoad
     
@@ -94,115 +138,90 @@ class ScoreViewController: UIViewController {
     
     @IBOutlet weak var makeScore: UILabel!
     
-    
     @IBOutlet weak var missScore: UILabel!
     
-    
-    @IBAction func makeButton(_ sender: Any) {
+    @IBAction func makeStepper(_ sender: UIStepper) {
         
-            playerMake += 1
-            makeScore.text = String(playerMake)
-            messageLabel.text = "Great Shot!"
-            
-  
-    }  // makeButton
-    
-    
-    
-    @IBAction func makeStepper(_ sender: Any) {
-    
-       // let stepperValue: Int = 0
-       // playerMake += 1
-       // makeScore.text = String(playerMake)
-        messageLabel.text = "Great Shot!"
+        yesScore = Int(sender.value)
+        makeScore.text = String(yesScore)
+        playerMake = Int(sender.value)
+       // print("playerMake Stepper: ", playerMake)
         
-        makeStepper(makeScore ?? 00)
-        //makeScore.text = String(makeStepper(stepperValue))
+    }  // makeStepper
+    
+    
+    @IBAction func missStepper(_ sender: UIStepper) {
         
+        noScore = Int(sender.value)
+        missScore.text = String(noScore)
+        playerMiss = Int(sender.value)
         
-    } // makeStepper
+    }  // missStepper
     
     
+    @IBOutlet weak var tMake: UILabel!
     
-    
-    @IBAction func missButton(_ sender: Any) {
-        playerMiss += 1
-        missScore.text = String(playerMiss)
-        
-        messageLabel.text = "Try again!"
-        
-    }  //  missButton
-    
-    
-    
-    @IBAction func missStepper(_ sender: Any) {
-    
-    } // missStepper
-    
-    
-    
-    
-    @IBOutlet weak var messageLabel: UILabel!
-    
-
+    @IBOutlet weak var tMiss: UILabel!
     
     @IBAction func submitButton(_ sender: Any) {
+   
+        print("Submit Button selected")
         
-            messageLabel.text = ""
+        // Show that activity spinner
+        self.showSpinner()
+        print("spinner started")
         
-            let nomAttempts = playerMake + playerMiss
+        dispatchGroup.notify(queue: .main) { [self] in
             
-       //     print("nomAttempts: ", nomAttempts)
+            self.dispatchGroup.enter()
+            
+            let nomAttempts = self.playerMake + self.playerMiss
+            
+          print("nomAttempts: ", nomAttempts)
          
         let scoreDate = Date()
       //  print("scoreDate: ", scoreDate)
       
       //  print("playerMake: ", playerMake)
         
-        let shotP =  Double (Double(playerMake) / Double(nomAttempts))
+        let shotP =  Double (Double(self.playerMake) / Double(nomAttempts))
         
-        let shotPercent = Double(round(shotP*1000)/1000)
+        // print("shotP: ", shotP)
+        
+        
+        let shotPercent = Double(round(shotP*1000)/1000) * 100
     
        // print("shotPercent: ", shotPercent)
         
-        
-
         let recordPlayer = CKRecord(recordType: "playername")
         
+        // Query the team type to get this record for teamName and player
         
-        // Need to query the team type to get this record for teamName and player
+            let recordTeam = self.playerTeamData.queryPlayer(pName: self.playerN, team: self.team)
         
-        let recordTeam = playerSearch.queryPlayer(pName: playerN, team: team)
+       //print("recordTeam in ScoreViewController: ", recordTeam)
         
-        /*
-        let recordTeam = CKRecord(recordType: "team")
-        let recordTeamID = recordTeam.recordID
-        
-       recordTeam["teamName"] = team
-       recordTeam["player"] = playerPicked.text
-       */
-        
-        
-      //  let recordTeamID = recordTeam.recordID
-        
-       // print("teamName: ", team)
-       // print("player: ", playerPicked.text!)
-       // print("recordTeamID in ScoreViewController: ", recordTeamID)
-        
-       print("recordTeam in ScoreViewController: ", recordTeam)
-        
-        // recordTeamID doesn't work with recordPlayer CKRecord.Reference below
-        //let recordTeamID = recordTeam.recordID
-       
         // establish reference between record types
         recordPlayer["teamReference"] = CKRecord.Reference(record: recordTeam, action: .deleteSelf)
                 
+        //Check if event is chosen and if chosen create a reference to event type for event
+            
+            print("eventSwitch value: ", eventSwitch)
+        
+            if eventSwitch == true {
                 
-        recordPlayer["player"] = playerPicked.text
+                let recordEvent = self.eventTeamCheck.querySingleEvent(team: team, eventD: eventDate)
+                
+                recordPlayer["eventReference"] = CKRecord.Reference(record: recordEvent, action: .deleteSelf)
+                
+            } //if eventSwitch is true
+          
+            
+        recordPlayer["player"] = self.playerPicked.text
         
         recordPlayer["shotAttempts"] = Int(nomAttempts)
         
-        recordPlayer["shotMakes"] = Int(playerMake)
+        recordPlayer["shotMakes"] = Int(self.playerMake)
         
         recordPlayer["date"] = scoreDate
         
@@ -215,50 +234,176 @@ class ScoreViewController: UIViewController {
                     } else {
                        let ac = UIAlertController(title: "Error", message: "There was a problem submitting your data \(error!.localizedDescription)", preferredStyle: .alert)
                        ac.addAction(UIAlertAction(title: "OK", style: .default))
-                      //  self.persent(ac, animated: true)
+                      
                     }  // else
                     
               } //if error
              } // DispatchQueue
        
 
-        
-        let recordTotals = teamSearch.queryPlayer(pName: playerN, team: team)
+        // Fetch player record in team DB and update with score for all shots
+            
+        let recordTotals = self.updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team)
         print("recordTotals: ", recordTotals)
         
         playerID = recordTotals.playID
-        print("playerID: ", playerID)
+        print("playerID: ", self.playerID)
         
         attempts = recordTotals.totalAttempts
         print("total attempts: ", attempts)
         let totAttempts = attempts + nomAttempts
         print("totAttempts: ", totAttempts)
         
-        
         totalMakes = recordTotals.totalMakes
         print("total makes: ", totalMakes)
         let totMakes = totalMakes + playerMake
         print("totMakes: ", totMakes)
         
+        
+        // Update scoreboard for totalMake and totalMiss
+            tMake.text = String(totMakes)
+            let missTot = totAttempts - totMakes
+            tMiss.text = String(missTot)
+        
+            
         let shotPer =  Double (Double(totMakes) / Double(totAttempts))
         
-        let shotPercentage = Double(round(shotPer*1000)/1000)
+        let shotPercentage = Double(round(shotPer*1000)/1000) * 100
         print("shotPercentage: ", shotPercentage)
        
+
+        updateTeamTotals.totalsUpdate(playerID: playerID, teamName: team, pName: playerN, attempts: totAttempts, totalMakes: totMakes, shotPercentage: shotPercentage, scoreDate: scoreDate)
         
-        let updateTeam: () = teamSearch.totalsUpdate(playerID: playerID, teamName: team, pName: playerN, attempts: totAttempts, totalMakes: totMakes, shotPercentage: shotPercentage, scoreDate: scoreDate)
+    
+        // Check if event has been chosen. If event chosen, update the donations table
+        /*
+        if FundEventName.text == "" {
+           
+            // Fetch player record in team DB and update with score for non-event shots
+                
+                let recordTotals = self.teamSearch.queryPlayer(pName: self.playerN, team: self.team)
+            print("recordTotals: ", recordTotals)
+            
+            playerID = recordTotals.playID
+                print("playerID: ", self.playerID)
+            
+            attempts = recordTotals.totalAttempts
+            print("total attempts: ", attempts)
+            let totAttempts = attempts + nomAttempts
+            print("totAttempts: ", totAttempts)
+            
+            
+            totalMakes = recordTotals.totalMakes
+            print("total makes: ", totalMakes)
+            let totMakes = totalMakes + playerMake
+            print("totMakes: ", totMakes)
+            
+            /*
+            // Update scoreboard for totalMake and totalMiss
+                totalMake.text = String(totMakes)
+                let missTot = totAttempts - totMakes
+                totalMiss.text = String(missTot)
+               */
+                
+            let shotPer =  Double (Double(totMakes) / Double(totAttempts))
+            
+            let shotPercentage = Double(round(shotPer*1000)/1000)
+            print("shotPercentage: ", shotPercentage)
+           
+
+            teamSearch.totalsUpdate(playerID: playerID, teamName: team, pName: playerN, attempts: totAttempts, totalMakes: totMakes, shotPercentage: shotPercentage, scoreDate: scoreDate)
+            */
+            /*
+            var textScoreAdded = playerPicked.text!
+            
+            // Update scoreboard for totalMake and totalMiss
+                tMake.text = String(totMakes)
+                let missTot = totAttempts - totMakes
+                tMiss.text = String(missTot)
+                
+            textScoreAdded.append(" score recorded")
+            
+           print("textScoreAdded: ", textScoreAdded)
+               
+            let dialogMessage = UIAlertController(title: "Score Recorded", message: textScoreAdded, preferredStyle: .alert)
+            
+            // Create OK button with action handler
+            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                print("Ok button tapped")
+                
+                self.dispatchGroup.leave()
+                self.removeSpinner()
+             })
+            
+            //Add OK button to a dialog message
+            dialogMessage.addAction(ok)
+
+            // Present Alert to
+            self.present(dialogMessage, animated: true, completion: nil)
+           */
+            
         
-        print("recordTeam: ", updateTeam)
-         
+            //If event selected
+            
+            if eventSwitch == true {
+            
+            let donationCheckRecord = updateDonationsTotals.queryCheckSponsor(tName: team, pName: playerN, eDate: eventDate)
+            
+            //If donation record for team, player, eventDate doesn't exist, create it
+                
+            if donationCheckRecord.player.count == 0 {
+                let tAttempts: Int = 0
+                let tMakes: Int = 0
+                let tPerShot: Double = 0.0
+                let tFlatDonation: Double = 0.0
+                let tDonation: Double = 0.0
+                
+                
+                updateDonationsTotals.createDonationRecord(teamName: team, pName: playerN, eDate: eventDate, totAttempts: tAttempts, totMakes: tMakes, totPerShot: tPerShot, totFlatDonation: tFlatDonation, totalDonation: tDonation, eventName: eventN)
+                
+                
+            }  // above - if donation record doesn't exist create it
+            
+        // Query donations for team, player, eventDate and retrieve totAttampts, totMakes, totFlatDonation, totPerShot, totalDonation values
+        
+        let donationValues = updateDonationsTotals.querySponsorWithShots(tName: team, pName: playerN, eDate: eventDate)
+        
+            let recordID = donationValues.sponsorID
+            let totalAttempt = donationValues.totAttempt
+            let totalMake = donationValues.totMake
+            let totalFlatDonation = donationValues.totFlatDon
+            let totalPerShot = donationValues.totPerShot
+         //   let totalDonations = donationValues.totalDonation
+        
+        //Perform calculations to donation values to update based upon shots
+        
+            let attemptTotal = totalAttempt + nomAttempts
+            
+            let makesTotal = totalMake + playerMake
+            
+            let perShotTot = totalPerShot * Double(makesTotal)
+            
+            let donationsTotal = perShotTot + totalFlatDonation
+            
+            // Update scoreboard with event total Make and Miss
+        
+            tMake.text = String(makesTotal)
+            let missTotal = attemptTotal - makesTotal
+            tMiss.text = String(missTotal)
+            
+            
+        //Update donations values with calculated values
+        
+        updateDonationsTotals.totalsUpdateWithShots(sponsorID: recordID, teamName: team, pName: playerN, totalAttempt: attemptTotal, totalMake: makesTotal, totalPerShot: totalPerShot, totalFlatDonation: totalFlatDonation, totalDonation: donationsTotal)
         
         
-      //  messageLabel.text = "Score recorded"
-        
+         }  // if  event chosen
+            
+            
         var textScoreAdded = playerPicked.text!
         
         textScoreAdded.append(" score recorded")
         
-       // textScoreAdded.append(teamName.text!)
         
        print("textScoreAdded: ", textScoreAdded)
            
@@ -267,6 +412,9 @@ class ScoreViewController: UIViewController {
         // Create OK button with action handler
         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
             print("Ok button tapped")
+            
+            self.dispatchGroup.leave()
+            self.removeSpinner()
          })
         
         //Add OK button to a dialog message
@@ -276,20 +424,32 @@ class ScoreViewController: UIViewController {
         self.present(dialogMessage, animated: true, completion: nil)
 
 
+        
+        //  Insert stop activity animation here
+       // self.removeSpinner()
+        
+        } // dispatchGroup.notify
+      
     }  //submitButton
     
+   
+    @IBOutlet weak var FundEventName: UITextField!
     
-    @IBAction func resetButton(_ sender: Any) {
-        
-        messageLabel.text = "Reset Scoreboard to 00 - 00"
-        
-        playerMake = 0
-        playerMiss = 0
-        makeScore.text = String("00")
-        missScore.text = String("00")
-        
-    }  //resetButton
     
+    @IBOutlet weak var FundEventDate: UILabel!
+    
+    
+    // Event button to query and select an event for the team selected
+    
+    @IBAction func EventButton(_ sender: UIButton) {
+        
+      //  eventSwitch = true
+      //  print("eventSwitch value after EventButton: ", eventSwitch)
+        
+        performSegue(withIdentifier: "toEventsList", sender: self)
+        print("toEventsList segue")
+        
+    } // EventButton
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -299,7 +459,7 @@ class ScoreViewController: UIViewController {
                     print("BacktoRosterview Segue")
              
                
-                    let vcRoster = segue.destination as! UINavigationController
+                   let vcRoster = segue.destination as! UINavigationController
                    
                     let vcScore = vcRoster.viewControllers.first as! RosterViewController
                     
@@ -311,6 +471,32 @@ class ScoreViewController: UIViewController {
             
         } // if segue to RosterviewController
             
+            
+            
+            if segue.identifier == "toEventsList" {
+                
+                print("toEventsList Segue")
+         
+           
+                let vc = segue.destination as! UINavigationController
+               
+                let vcEvents = vc.viewControllers.first as! EventsCollectionViewController
+                
+                
+            let scoreboardVar: Bool = true
+            
+                
+            vcEvents.title = self.team
+            vcEvents.team = self.team
+            vcEvents.playerN = self.playerN
+            vcEvents.scoreboardVariable = scoreboardVar
+        
+            print("vcEvents.team ", vcEvents.team)
+
+                
+            } // toEventsList
+            
+        
         } // prepare func
 
     

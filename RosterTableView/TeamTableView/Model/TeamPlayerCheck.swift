@@ -10,6 +10,10 @@ import CloudKit
 
 class TeamPlayerCheck {
     
+    // TeamPlayer func
+    //  TeamCheck func
+    // playerPhoto func
+    // EventCheck func
     
     
     let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
@@ -49,32 +53,7 @@ class TeamPlayerCheck {
        
         print("Number rows in array in queryCompletionBlock: ", queryCount)
         
-    /*
-        if playerArray.isEmpty  {
-        
-        
-        // Create new Alert
-         let dialogMessage = UIAlertController(title: "Confirm", message: "Team not found, enter a valid team name", preferredStyle: .alert)
-         
-         // Create OK button with action handler
-         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-             print("Ok button tapped")
-          })
-         
-         //Add OK button to a dialog message
-         dialogMessage.addAction(ok)
-
-         // Present Alert to
-         self.present(dialogMessage, animated: true, completion: nil)
-        
-        
-         } else {
-
-         performSegue(withIdentifier: "teamPasser", sender: self)
-
-    } //else
-    */
-
+    
     } // qOperttion queryCompletionBlock
     
     
@@ -129,38 +108,13 @@ class TeamPlayerCheck {
        
         print("Number rows in array in queryCompletionBlock: ", queryCount)
         
-    /*
-        if playerArray.isEmpty  {
-        
-        
-        // Create new Alert
-         let dialogMessage = UIAlertController(title: "Confirm", message: "Team not found, enter a valid team name", preferredStyle: .alert)
-         
-         // Create OK button with action handler
-         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-             print("Ok button tapped")
-          })
-         
-         //Add OK button to a dialog message
-         dialogMessage.addAction(ok)
-
-         // Present Alert to
-         self.present(dialogMessage, animated: true, completion: nil)
-        
-        
-         } else {
-
-         performSegue(withIdentifier: "teamPasser", sender: self)
-
-    } //else
-    */
 
     } // qOperttion queryCompletionBlock
     
     
         
          var counter: Int = 0
-         while counter <= 700000000 {
+         while counter <= 800000000 {
              counter += 1
          } // while loop
         
@@ -219,41 +173,58 @@ class TeamPlayerCheck {
         
     queryOp.queryCompletionBlock = {  cursor, error in
         
-      // let queryCount = playerArray.count
-       
-      //  print("Number rows in array in queryCompletionBlock: ", queryCount)
-        
-       
-        
-    /*
-        if playerArray.isEmpty  {
-        
-        
-        // Create new Alert
-         let dialogMessage = UIAlertController(title: "Confirm", message: "Team not found, enter a valid team name", preferredStyle: .alert)
-         
-         // Create OK button with action handler
-         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-             print("Ok button tapped")
-          })
-         
-         //Add OK button to a dialog message
-         dialogMessage.addAction(ok)
-
-         // Present Alert to
-         self.present(dialogMessage, animated: true, completion: nil)
-        
-        
-         } else {
-
-         performSegue(withIdentifier: "teamPasser", sender: self)
-
-    } //else
-    */
 
     } // qOperttion queryCompletionBlock
     
+         var counter: Int = 0
+         while counter <= 700000000 {
+             counter += 1
+         } // while loop
+        
+         print("Counter: ", counter)
+        
+        return playerArray
+         
+    } // playerPhoto func
     
+    
+    //Check is event already exists in Event type
+    func EventCheck(team: String, eventDate: Date, eventName: String) -> Array<Any> {
+    
+        var eventArray = [] as Array<String>
+        
+    //  check for team name and player in team type
+    
+        let eventPredicate = NSPredicate(format: "team == %@ AND eventDate == %@ AND eventName == %@", team, eventDate as CVarArg, eventName)
+    
+    let query = CKQuery(recordType: "events", predicate: eventPredicate)
+    
+    let queryOp = CKQueryOperation(query: query)
+    
+        queryOp.desiredKeys = ["team", "eventDate","eventName"]
+    
+    queryOp.resultsLimit = 25
+    
+    queryOp.recordFetchedBlock = { record in
+        
+       let teamName = record["team"] as! String
+        
+        print("team in recordFetchedBlock: ", teamName)
+    
+        eventArray.append(teamName)
+        
+    }  // recordFetchedBlock
+        
+        CKContainer.default().publicCloudDatabase.add(queryOp)
+    
+    queryOp.queryCompletionBlock = { cursor, error in
+        
+        let queryCount = eventArray.count
+       
+        print("Number rows in array in queryCompletionBlock: ", queryCount)
+       
+
+    } // qOperttion queryCompletionBlock
         
          var counter: Int = 0
          while counter <= 700000000 {
@@ -263,16 +234,10 @@ class TeamPlayerCheck {
          print("Counter: ", counter)
         
         
-
-        return playerArray
+        return eventArray
          
-    } // playerPhoto func
-    
-    
-    
-    
-    
-    
+    } // EventCheck func
+   
     
 }  // TeamPlayerCheck
 
