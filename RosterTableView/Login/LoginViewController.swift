@@ -16,14 +16,17 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
     } //viewDidLoad
     
-
+ 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             view.endEditing(true)
           super.touchesBegan(touches, with: event)
           }  // touchesBegan
     
     
-    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+  //  let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+    
+    let container = (UIApplication.shared.delegate as! AppDelegate).container
+
     
    // let teamCheck = TeamPlayerCheck()
     
@@ -31,6 +34,10 @@ class LoginViewController: UIViewController {
     
     var tName: String = ""
     
+    var passwordArray: Array<String> = []
+   
+    
+   
     @IBOutlet weak var teamName: UITextField!
     
 
@@ -153,13 +160,17 @@ class LoginViewController: UIViewController {
           print("password after parsing blank characters from end and 6 character check: ", pword)
         
             // Check if team and password already exists in User DB
-            let passwordCheck = loginCheck.pwdTeamCheck(team: tName, password: pword)
+          let passwordCheck = loginCheck.pwdTeamCheck(team: tName, password: pword)
         
-            print("passwordCheck.count: ", passwordCheck.count)
-            
-            if passwordCheck.count == 0 {
-                
-                let dialogMessage = UIAlertController(title: "Team and Password combination not found", message: "Select New Team button to create a new team.", preferredStyle: .alert)
+      //  loginCheck.pwdTeamCheck(team: tName, password: pword)
+    
+       print("passwordCheck.count: ", passwordCheck.count)
+        
+           if passwordCheck.count == 0 {
+             
+           //     if passwordArray.count == 0 {
+              
+                let dialogMessage = UIAlertController(title: "Team and Password combination not found", message: "Correct Team and/or Password and retry or select New Team button to create a new team.", preferredStyle: .alert)
                 
                 // Create OK button with action handler
                 let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
@@ -176,10 +187,10 @@ class LoginViewController: UIViewController {
                 return
                 
             } // If passwordCheck == Team and Password
-                
+          
             
-                performSegue(withIdentifier: "initialTabBar", sender: self)
-                
+            performSegue(withIdentifier: "initialTabBar", sender: self)
+    
     
     } //login button
     

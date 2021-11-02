@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import CloudKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+ //  let container = CKContainer.default()
+    let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+    
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

@@ -141,7 +141,7 @@ class NewTeamViewController: UIViewController {
         } // if pwd is blank
     
             
-                // Add check to determine if an extra blamk space was added to the password when entered by user. If so, remove the blank character(s)
+            // Add check to determine if an extra blamk space was added to the password when entered by user. If so, remove the blank character(s)
                 
                 var pwdArray = Array(pwd)
                 

@@ -30,13 +30,13 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
         // Remove any blank characters at the end of the team name
         var teamArray = Array(name)
         
-        print("teamArray: ", teamArray)
+        print("teamArray in RosterViewController: ", teamArray)
         
        var teamNumChar = teamArray.count
-       print("teamNumChar: ", teamNumChar)
+       print("teamNumChar in RosterViewController: ", teamNumChar)
         
        var extraTeamCharLessOne = teamNumChar - 1
-        print("extraTeamCharLessOne: ", extraTeamCharLessOne)
+      //  print("extraTeamCharLessOne: ", extraTeamCharLessOne)
         
         while teamArray[extraTeamCharLessOne] == " " {
             

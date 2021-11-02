@@ -107,6 +107,14 @@ class StatsViewController: UIViewController {
     
     
     
+    @IBAction func eventTotalStats(_ sender: UIButton) {
+        
+        tName = teamName.text!
+        
+        performSegue(withIdentifier: "toEventsView", sender: self)
+        
+        
+    } // eventTotalStats
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -174,6 +182,29 @@ class StatsViewController: UIViewController {
         collectionVC.eventPlayerVariable = eventPlayerVariable
         
         } // toEventsList segue
+       
+        
+        if segue.identifier == "toEventsView" {
+          
+        print("toEventsView Segue")
+             
+        let viewCont = segue.destination as! UINavigationController
+        let collectionVC = viewCont.viewControllers.first as! EventsCollectionViewController
+        
+        
+       // collectionVC.player = self.playName
+        print("tName in StatsViewController: ", tName)
+      //  collectionVC.team = tName
+        let eventTotalsVariable: Bool = true
+            
+        var Title = tName
+        Title.append(" Events")
+        
+        collectionVC.team = tName
+        collectionVC.title = Title
+        collectionVC.eventTotalsVariable = eventTotalsVariable
+        
+        } // toEventsView segue
        
         
         

@@ -14,7 +14,6 @@
 		D3023A3C25966FDC0060A0B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3023A3A25966FDC0060A0B2 /* LaunchScreen.storyboard */; };
 		D3023A4725966FDC0060A0B2 /* RosterTableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A4625966FDC0060A0B2 /* RosterTableViewTests.swift */; };
 		D3023A5225966FDC0060A0B2 /* RosterTableViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A5125966FDC0060A0B2 /* RosterTableViewUITests.swift */; };
-		D3023A65259670260060A0B2 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3023A64259670260060A0B2 /* CloudKit.framework */; };
 		D3023A6E25967A3D0060A0B2 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A6D25967A3D0060A0B2 /* RosterViewController.swift */; };
 		D3023A942597E5FF0060A0B2 /* TeamTableViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A932597E5FF0060A0B2 /* TeamTableViewTableViewController.swift */; };
 		D3023A992598FF8F0060A0B2 /* TeamDataLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3023A982598FF8F0060A0B2 /* TeamDataLoad.swift */; };
@@ -42,6 +41,9 @@
 		D35A90AF25F5A94000B0B936 /* UpdateTeamTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */; };
 		D35A90CC25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90CB25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift */; };
 		D35A90D125FD930100B0B936 /* PlayerStatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35A90D025FD930100B0B936 /* PlayerStatsCollectionViewCell.swift */; };
+		D35DD0A52718E7960079B139 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3023A64259670260060A0B2 /* CloudKit.framework */; };
+		D35DD0A9271B269F0079B139 /* TotalStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35DD0A8271B269F0079B139 /* TotalStatsViewController.swift */; };
+		D35DD0AB271B2A930079B139 /* TotalStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35DD0AA271B2A930079B139 /* TotalStats.swift */; };
 		D38FFACD26B1F90600303268 /* DonationStatsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38FFACC26B1F90600303268 /* DonationStatsCollectionViewController.swift */; };
 		D38FFACF26B1FA9C00303268 /* DonationStatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38FFACE26B1FA9C00303268 /* DonationStatsCollectionViewCell.swift */; };
 		D3911C7125BA6D7500B19AD2 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */; };
@@ -115,6 +117,8 @@
 		D35A90AE25F5A94000B0B936 /* UpdateTeamTotals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamTotals.swift; sourceTree = "<group>"; };
 		D35A90CB25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsCollectionViewController.swift; sourceTree = "<group>"; };
 		D35A90D025FD930100B0B936 /* PlayerStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D35DD0A8271B269F0079B139 /* TotalStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalStatsViewController.swift; sourceTree = "<group>"; };
+		D35DD0AA271B2A930079B139 /* TotalStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalStats.swift; sourceTree = "<group>"; };
 		D38FFACC26B1F90600303268 /* DonationStatsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationStatsCollectionViewController.swift; sourceTree = "<group>"; };
 		D38FFACE26B1FA9C00303268 /* DonationStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationStatsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
@@ -133,7 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3023A65259670260060A0B2 /* CloudKit.framework in Frameworks */,
+				D35DD0A52718E7960079B139 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +260,7 @@
 				D31060A82688FCDC00E253EB /* SponsorsList.swift */,
 				D31060AC26A61CAD00E253EB /* UpdateDonationsTotals.swift */,
 				D335406726EE704B00C7189C /* LoginModel.swift */,
+				D35DD0AA271B2A930079B139 /* TotalStats.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */,
+				D35DD0A8271B269F0079B139 /* TotalStatsViewController.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -387,6 +393,9 @@
 		D3023A2425966FD90060A0B2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					New,
+				);
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
@@ -475,7 +484,9 @@
 				D3023A942597E5FF0060A0B2 /* TeamTableViewTableViewController.swift in Sources */,
 				D310609F2677FBB200E253EB /* EventsMgmtViewController.swift in Sources */,
 				D3963C6525C5E60C00B33D3F /* StatsCollectionViewCell.swift in Sources */,
+				D35DD0AB271B2A930079B139 /* TotalStats.swift in Sources */,
 				D310609D267634A800E253EB /* EventsCollectionViewCell.swift in Sources */,
+				D35DD0A9271B269F0079B139 /* TotalStatsViewController.swift in Sources */,
 				D335406326ED161800C7189C /* InitialTabBarViewController.swift in Sources */,
 				D3911C7E25BCF19700B19AD2 /* StatsDataLoad.swift in Sources */,
 				D335406126DC0CE400C7189C /* SponsorTextViewController.swift in Sources */,
@@ -673,13 +684,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RosterTableView/RosterTableView.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 5D5WRV22MD;
 				INFOPLIST_FILE = RosterTableView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -695,13 +707,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RosterTableView/RosterTableView.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 5D5WRV22MD;
 				INFOPLIST_FILE = RosterTableView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

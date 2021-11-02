@@ -48,6 +48,8 @@ class EventsCollectionViewController: UICollectionViewController {
     
     var eventPlayerVariable: Bool = false
     
+    var eventTotalsVariable: Bool = false
+    
     let manager = QueryEvents()
     
     let updateDonationsTotals = UpdateDonationsTotals()
@@ -137,7 +139,7 @@ class EventsCollectionViewController: UICollectionViewController {
         
         
         
-        // Add condition to route to appropriate segue either toPlayerList or backToScoreboard or toDonationStats
+        // Add condition to route to appropriate segue either toPlayerList or backToScoreboard or toDonationStats or TotalStats
         
         
         if eventVariable == true {
@@ -164,13 +166,18 @@ class EventsCollectionViewController: UICollectionViewController {
             
             performSegue(withIdentifier: "backToScoreboard", sender: selectedEvent)
        
-        } //else to backToScoreboard
+        } //if backToScoreboard
             
             if eventPlayerVariable == true {
                     performSegue(withIdentifier: "toDonationStats", sender: selectedEvent)
 
                 } //event segue
             
+            
+            if eventTotalsVariable == true {
+                    performSegue(withIdentifier: "toTotalStatsView", sender: selectedEvent)
+
+                } //eventTotalsVariable segue
        
          return true
     }  //shouldSelectItemAt
@@ -442,6 +449,29 @@ class EventsCollectionViewController: UICollectionViewController {
                     
                 } // toDonationStats
           
+        
+        
+        if segue.identifier == "toTotalStatsView" {
+          
+                    print("toTotalStatsView Segue")
+             
+                    let vcEvents = segue.destination as! UINavigationController
+                   
+                    let vcMgmt = vcEvents.viewControllers.first as! TotalStatsViewController
+                    
+                
+            let Title = eventN
+            
+                vcMgmt.title = Title
+                vcMgmt.team = self.team
+                vcMgmt.eventName = self.eventN
+                vcMgmt.eDate = self.eventD
+                vcMgmt.eventTotalsVariable = eventTotalsVariable
+              //  vcMgmt.donationVariable = donationVariable
+                    
+                } // toTotalStatsView
+          
+        
         } // prepare func
     
     
@@ -478,6 +508,11 @@ class EventsCollectionViewController: UICollectionViewController {
     
     @IBAction func unwindDonationStatsCollectionViewController(segue:UIStoryboardSegue) {
         }
+    
+    
+    @IBAction func unwindTotalStatsViewController(segue:UIStoryboardSegue) {
+        }
+    
     
     
 }  // EventsCollectionViewController
