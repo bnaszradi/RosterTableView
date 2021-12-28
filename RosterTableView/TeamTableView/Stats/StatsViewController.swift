@@ -117,6 +117,18 @@ class StatsViewController: UIViewController {
     } // eventTotalStats
     
     
+    @IBAction func playerEvents(_ sender: UIButton) {
+        
+        tName = teamName.text!
+        print("tName in playerEvents button: ", tName)
+        
+        // Change this segue for the new collectionView
+        performSegue(withIdentifier: "toPlayerRoster", sender: self)
+        
+    } // playerEvents
+    
+   
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
       //  tName = teamName.text!
@@ -172,7 +184,7 @@ class StatsViewController: UIViewController {
        // collectionVC.player = self.playName
         print("tName in StatsViewController: ", tName)
       //  collectionVC.team = tName
-            let eventPlayerVariable: Bool = true
+        let eventPlayerVariable: Bool = true
             
         var Title = tName
         Title.append(" Events")
@@ -207,6 +219,35 @@ class StatsViewController: UIViewController {
         } // toEventsView segue
        
         
+        if segue.identifier == "toPlayerRoster" {
+          
+        print("toPlayerRoster Segue")
+             
+        let viewCont = segue.destination as! UINavigationController
+        let collectionVC = viewCont.viewControllers.first as! TeamTableViewTableViewController
+        
+        let playerEventsVar: Bool = true
+             
+            
+       // collectionVC.player = self.playName
+        print("tName in StatsViewController: ", tName)
+      //  collectionVC.team = tName
+       // let eventTotalsVariable: Bool = true
+            
+           
+        let Title = tName
+        //  let Title = "Player Events"
+       // Title.append(" Events")
+        
+        collectionVC.team = tName
+        print("collectionVC.team: ", collectionVC.team)
+            
+        collectionVC.title = Title
+        collectionVC.playerEventsVariable = playerEventsVar
+       // collectionVC.eventTotalsVariable = eventTotalsVariable
+        
+        } // toPlayerEvents segue
+       
         
         
         } // prepare func
@@ -257,6 +298,24 @@ class StatsViewController: UIViewController {
     @IBAction func unwindEventPlayerStatsCollectionViewControllerDone(segue: UIStoryboardSegue) {
      
     }  // UIStoryboardSegue
+    
+    
+    
+    @IBAction func unwindPlayerEventsCollectionViewControllerCancel(segue: UIStoryboardSegue) {
+     
+    }  // UIStoryboardSegue
+     
+    
+    @IBAction func unwindTeamTableViewTableViewControllerCancel(segue: UIStoryboardSegue) {
+     
+    }  // UIStoryboardSegue
+    
+    
+    @IBAction func unwindPlayerEventsCollectionViewControllerDone(segue: UIStoryboardSegue) {
+        
+        teamName.text = tName
+        
+     }  // UIStoryboardSegue
     
     
     

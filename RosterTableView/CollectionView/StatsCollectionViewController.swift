@@ -18,14 +18,56 @@ class StatsCollectionViewController: UICollectionViewController {
     
    let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
+ 
+   let statsDataLoad = StatsDataLoad()
     
+    var playerArray = [] as Array<String>
+    var dateArray = [] as Array<Date>
+    var attemptArray = [] as Array<Int>
+    var makesArray = [] as Array<Int>
+    var percentArray = [] as Array<Double>
    
-   let manager = StatsDataLoad()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        collectionView.dataSource = self
+        
+        statsDataLoad.rosterQuery(pName: player, team: team, completion: { qResults in
+            
+            DispatchQueue.main.async {
+                
+           // self.queryResults = qResults
+        
+                self.playerArray = qResults.playerArray
+                
+                self.dateArray = qResults.dateArray
+            
+                self.attemptArray = qResults.attemptArray
+                
+                self.makesArray = qResults.makesArray
+                
+                self.percentArray = qResults.percentArray
+               
+  
+                print("# in playerArray: ", self.playerArray.count as Any)
+                
+                
+               self.collectionView.reloadData()
+               print("reloadData")
+                
+               print("playerArray after reloadData: ", self.playerArray as Any)
+                
+                
+            } //DispatchQueue
+           
+    
+            
+        } ) // completion
+        
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -36,12 +78,20 @@ class StatsCollectionViewController: UICollectionViewController {
     }  //viewDidLoad
 
    
-   lazy var resultsArray = manager.rosterQuery(pName: player, team: team)
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+        return headerView
+    } // collectionView for viewForSupplementary
+    
+    
+    
+    
+ //  lazy var resultsArray = statsDataLoad.rosterQuery(pName: player, team: team)
     
     
     // Code for selecting cell
     func locationItem(at index:IndexPath) -> String {
-        resultsArray.playerArray[index.item]
+        self.playerArray[index.item]
     } //locationItem func
     
 
@@ -53,7 +103,7 @@ class StatsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-       let statsLength = resultsArray.playerArray.count
+       let statsLength = self.playerArray.count
         
       //  print("statsLength in CollectionViewController: ", statsLength)
         
@@ -67,12 +117,12 @@ class StatsCollectionViewController: UICollectionViewController {
         if let playCell = collectionView.dequeueReusableCell(withReuseIdentifier: "playerCell", for: indexPath) as? StatsCollectionViewCell {
         
        
-            playCell.player.text = resultsArray.playerArray[indexPath.row]
+            playCell.player.text = self.playerArray[indexPath.row]
             
             
-            playCell.attempts.text = String(resultsArray.attemptArray[indexPath.row])
+            playCell.attempts.text = String(self.attemptArray[indexPath.row])
             
-            playCell.makes.text = String(resultsArray.makesArray[indexPath.row])
+            playCell.makes.text = String(self.makesArray[indexPath.row])
            
             
             let dateFormatter = DateFormatter()
@@ -83,9 +133,9 @@ class StatsCollectionViewController: UICollectionViewController {
         
           // playCell.dateCreated.text =  String(resultsArray.dateArray[indexPath.row])
             
-           playCell.dateCreated.text = dateFormatter.string(from: resultsArray.dateArray[indexPath.row])
+           playCell.dateCreated.text = dateFormatter.string(from: self.dateArray[indexPath.row])
             
-           playCell.percentage.text = String(resultsArray.percentArray[indexPath.row])
+           playCell.percentage.text = String(self.percentArray[indexPath.row])
             
             playerCell = playCell
           
@@ -124,9 +174,9 @@ class StatsCollectionViewController: UICollectionViewController {
             let vcStats = vcTeam.viewControllers.first as! PlayerStatsCollectionViewController
             
             
-        vcStats.player = selectedPlayer
+       vcStats.player = selectedPlayer
        
-        print("vcStats.player: ", vcStats.player)
+       // print("vcStats.player: ", vcStats.player)
            
         vcStats.team = self.team
         print("vcStats.team: ", vcStats.team)

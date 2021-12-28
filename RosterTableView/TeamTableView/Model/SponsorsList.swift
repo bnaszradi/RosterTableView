@@ -19,7 +19,12 @@ class SponsorsList {
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    func sponsorsQuery(tName: String, pName: String, eDate: Date) -> (resultsSponsorArray: Array<String>, resultsAmountPerArray: Array<Double>, resultsDonationArray: Array<Double>) {
+  //  func sponsorsQuery(tName: String, pName: String, eDate: Date) -> (resultsSponsorArray: Array<String>, resultsAmountPerArray: Array<Double>, resultsDonationArray: Array<Double>) {
+    
+ //   func sponsorQuery(tName: String, pName: String, eDate: Date, completion: @escaping (QsponsorQuery)->Void) {
+        
+    func sponsorQuery(tName: String, pName: String, eDate: Date, eName: String,  completion: @escaping (QsponsorQuery)->Void) {
+          
      
         var resultsSponsorArray = [] as Array<String>
        
@@ -33,11 +38,15 @@ class SponsorsList {
       print("pName in SponsorList: ", pName)
         
       print("eDate in SponsorList: ", eDate)
-       
         
+      print("eName in SponsorList: ", eName)
+         
         
-      // This predicate does work
-       let eventsPredicate = NSPredicate(format: "team == %@ AND player == %@ AND eventDate == %@" , tName, pName, eDate as CVarArg)
+      // This predicate does not work because the eName is not in the sponsor DB
+     //  let eventsPredicate = NSPredicate(format: "team == %@ AND player == %@ AND eventDate == %@ AND eName == %@" , tName, pName, eDate as CVarArg, eName)
+        
+        let eventsPredicate = NSPredicate(format: "team == %@ AND player == %@ AND eventDate == %@" , tName, pName, eDate as CVarArg)
+        
         
       // let eventsPredicate = NSPredicate(format: "team == %@ AND player == %@" , tName, pName)
         
@@ -56,7 +65,7 @@ class SponsorsList {
          let qOperation = CKQueryOperation.init(query: query)
         
          qOperation.resultsLimit = 25
-         print("qOperation resultsLimit: ", qOperation.resultsLimit)
+        // print("qOperation resultsLimit: ", qOperation.resultsLimit)
     
      //    qOperation.recordFetchedBlock = { record in
      
@@ -84,22 +93,32 @@ class SponsorsList {
              */
              
               }  //recordFetchedBlock
-              
+       
+        qOperation.queryCompletionBlock = { cursor, error in
+                   
+            
+            print("ResultsSponsorArray in CompletionBlock: ", resultsSponsorArray)
+             
+            let queryCount = resultsSponsorArray.count
+           
+            print("Number rows in array in queryCompletionBlock: ", queryCount)
+            
+            
+            let qsponsorQuery = QsponsorQuery(resultsSponsorArray: resultsSponsorArray, resultsAmountArray: resultsAmountArray, resultsDonationArray: resultsDonationArray)
+            
+            completion(qsponsorQuery)
+            
+            
+        } // qOperttion queryCompletionBlock
+      
+        
+        
+        
      CKContainer.default().publicCloudDatabase.add(qOperation)
      
      
-         qOperation.queryCompletionBlock = { cursor, error in
-                    
-             
-             print("ResultsSponsorArray in CompletionBlock: ", resultsSponsorArray)
-              
-             let queryCount = resultsSponsorArray.count
-            
-             print("Number rows in array in queryCompletionBlock: ", queryCount)
-          
-         } // qOperttion queryCompletionBlock
-       
-     
+        
+    /*
       print("ResultsSponsorArray before loop: ", resultsSponsorArray)
      
      var counter: Int = 0
@@ -112,11 +131,14 @@ class SponsorsList {
      
     return (resultsSponsorArray, resultsAmountArray, resultsDonationArray)
     
+        */
+        
   } //eventsQuery func
    
     
-    func sponsorRecordQuery(tName: String, pName: String, eDate: Date, sponsorN: String) -> (sponsorArray: Array<String>, perShotArray: Array<Double>, donationArray: Array<Double>)  {
-        
+  //  func sponsorRecordQuery(tName: String, pName: String, eDate: Date, sponsorN: String) -> (sponsorArray: Array<String>, perShotArray: Array<Double>, donationArray: Array<Double>)  {
+    
+    func sponsorRecordQuery(tName: String, pName: String, eDate: Date, sponsorN: String, completion: @escaping (QsponsorRecordQuery)->Void) {
         
         var sponsorArray = [] as Array<String>
         var perShotArray = [] as Array<Double>
@@ -132,8 +154,6 @@ class SponsorsList {
         
         
        let sponsorPredicate = NSPredicate(format: "team == %@ AND player == %@ AND eventDate == %@ AND sponsorName == %@" , tName, pName, eDate as CVarArg, sponsorN)
-        
-        
         
         // search without team and eventDate
       // let sponsorPredicate = NSPredicate(format: "player == %@ AND sponsorName == %@", pName, sponsorN)
@@ -158,15 +178,6 @@ class SponsorsList {
         let donation = record["donation"] as! Double
         donationArray.append(donation)
         
-        
-        
-   /*
-   qOperation.recordFetchedBlock = { (record : CKRecord!) in
-    
-    let sponsor = [record.value(forKey: "sponsorName") as! String]
-    
-   resultsSponsorArray.append(contentsOf: sponsor)
-   */
     
     let sponsorNum = sponsorArray.count
     
@@ -175,21 +186,28 @@ class SponsorsList {
    }  //recordFetchedBlock
     
     
-    CKContainer.default().publicCloudDatabase.add(qOperation)
-    
-    
-        qOperation.queryCompletionBlock = { cursor, error in
+    qOperation.queryCompletionBlock = { cursor, error in
                    
-            
             print("ResultsSponsorArray in CompletionBlock: ", sponsorArray)
              
             let queryCount = sponsorArray.count
            
             print("Number rows in array in queryCompletionBlock: ", queryCount)
-         
+        
+        
+        let qsponsorRecordQuery = QsponsorRecordQuery(sponsorArray: sponsorArray, perShotArray: perShotArray, donationArray: donationArray)
+        
+        completion(qsponsorRecordQuery)
+        
+        
         } // qOperttion queryCompletionBlock
       
+        
+    CKContainer.default().publicCloudDatabase.add(qOperation)
     
+    
+       
+    /*
      print("ResultsSponsorArray before loop: ", sponsorArray)
     
     var counter: Int = 0
@@ -202,17 +220,17 @@ class SponsorsList {
     
    return (sponsorArray, perShotArray, donationArray)
 
-    
+    */
     } // sponsorRecordQuery
     
     
     
-    func querySponsor(tName: String, pName: String, eDate: Date, sponsorN: String) -> CKRecord.ID   {
+  //  func querySponsor(tName: String, pName: String, eDate: Date, sponsorN: String) -> CKRecord.ID   {
     
+    func querySponsor(tName: String, pName: String, eDate: Date, sponsorN: String, completion: @escaping (QquerySponsor)->Void) {
    
         print("team in EventTeamCheck: ", tName)
         
-         
       //  var resultsID =  (recordType: "events")
     
         var resultsID: CKRecord.ID = CKRecord.ID()
@@ -227,19 +245,8 @@ class SponsorsList {
          
         let queryOp = CKQueryOperation(query: query)
         
-        
-            
-        //qOperation.resultsLimit = 25
         queryOp.resultsLimit = 25
        
- 
-        
-        // This is non-structure data fetch
-       //  queryOp.recordFetchedBlock = { record in
-        
-     //   queryOp.recordFetchedBlock = { (record : CKRecord) in
-              
-        
         queryOp.recordFetchedBlock = { record in
             
           //  DispatchQueue.main.async {
@@ -262,19 +269,24 @@ class SponsorsList {
              
                  }  //recordFetchedBlock
         
-      
-   // CKContainer.default().publicCloudDatabase.add(qOperation)
+        
+        queryOp.queryCompletionBlock = { cursor, error in
+            
+         let qquerySponsor = QquerySponsor(resultsID: resultsID)
+            
+            completion(qquerySponsor)
+            
+        } // qOperttion queryCompletionBlock
+    
+        
         CKContainer.default().publicCloudDatabase.add(queryOp)
     
     
       //  qOperation.queryCompletionBlock = { cursor, error in
-        queryOp.queryCompletionBlock = { cursor, error in
-            
-         
-        } // qOperttion queryCompletionBlock
-    
+       
    
     
+        /*
    // if playerArray.isEmpty  {
        
         var counter: Int = 0
@@ -288,11 +300,14 @@ class SponsorsList {
         
         return resultsID
    
+        */
+        
  } // querySponsor
 
 
-    func sponsorPhoneQuery(tName: String, pName: String, eDate: Date, sponsorN: String) -> (phoneN: Int, perShot: Double, donation: Double) {
-        
+ //   func sponsorPhoneQuery(tName: String, pName: String, eDate: Date, sponsorN: String) -> (phoneN: Int, perShot: Double, donation: Double) {
+       
+    func sponsorPhoneQuery(tName: String, pName: String, eDate: Date, sponsorN: String, completion: @escaping (QsponsorPhoneQuery)->Void) {
     
         var sponsorPhone: Int = 0
         var perShot: Double = 0.0
@@ -321,15 +336,20 @@ class SponsorsList {
        
    }  //recordFetchedBlock
     
-    
+        qOperation.queryCompletionBlock = { cursor, error in
+              
+            let qsponsorPhoneQuery = QsponsorPhoneQuery(sponsorPhone: sponsorPhone, perShot: perShot, donation: donation)
+               
+               completion(qsponsorPhoneQuery)
+               
+            
+        } // qOperttion queryCompletionBlock
+      
     CKContainer.default().publicCloudDatabase.add(qOperation)
     
     
-        qOperation.queryCompletionBlock = { cursor, error in
-                   
-        } // qOperttion queryCompletionBlock
-      
-    
+       
+    /*
    //  print("ResultsSponsorArray before loop: ", sponsorArray)
     
     var counter: Int = 0
@@ -342,12 +362,9 @@ class SponsorsList {
     
    return (sponsorPhone, perShot, donation)
 
-    
+   */
     } // sponsorPhoneQuery
     
-    
-    
-    
-    
+
   
 }  // QueryEvents

@@ -30,9 +30,55 @@ class EventPlayerStatsCollectionViewController: UICollectionViewController {
     
     var eventPlayerVariable: Bool = false
     
+    var playerArray = [] as Array<String>
+    var dateArray = [] as Array<Date>
+    var attemptArray = [] as Array<Int>
+    var makesArray = [] as Array<Int>
+    var percentArray = [] as Array<Double>
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Code to fetch the CKRecord.ID from event DB for team, eName, eDate
+        playerTeamData.queryPlayerEvent(team: team, eventName: eventName, eventDate: eDate, completion: { qqueryPlayerEvent in
+            
+            DispatchQueue.main.async {
+              
+            let eventRecord = qqueryPlayerEvent.results
+                
+        // Code to query player DB for records for event with CKRecord.ID
+               
+        // lazy var resultsArray = statsDataLoad.eventPlayerQuery(pName: player, eventRecord: eventRecord)
+            self.statsDataLoad.eventPlayerQuery(pName: self.player, eventRecord: eventRecord, completion: { qeventPlayerQuery in
+                    
+                DispatchQueue.main.async {
+                   
+                self.playerArray = qeventPlayerQuery.playerArray
+                    
+                self.dateArray = qeventPlayerQuery.dateArray
+            
+                self.attemptArray = qeventPlayerQuery.attemptArray
+                
+                self.makesArray = qeventPlayerQuery.makesArray
+        
+                self.percentArray = qeventPlayerQuery.percentArray
+                    
+                self.collectionView.reloadData()
+                    print("reloadData")
+                      
+                }  // DispatchQueue
+                
+            } )  // Completionhandler  statsDataLoad.eventPlayerQuery
+                    
+                
+            }  // DispatchQueue
+            
+        } ) // Completionhandler playerTeamData.queryPlayerEvent
+                
+        
     } //viewDidLoad
 
     
@@ -42,7 +88,7 @@ class EventPlayerStatsCollectionViewController: UICollectionViewController {
     
     
     // Code to fetch the CKRecord.ID from event DB for team, eName, eDate
-    lazy var eventRecord = playerTeamData.queryPlayerEvent(team: team, eventName: eventName, eventDate: eDate)
+  //  lazy var eventRecord = playerTeamData.queryPlayerEvent(team: team, eventName: eventName, eventDate: eDate)
 
    // let playerID = playerRecord.recordID
     
@@ -53,7 +99,7 @@ class EventPlayerStatsCollectionViewController: UICollectionViewController {
    
     // Code to query player DB for records for event with CKRecord.ID
    
-    lazy var resultsArray = statsDataLoad.eventPlayerQuery(pName: player, eventRecord: eventRecord)
+   // lazy var resultsArray = statsDataLoad.eventPlayerQuery(pName: player, eventRecord: eventRecord)
     
    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -64,8 +110,9 @@ class EventPlayerStatsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let statsLength = resultsArray.playerArray.count
-         
+      //  let statsLength = resultsArray.playerArray.count
+        let statsLength = playerArray.count
+        
         // let statsLength = resultsArray.count
          print("statsLength in PlayerCollectionViewController: ", statsLength)
          
@@ -80,22 +127,25 @@ class EventPlayerStatsCollectionViewController: UICollectionViewController {
         
         if let playCell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventPlayerCell", for: indexPath) as? EventPlayerStatsCollectionViewCell {
         
-            playCell.player.text = resultsArray.playerArray[indexPath.row]
+         //   playCell.player.text = resultsArray.playerArray[indexPath.row]
+            playCell.player.text = playerArray[indexPath.row]
             
-            
-            playCell.attempts.text = String(resultsArray.attemptArray[indexPath.row])
-            
-            playCell.makes.text = String(resultsArray.makesArray[indexPath.row])
-           
+          //  playCell.attempts.text = String(resultsArray.attemptArray[indexPath.row])
+            playCell.attempts.text = String(attemptArray[indexPath.row])
+              
+         //   playCell.makes.text = String(resultsArray.makesArray[indexPath.row])
+            playCell.makes.text = String(makesArray[indexPath.row])
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .short
             dateFormatter.timeStyle = .short
             
             
-           playCell.dateCreated.text = dateFormatter.string(from: resultsArray.dateArray[indexPath.row])
+         //  playCell.dateCreated.text = dateFormatter.string(from: resultsArray.dateArray[indexPath.row])
+            playCell.dateCreated.text = dateFormatter.string(from: dateArray[indexPath.row])
             
-           playCell.percentage.text = String(resultsArray.percentArray[indexPath.row])
+          // playCell.percentage.text = String(resultsArray.percentArray[indexPath.row])
+            playCell.percentage.text = String(percentArray[indexPath.row])
             
             playerCell = playCell
             

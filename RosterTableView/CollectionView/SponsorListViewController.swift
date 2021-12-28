@@ -12,6 +12,21 @@ private let reuseIdentifier = "Cell"
 
 class SponsorListViewController: UICollectionViewController {
 
+    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+    
+    var team = ""
+    var playerName = ""
+    var eventName = ""
+    var eventDate = Date()
+    var selectedSponsor = ""
+    
+    let sponsorsList = SponsorsList()
+    
+    var resultsSponsorArray: Array<String> = []
+    var resultsAmountArray: Array<Double> = []
+    var resultsDonationArray: Array<Double> = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,31 +36,62 @@ class SponsorListViewController: UICollectionViewController {
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
+        print("eventName in SponsorList viewDidLoad: ", eventName)
+        
+        sponsorsList.sponsorQuery(tName: team, pName: playerName, eDate: eventDate, eName: eventName, completion: { qsponsorQuery in
+            
+            
+            DispatchQueue.main.async {
+            
+            self.resultsSponsorArray = qsponsorQuery.resultsSponsorArray
+            print("resultsSponsorArray: ", self.resultsSponsorArray)
+                    
+            self.resultsAmountArray = qsponsorQuery.resultsAmountArray
+            print("resultsAmountArray: ", self.resultsAmountArray)
+                
+            self.resultsDonationArray = qsponsorQuery.resultsDonationArray
+            print("resultsDonatonArray: ", self.resultsDonationArray)
+                
+                    
+            self.collectionView.reloadData()
+            print("reloadData")
+                                    
+                
+            }  // DispatchQueue
+            
+        })  // completionhandler sponsorList.sponsorQuery
+        
         
     } // viewDidLoad
 
     
-    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    var team = ""
-    var playerName = ""
-    var eventName = ""
-    var eventDate = Date()
-    var selectedSponsor = ""
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+       
+        var headerView = SponsorReusableView()
+       
+        
+        if let headerViewText = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerViewText", for: indexPath) as? SponsorReusableView {
+        
+        headerViewText.eventN.text = self.eventName
+        
+        headerView = headerViewText
+            
+       
+        } // if let headerViewText
+            
+        return headerView
+        
+    } // collectionView for viewForSupplementary
     
     
-    // Add Datasource
     
-    let sponsorList = SponsorsList()
-    
-    
-    
-    lazy var resultsArray = sponsorList.sponsorsQuery(tName: team, pName: playerName, eDate: eventDate)
+  //  lazy var resultsArray = sponsorList.sponsorsQuery(tName: team, pName: playerName, eDate: eventDate)
     
     
     // Code for selecting cell
     func locationItem(at index:IndexPath) -> String {
-        resultsArray.resultsSponsorArray[index.item]
+        self.resultsSponsorArray[index.item]
     } //locationItem func
     
     
@@ -57,7 +103,7 @@ class SponsorListViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let resultsLength = resultsArray.resultsSponsorArray.count
+        let resultsLength = self.resultsSponsorArray.count
         
         return resultsLength
     } // numberOfItemsInSection
@@ -69,11 +115,11 @@ class SponsorListViewController: UICollectionViewController {
         if let sponsorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "sponsorCell", for: indexPath) as? SponsorListCollectionViewCell {
         
         
-            sponsorCell.sponsorName.text = String(resultsArray.resultsSponsorArray[indexPath.row])
+            sponsorCell.sponsorName.text = String(self.resultsSponsorArray[indexPath.row])
             
-            sponsorCell.amountPerShot.text = String(resultsArray.resultsAmountPerArray[indexPath.row])
+            sponsorCell.amountPerShot.text = String(self.resultsAmountArray[indexPath.row])
             
-            sponsorCell.donation.text = String(resultsArray.resultsDonationArray[indexPath.row])
+            sponsorCell.donation.text = String(self.resultsDonationArray[indexPath.row])
             
         
            sponsorsCell = sponsorCell
@@ -191,10 +237,33 @@ class SponsorListViewController: UICollectionViewController {
        // resultsArray = manager.eventsQuery(tName: team)
             
         
-        resultsArray = sponsorList.sponsorsQuery(tName: team, pName: playerName, eDate: eventDate)
+       // resultsArray = sponsorList.sponsorsQuery(tName: team, pName: playerName, eDate: eventDate)
         
-        self.collectionView.reloadData()
+       // self.collectionView.reloadData()
           
+        sponsorsList.sponsorQuery(tName: team, pName: playerName, eDate: eventDate, eName: eventName, completion: { qsponsorQuery in
+            
+            DispatchQueue.main.async {
+            
+            self.resultsSponsorArray = qsponsorQuery.resultsSponsorArray
+            print("resultsSponsorArray: ", self.resultsSponsorArray)
+                    
+            self.resultsAmountArray = qsponsorQuery.resultsAmountArray
+            print("resultsAmountArray: ", self.resultsAmountArray)
+                
+            self.resultsDonationArray = qsponsorQuery.resultsDonationArray
+            print("resultsDonatonArray: ", self.resultsDonationArray)
+                
+            self.collectionView.reloadData()
+            print("reloadData")
+                                    
+            }  // DispatchQueue
+            
+        })  // completionhandler sponsorList.sponsorQuery
+        
+        
+        
+        
         
        } //unwindSponsorMgmt
     

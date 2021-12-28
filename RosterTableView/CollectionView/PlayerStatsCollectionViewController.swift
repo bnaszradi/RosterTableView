@@ -28,17 +28,70 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
     var eventName: String = ""
     var eDate: Date = Date()
     
+    var results = CKRecord(recordType: "team")
+    
+    var playerArray = [] as Array<String>
+   // var playerArray = ["Loading..."]
+    
+    var dateArray = [] as Array<Date>
+    var attemptArray = [] as Array<Int>
+    var makesArray = [] as Array<Int>
+    var percentArray = [] as Array<Double>
+    
+
+    
    // var eventPlayerVariable: Bool = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        playerTeamData.queryPlayer(pName: player, team: team, completion: { qResults in
         
-      //  var playerRecord = playerTeam.queryPlayer(pName: player, team: team)
+            
+            DispatchQueue.main.sync {
+                
+           // self.queryResults = qResults
         
-      //  resultsArray = playerManager.playerQuery(pName: player, teamRecord: playerRecord)
-       
+                self.results = qResults.playerRecord
+                
+                
+                print("results in PlayerStatsViewController viewDidLoad: ", self.results as Any)
+                
+                
+           } //DispatchQueue
+          
+        
+            self.statsDataLoad.playerQuery(pName: self.player, teamRecord: self.results, completion: { playerQueryResults in
+                
+           
+              DispatchQueue.main.async {
+                    
+                    self.playerArray = playerQueryResults.playerArray
+                    
+                    self.dateArray = playerQueryResults.dateArray
+                    
+                    self.attemptArray = playerQueryResults.attemptArray
+              
+                    self.makesArray = playerQueryResults.makesArray
+                    
+                    self.percentArray = playerQueryResults.percentArray
+                    
+                   
+                   self.collectionView.reloadData()
+                   print("reloadData")
+                    
+                    print("playerArray after reloadData ", self.playerArray as Any)
+                
+                } //DispatchQueue
+               
+            } ) // playerQueryResults completion
+            
+        
+                
+        } ) // qResults completion
+    
+ 
         
     } //viewDidLoad
 
@@ -48,11 +101,39 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
     
     
     //code to fetch the CKRecord.ID from team DB for player and teamName fields
-   lazy var playerRecord = playerTeamData.queryPlayer(pName: player, team: team)
+  // lazy var playerRecord = playerTeamData.queryPlayer(pName: player, team: team)
     
    
-   lazy var resultsArray = statsDataLoad.playerQuery(pName: player, teamRecord: playerRecord)
+ //  lazy var resultsArray = statsDataLoad.playerQuery(pName: player, teamRecord: playerRecord)
    
+    
+    /*
+    statsDataLoad.playerQuery(pName: player, teamRecord: results, completion: { playerQueryResults in
+        
+   
+      DispatchQueue.main.async {
+            
+            self.playerArray = playerQueryResults.playerArray
+            
+            self.dateArray = playerQueryResults.dateArray
+            
+            self.attemptArray = playerQueryResults.attemptArray
+      
+            self.makesArray = playerQueryResults.makesArray
+            
+            self.percentArray = playerQueryResults.percentArray
+            
+           
+           self.collectionView.reloadData()
+           print("reloadData")
+            
+            print("playerArray after reloadData ", self.playerArray as Any)
+        
+        } //DispatchQueue
+       
+    }  ) // playerQueryResults completion
+   */
+    
   
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         
@@ -62,7 +143,7 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let statsLength = resultsArray.playerArray.count
+        let statsLength = self.playerArray.count
          
         // let statsLength = resultsArray.count
          print("statsLength in PlayerCollectionViewController: ", statsLength)
@@ -78,12 +159,13 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
         
         if let playCell = collectionView.dequeueReusableCell(withReuseIdentifier: "playerCell", for: indexPath) as? PlayerStatsCollectionViewCell {
         
-            playCell.player.text = resultsArray.playerArray[indexPath.row]
+            playCell.player.text = self.playerArray[indexPath.row]
             
+            if self.attemptArray.count > 0 {
+                
+            playCell.attempts.text = String(self.attemptArray[indexPath.row])
             
-            playCell.attempts.text = String(resultsArray.attemptArray[indexPath.row])
-            
-            playCell.makes.text = String(resultsArray.makesArray[indexPath.row])
+            playCell.makes.text = String(self.makesArray[indexPath.row])
            
             
             let dateFormatter = DateFormatter()
@@ -91,10 +173,12 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
             dateFormatter.timeStyle = .short
             
             
-           playCell.dateCreated.text = dateFormatter.string(from: resultsArray.dateArray[indexPath.row])
+           playCell.dateCreated.text = dateFormatter.string(from: self.dateArray[indexPath.row])
             
-           playCell.percentage.text = String(resultsArray.percentArray[indexPath.row])
-            
+           playCell.percentage.text = String(self.percentArray[indexPath.row])
+          
+            } // if attemptArray.count > 0
+                
             playerCell = playCell
             
         } //playerCell

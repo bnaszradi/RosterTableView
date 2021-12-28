@@ -20,18 +20,23 @@ class UpdateDonationsTotals {
     //totalsUpdateWithShots
     //totalsUpdate
     //createDonationRecord
-    //func queryDonationPlayers
+    //queryDonationPlayers
+    //queryDonations
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
     
     let playerSearch = PlayerTeamData()
     
-    let eventRecord = EventTeamCheck()
+    let eventTeamRecord = EventTeamCheck()
     
 
-    func querySponsorWithShots(tName: String, pName: String, eDate: Date) -> (sponsorID: CKRecord.ID, totAttempt: Int, totMake: Int, totPerShot: Double, totFlatDon: Double, totalDonation: Double )   {
+   // func querySponsorWithShots(tName: String, pName: String, eDate: Date) -> (sponsorID: CKRecord.ID, totAttempt: Int, totMake: Int, totPerShot: Double, totFlatDon: Double, totalDonation: Double )   {
     
+    func querySponsorWithShots(tName: String, pName: String, eDate: Date, completion: @escaping (QSponsorWithShots)->Void) {
+        
+        print("querySponsorWithShots started")
+        
         var sponsorID: CKRecord.ID = CKRecord.ID()
         
         var totAttempt: Int = 0
@@ -39,9 +44,14 @@ class UpdateDonationsTotals {
         var totPerShot: Double = 0.0
         var totFlatDon: Double = 0.0
         var totalDonation: Double = 0.0
+        print("tName in querySponsorWithShots: ", tName)
+        print("pName in querySponsorWithShots: ", pName)
+        print("eDate in querySponsorWithShots: ", eDate)
         
         
         let sponsorPredicate = NSPredicate(format: "player == %@ AND team == %@ AND eventDate == %@", pName, tName, eDate as CVarArg)
+        
+       // let sponsorPredicate = NSPredicate(format: "player == %@ AND eventDate == %@", pName, eDate as CVarArg)
         
         
         let query = CKQuery(recordType: "donations", predicate: sponsorPredicate)
@@ -57,22 +67,25 @@ class UpdateDonationsTotals {
        queryOp.recordFetchedBlock = { record in
         
       // queryOp.recordFetchedBlock = { (record : CKRecord) in
-              
-          //  DispatchQueue.main.async {
-              
-               
-          let spons = record.recordID
+         
+       // DispatchQueue.main.async {
+           
+         print("recordFetchedBlock started in UpdateDonationTotals")
+           
+         //  let team = record["team"] as! String
+         //  teamArray.append(team)
+   
+           
+         let spons = record.recordID
         
           sponsorID = spons
         
            print("sponsorID: ", sponsorID)
             
         totAttempt = record.value(forKey: "totAttempt") as! Int
-        
         print("totAttempt: ", totAttempt)
             
         totMake = record.value(forKey: "totMake") as! Int
-        
         print("totMake: ", totMake)
             
         totPerShot = record.value(forKey: "totPerShot") as! Double
@@ -84,19 +97,30 @@ class UpdateDonationsTotals {
         totalDonation = record.value(forKey: "totalDonation") as! Double
         print("totalDonation: ", totalDonation)
            
-             
-                 }  //recordFetchedBlock
+       //    } // DispatchQueue
+           
+            }  //recordFetchedBlock
         
       
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    
         queryOp.queryCompletionBlock = { cursor, error in
             
-         
+            
+            let qSponsWithShots = QSponsorWithShots(sponsorID: sponsorID, totAttempt: totAttempt, totMake: totMake, totPerShot: totPerShot, totFlatDon: totFlatDon, totalDonation: totalDonation)
+            
+            
+            print("queryCompletionBlock sponsorID  in UpdateDonationsTotals: ", qSponsWithShots.sponsorID)
+            
+            print("queryCompletionBlock totAttempt  in UpdateDonationsTotals: ", qSponsWithShots.totAttempt)
+            
+            
+            completion(qSponsWithShots)
+            
         } // qOperttion queryCompletionBlock
     
-   
+        
+        CKContainer.default().publicCloudDatabase.add(queryOp)
+    
+   /*
     
    // if playerArray.isEmpty  {
        
@@ -111,13 +135,17 @@ class UpdateDonationsTotals {
         
         return (sponsorID, totAttempt, totMake, totPerShot, totFlatDon, totalDonation)
    
+        */
+        
  } // querySponsorWithShots
     
     
     
-    func queryDonationWithShots(tName: String, eDate: Date) -> (playerN: Array<String>, totAttempt: Array<Int>, totMake: Array<Int>, totPerShot: Array<Double>, totFlatDon: Array<Double>, totalDonation: Array<Double> )   {
+  //  func queryDonationWithShots(tName: String, eDate: Date) -> (playerN: Array<String>, totAttempt: Array<Int>, totMake: Array<Int>, totPerShot: Array<Double>, totFlatDon: Array<Double>, totalDonation: Array<Double> )   {
     
-
+    func queryDonationWithShots(tName: String, eDate: Date, completion: @escaping (QqueryDonationWithShots)->Void) {
+    
+    
         var playerArray = [] as Array<String>
         var totAttemptArray = [] as Array<Int>
         var totMakeArray = [] as Array<Int>
@@ -166,17 +194,25 @@ class UpdateDonationsTotals {
              
                  }  //recordFetchedBlock
         
-      
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    
+        
         queryOp.queryCompletionBlock = { cursor, error in
+            
+            
+        let qqueryDonationWithShots = QqueryDonationWithShots(playerArray: playerArray, totAttemptArray: totAttemptArray, totMakeArray: totMakeArray, totPerShotArray: totPerShotArray, totFlatDonArray: totFlatDonArray, totalDonationArray: totalDonationArray)
+            
+        completion(qqueryDonationWithShots)
             
          
         } // qOperttion queryCompletionBlock
     
-   
+        
+      
+        CKContainer.default().publicCloudDatabase.add(queryOp)
     
+    
+       
+   
+    /*
    // if playerArray.isEmpty  {
        
         var counter: Int = 0
@@ -189,7 +225,8 @@ class UpdateDonationsTotals {
         //print("results before return: ", results)
         
         return (playerArray, totAttemptArray, totMakeArray, totPerShotArray, totFlatDonArray, totalDonationArray)
-   
+   */
+        
  } // queryDonationWithShots
 
     
@@ -290,8 +327,10 @@ class UpdateDonationsTotals {
     
     
     
-    func queryCheckSponsor(tName: String, pName: String, eDate: Date) -> (team: Array<String>, player: Array<String>, eventDate: Array<Date>)   {
-    
+  //  func queryCheckSponsor(tName: String, pName: String, eDate: Date) -> (team: Array<String>, player: Array<String>, eventDate: Array<Date>)   {
+        
+    func queryCheckSponsor(tName: String, pName: String, eDate: Date, completion: @escaping (QCheckSponsor)->Void)  {
+          
         var teamArray = [] as Array<String>
         var playerArray = [] as Array<String>
         var eventDateArray = [] as Array<Date>
@@ -307,16 +346,12 @@ class UpdateDonationsTotals {
         
         let query = CKQuery(recordType: "donations", predicate: sponsorPredicate)
         
-         
         let queryOp = CKQueryOperation(query: query)
         
-        
-            
         //qOperation.resultsLimit = 25
         queryOp.resultsLimit = 25
        
  
-        
         // This is non-structure data fetch
        queryOp.recordFetchedBlock = { record in
         
@@ -325,29 +360,30 @@ class UpdateDonationsTotals {
           //  DispatchQueue.main.async {
               
         
-        let team = record["team"] as! String
-        teamArray.append(team)
+                let team = record["team"] as! String
+                teamArray.append(team)
         
-        let player = record["player"] as! String
-        playerArray.append(player)
+                let player = record["player"] as! String
+                playerArray.append(player)
         
-        let eventDate = record["eventDate"] as! Date
-        eventDateArray.append(eventDate)
+                let eventDate = record["eventDate"] as! Date
+                eventDateArray.append(eventDate)
+        
+
+            }  //recordFetchedBlock
         
         
-                    
-                 }  //recordFetchedBlock
-        
-      
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    
         queryOp.queryCompletionBlock = { cursor, error in
             
-         
+            let qCheckSpons = QCheckSponsor(teamArray: teamArray, playerArray: playerArray, eventDateArray: eventDateArray)
+            
+            completion(qCheckSpons)
+            
         } // qOperttion queryCompletionBlock
     
-   
+        CKContainer.default().publicCloudDatabase.add(queryOp)
+    
+   /*
     
    // if playerArray.isEmpty  {
        
@@ -361,16 +397,19 @@ class UpdateDonationsTotals {
         //print("results before return: ", results)
         
         return (teamArray, playerArray, eventDateArray)
-   
+   */
+        
  } // queryCheckSponsor
    
     
     
     
   
-    func totalsUpdateWithShots(sponsorID: CKRecord.ID, teamName: String, pName: String, totalAttempt: Int, totalMake: Int, totalPerShot: Double, totalFlatDonation: Double, totalDonation: Double)  {
+   func totalsUpdateWithShots(sponsorID: CKRecord.ID, teamName: String, pName: String, totalAttempt: Int, totalMake: Int, totalPerShot: Double, totalFlatDonation: Double, totalDonation: Double)  {
         
-    print("sponsorID in totalsUpdate: ", sponsorID)
+        
+        
+        print("sponsorID in totalsUpdate: ", sponsorID)
    
         
         
@@ -482,39 +521,56 @@ class UpdateDonationsTotals {
     }  // func totalsUpdate
     
     
-    func createDonationRecord(teamName: String, pName: String, eDate: Date, totAttempts: Int, totMakes: Int,  totPerShot: Double, totFlatDonation: Double, totalDonation: Double, eventName: String)  {
+    func createDonationRecord(teamName: String, pName: String, eDate: Date, totAttempts: Int, totMakes: Int,  totPerShot: Double, totFlatDonation: Double, totalDonation: Double, eventName: String, recordPlayer: CKRecord)  {
         
-
+    
+        let eventTeamCheck = EventTeamCheck()
+        
         let recordDonation = CKRecord(recordType: "donations")
         
-        let playerRef = playerSearch.queryPlayer(pName: pName, team: teamName)
         
-        recordDonation["playerRef"] = CKRecord.Reference(record: playerRef, action: .deleteSelf)
+        
+        
+   //     let playerRef = playerSearch.queryPlayer(pName: pName, team: teamName)
+        
+        
+        print("recordPlayer in upDateDonationTotals.createDonationRecord: ", recordPlayer)
+        
+        recordDonation["playerRef"] = CKRecord.Reference(record: recordPlayer, action: .deleteSelf)
                 
         
-        let eventRef = eventRecord.querySingleEvent(team: teamName, eventD: eDate)
+      //  let eventRef = eventRecord.querySingleEvent(team: teamName, eventD: eDate)
+        
+    
+      //  eventTeamRecord.querySingleEvent(team: teamName, eventD: eDate, completion: { qSingleEvent in
+        
+        eventTeamCheck.querySingleEvent(team: teamName, eventD: eDate, completion: { qSingleEvent in
+          
+            DispatchQueue.main.async {
+              
+        let eventRef = qSingleEvent.recordResults
         
         recordDonation["eventsRef"] = CKRecord.Reference(record: eventRef, action: .deleteSelf)
+                
+      //  recordDonation["playerRef"] = CKRecord.Reference(record: recordPlayer, action: .deleteSelf)
         
+        recordDonation["team"] = teamName
         
+        recordDonation["player"] = pName
         
-    recordDonation["team"] = teamName
+        recordDonation["totAttempt"] = totAttempts
+        //     print("totalAttempts in totalsUpdate: ", totalAttempt)
+        recordDonation["eventDate"] = eDate
         
-   recordDonation["player"] = pName
+        recordDonation["eventName"] = eventName
         
-   recordDonation["totAttempt"] = totAttempts
-   //     print("totalAttempts in totalsUpdate: ", totalAttempt)
-   recordDonation["eventDate"] = eDate
+        recordDonation["totMake"] = totMakes
         
-   recordDonation["eventName"] = eventName
+        recordDonation["totPerShot"] = totPerShot
         
-   recordDonation["totMake"] = totMakes
-        
-    recordDonation["totPerShot"] = totPerShot
-        
-    recordDonation["totFlatDonation"] = totFlatDonation
+        recordDonation["totFlatDonation"] = totFlatDonation
             
-  recordDonation["totalDonation"] = totalDonation
+        recordDonation["totalDonation"] = totalDonation
         
  //   print("recordDonation before save: ", recordDonation)
         
@@ -533,18 +589,25 @@ class UpdateDonationsTotals {
           } //if error
          } // DispatchQueue
     
+            } // DispatchQueue for Completionhandler
+        } )  // Completionhandler eventTeamRecord.querySingleEvent
+
+      /*
         var counter: Int = 0
         while counter <= 800000000 {
             counter += 1
         } // while loop
        
         print("Counter in createDonationRecord: ", counter)
-        
+    */
     
     }  // func createDonationRecord
 
     
-    func queryDonationPlayers(team: String, eventName: String, eventDate: Date) -> (team: Array<String>, player: Array<String>, totMake: Array<Int>, totAttempt: Array<Int>)   {
+ //   func queryDonationPlayers(team: String, eventName: String, eventDate: Date) -> (team: Array<String>, player: Array<String>, totMake: Array<Int>, totAttempt: Array<Int>)   {
+    
+    func queryDonationPlayers(team: String, eventName: String, eventDate: Date, completion: @escaping (QqueryDonationPlayers)->Void)  {
+       
     
         var teamArray = [] as Array<String>
         var playerArray = [] as Array<String>
@@ -582,11 +645,11 @@ class UpdateDonationsTotals {
         playerArray.append(player)
         
         let tMake = record["totMake"] as! Int
-        print("tMake: ", tMake)
+        print("tMake in updateDonationTotals.queryDonation Players: ", tMake)
         totMakeArray.append(tMake)
         
         let tAttempt = record["totAttempt"] as! Int
-        print("tAttempt: ", tAttempt)
+        print("tAttempt in updateDonationTotals.queryDonation Players: : ", tAttempt)
         totAttemptArray.append(tAttempt)
         
        // let eventDate = record["eventDate"] as! Date
@@ -594,30 +657,103 @@ class UpdateDonationsTotals {
         
                  }  //recordFetchedBlock
         
-      
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
+        
         queryOp.queryCompletionBlock = { cursor, error in
+            
+            let qqueryDonationPlayers = QqueryDonationPlayers(teamArray: teamArray, playerArray: playerArray, totMakeArray: totMakeArray, totAttemptArray: totAttemptArray)
+            
+            completion(qqueryDonationPlayers)
+            
+            
             
          
         } // qOperttion queryCompletionBlock
     
+        
+      
+        CKContainer.default().publicCloudDatabase.add(queryOp)
     
-   // if playerArray.isEmpty  {
-       
-        var counter: Int = 0
-        while counter <= 700000000 {
-            counter += 1
-        } // while loop
-       
-        print("Counter: ", counter)
         
-        //print("results before return: ", results)
-        
-        return (teamArray, playerArray, totMakeArray, totAttemptArray)
-   
  } // func queryDonationPlayers
    
+ 
+    func queryDonations(team: String, player: String, completion: @escaping (QqueryDonations)->Void) {
+    
+    
+       // var playerArray = [] as Array<String>
+        var eventArray = [] as Array<String>
+        var totAttemptArray = [] as Array<Int>
+        var totMakeArray = [] as Array<Int>
+        var totPerShotArray = [] as Array<Double>
+        var totFlatDonArray = [] as Array<Double>
+        var totalDonationArray = [] as Array<Double>
+        
+     //   let sponsorPredicate = NSPredicate(format: "team == %@ AND eventDate == %@", tName, eDate as CVarArg)
+        
+        
+      //  let query = CKQuery(recordType: "donations", predicate: donationsPredicate)
+        
+      //  let predicate = NSPredicate(value: true)
+        
+        print("team in queryDonations: ", team)
+        
+        
+        let predicate = NSPredicate(format: "team == %@ AND player == %@", team, player)
+        
+        let query = CKQuery(recordType: "donations", predicate: predicate)
+        
+       query.sortDescriptors = [NSSortDescriptor(key: "totalDonation", ascending: false)]
+        
+        let queryOp = CKQueryOperation(query: query)
+        
+        queryOp.resultsLimit = 25
+       
+        // This is non-structure data fetch
+       queryOp.recordFetchedBlock = { record in
+        
+       // let player = record["player"] as! String
+      //  playerArray.append(player)
+           
+        let event = record["eventName"] as! String
+           eventArray.append(event)
+        
+       let totAttempt = record["totAttempt"] as! Int
+        totAttemptArray.append(totAttempt)
+        
+        let totMakes = record["totMake"] as! Int
+        totMakeArray.append(totMakes)
+        
+        let totPerShots = record["totPerShot"] as! Double
+        totPerShotArray.append(totPerShots)
+        
+        let totFlatDons = record["totFlatDonation"] as! Double
+        totFlatDonArray.append(totFlatDons)
+        
+        let totalDonations = record["totalDonation"] as! Double
+        totalDonationArray.append(totalDonations)
+        
+        
+             
+                 }  //recordFetchedBlock
+        
+        
+        queryOp.queryCompletionBlock = { cursor, error in
+            
+            
+            let qqueryDonations = QqueryDonations(eventArray: eventArray, totAttemptArray: totAttemptArray, totMakeArray: totMakeArray, totPerShotArray: totPerShotArray, totFlatDonArray: totFlatDonArray, totalDonationArray: totalDonationArray)
+            
+        completion(qqueryDonations)
+            
+         
+        } // qOperttion queryCompletionBlock
+    
+        
+      
+        CKContainer.default().publicCloudDatabase.add(queryOp)
+    
+        
+ } // queryDonationWithShots
+
     
     
     

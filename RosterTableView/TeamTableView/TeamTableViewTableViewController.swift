@@ -8,6 +8,7 @@
 import UIKit
 import CloudKit
 
+
 class TeamTableViewTableViewController: UITableViewController {
 
    
@@ -22,53 +23,108 @@ class TeamTableViewTableViewController: UITableViewController {
     // set variable for ScoreViewController or EventsCollectionViewController segues
     var eventVariable: Bool = false
     
+    var playerVariable: Bool = false
+    
+    var playerEventsVariable: Bool = false
+    
     var eventN: String = ""
     
     var eventDate: Date = Date()
     
-  let manager = TeamDataLoad()
+  let teamDataLoad = TeamDataLoad()
     
-  let playerSearch = UpdateTeamTotals()
+  let updateTeamTotals = UpdateTeamTotals()
     
   let PlayerCheck = TeamPlayerCheck()
     
   let dispatchGroup = DispatchGroup()
     
-
+  // var rosterResultsArray = [] as Array<String>
+    
+    var rosterResultsArray: Array<String> = ["Loading roster..."]
+    
+  // var rosterPicResultsArray = [] as Array<CKAsset>
+    
+   // let samplePic: CKAsset = adsflajfaf
+    
+    var rosterPicResultsArray: Array<CKAsset> = []
+    
+  
+       
+   /*
+    var queryResults = QResults() {
+        
+        didSet {
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            print("reloadData")
+            print("rosterResultsArray: ", self.rosterResultsArray as Any)
+        } // dispatch
+        
+        } // didSet
+    } // qResults
+   
+    */
  
     override func viewDidLoad() {
-        super.viewDidLoad()
+       // super.viewDidLoad()
         
+        super.viewDidLoad()
+        tableView.dataSource = self
        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        teamDataLoad.rosterPicQuery(tName: team, completion: { qResults in
+            
+            DispatchQueue.main.async {
+                
+           // self.queryResults = qResults
+        
+            
+                self.rosterResultsArray = qResults.rosterArray
+                self.rosterPicResultsArray = qResults.rosterPicArray
+                
+                print("# in rosterResultsArray: ", self.rosterResultsArray.count as Any)
+                print("rosterResultsArray: ", self.rosterResultsArray as Any)
+                print("# in rosterPicResultsArray: ", self.rosterPicResultsArray.count as Any)
+                print("rosterPicResultsArray: ", self.rosterPicResultsArray as Any)
+                
+               self.tableView.reloadData()
+               print("reloadData")
+                print("rosterResultsArray after reloadData: ", self.rosterResultsArray as Any)
+                
+                
+            } //DispatchQueue
+           
+    
+            
+        } ) // completion
+            
+       
+            
         
     } //viewdidLoad
 
     
-    lazy var resultsArray = manager.rosterPicQuery(tName: team)
+        
+  // lazy var resultsArray =  teamDataLoad.rosterPicQuery(tName: team)
     
    
-    func locationItem(at index:IndexPath) -> String {
-        resultsArray.rosterArray[index.item]
-        
-    } //locationItem func
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
     }  //numberOfSections
 
     
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         // let rosterLength = resultsArray.count
         
-        let rosterLength = resultsArray.rosterArray.count
+       // let rosterLength = resultsArray.rosterArray.count
+        
+      let rosterLength = rosterResultsArray.count
+       
+        
+        print("rosterLength: ", rosterLength)
         
       return rosterLength
     }  //numberOfRowsInSection
@@ -78,13 +134,17 @@ class TeamTableViewTableViewController: UITableViewController {
        
         let cell = UITableViewCell()
         
-        player = resultsArray.rosterArray[indexPath.row]
+       // player = resultsArray.rosterArray[indexPath.row]
+        player = self.rosterResultsArray[indexPath.row]
+        print("rosterResultsArray in cellForRowAt: ", player)
         
         cell.textLabel?.text = player
         
-            
-        let photoPic = resultsArray.rosterPicArray[indexPath.row]
-        let imageData = NSData(contentsOf: photoPic.fileURL!)
+        if rosterPicResultsArray.count > 0 {
+      
+       let photoPic = rosterPicResultsArray[indexPath.row]
+        
+       let imageData = NSData(contentsOf: photoPic.fileURL!)
        // print("imageData: ", imageData as Any)
         
         if let image = UIImage(data: imageData! as Data) {
@@ -92,39 +152,59 @@ class TeamTableViewTableViewController: UITableViewController {
         cell.imageView?.image = image
         
         } //if image
-
+        } // if rosterPicArray > 0
          
         return cell
         
     }  //tableView func
         
+  
     
-   
+    func locationItem(at index:IndexPath) -> String {
+        
+        rosterResultsArray[index.item]
+       
+    } //locationItem func
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       // Runs but doesn't select correct cell
       //  let selectedPlayer = UITableViewCell()
         
         let selectedPlayer = locationItem(at: indexPath)
-       print("selectedPlayer: ", selectedPlayer)
-      
+      print("selectedPlayer: ", selectedPlayer)
+      print("playerVariable: ", playerVariable)
+      print("eventVariable: ", eventVariable)
+      print("playerEventsVariable: ", playerEventsVariable)
         
-        // Add if condition for event not "" to go to sponsor collectionview list
-        if eventVariable == false {
+        // Add if conditions for segues
+        
+        if playerVariable == true {
         
         performSegue(withIdentifier: "toPlayer", sender: selectedPlayer)
-            print("event = false. segue toPlayer")
+          
        
-        } else {
+        } // if playerVariable == true
+            
+            if eventVariable == true {
           
             performSegue(withIdentifier: "toSponsorList", sender: selectedPlayer)
             print("event = true, segue toSponsorList")
             
-        } //if for toSponsorList
+        } //if eventVariable == true
+        
+        
+        if playerEventsVariable == true {
+      
+        performSegue(withIdentifier: "toPlayerEvents", sender: selectedPlayer)
+        
+    } //if playerEventsVariable == true
+        
+        
         
     } // tableView func didSelectRowAt
     
-  
+
     
     // Add swipe delete function here
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -156,27 +236,39 @@ class TeamTableViewTableViewController: UITableViewController {
             // Present dialog message to user
             self.present(dialogMessage, animated: true, completion: nil)
            
-            // delete player **************
+        
+        // delete player **************
           func deletePlayer() {
               
           let teamN = team
           print("teamN in swipe delete: ", teamN)
           
-            let playerN = resultsArray.rosterArray[indexPath.row]
+          //  let playerN = resultsArray.rosterArray[indexPath.row]
+              let playerN = rosterResultsArray[indexPath.row]
               
           //  let playerN = resultsArray[indexPath.row] as! String
             
               print("playerN in swipe delete: ", playerN)
           
           
-          let recordTeam = playerSearch.queryPlayer(pName: playerN, team: teamN)
-          
-          playerID = recordTeam.playID
+       //   let recordTeam = updateTeamTotals.queryPlayer(pName: playerN, team: teamN)
+              
+        updateTeamTotals.queryPlayer(pName: playerN, team: teamN, completion: { qResults in
+            
+                  DispatchQueue.main.async {
+                      
+                
+                self.playerID = qResults.playID
+                  
+                print("playerID: ", self.playerID)
+                  
+                      
+                
 
-         // print("playerID in delete: ", playerID)
+            print("playerID in delete func: ", self.playerID)
           
 
-          CKContainer.default().publicCloudDatabase.delete(withRecordID: playerID) {(recordID, error) in
+        CKContainer.default().publicCloudDatabase.delete(withRecordID: self.playerID) {(recordID, error) in
              
               //NSLog("OK error")
               
@@ -193,7 +285,9 @@ class TeamTableViewTableViewController: UITableViewController {
             } //if error
            } // DispatchQueue
 
-            resultsArray.rosterArray.remove(at: indexPath.row)
+           // resultsArray.rosterArray.remove(at: indexPath.row)
+            self.rosterResultsArray.remove(at: indexPath.row)
+              
             // resultsArray.remove(at: indexPath.row)
               tableView.deleteRows(at: [indexPath], with: .fade)
               
@@ -220,122 +314,15 @@ class TeamTableViewTableViewController: UITableViewController {
          // Present Alert to
          self.present(dialogMessage, animated: true, completion: nil)
 
-              
-              } // func deletePlayer
-            
-            
-            
-    // This code to insert a player doesn't work yet
-    /*
-    } else {
-        
-        //Swipe code to add player to roster
-      //  if editingStyle == UITableViewCell.EditingStyle.insert {
-        if editingStyle == .insert {
-            
-            let playerN = resultsArray[indexPath.row] as! String
-            
-            //Duplicate team and player detected
-            let check = PlayerCheck.TeamPlayer(team: team, player: playerN)
-            
-            print("check.count: ", check.count)
-            
-            if check.count > 0 {
-              
-                
-                // Create new Alert
-                 let dialogMessage = UIAlertController(title: "Duplicate", message: "Duplicate Player detected. Re-enter Player. ", preferredStyle: .alert)
-                 
-                 // Create OK button with action handler
-                 let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                    // print("Ok button tapped")
-                  })
-                 
-                 //Add OK button to a dialog message
-                 dialogMessage.addAction(ok)
-
-                 // Present Alert to
-                 self.present(dialogMessage, animated: true, completion: nil)
-                
-            }  else {
-                
-                let playerN = resultsArray[indexPath.row] as! String
-                
-                let recordPlayer =
-                
-                CKRecord(recordType: "team")
-                
-                recordPlayer["player"] = playerN
-        
-                recordPlayer["teamName"] = team
-            
-            recordPlayer["TotAttempts"] = 0
-            
-            recordPlayer["TotMakes"] = 0
-            
-            recordPlayer["TotPercentage"] = 0
-            
-            recordPlayer["LastDate"] = Date()
+                  } //DispatchQueue
              
+          }  //Completionhandler
             
-                CKContainer.default().publicCloudDatabase.save(recordPlayer) { record, error in
-                    DispatchQueue.main.async {
-                       if error == nil {
-                            
-                        } else {
-                           let ac = UIAlertController(title: "Error", message: "There was a problem submitting your data \(error!.localizedDescription)", preferredStyle: .alert)
-                           ac.addAction(UIAlertAction(title: "OK", style: .default))
-                          //  self.persent(ac, animated: true)
-                        }  // else
-                        
-                  } //if error
-                 } // DispatchQueue
-            
-                resultsArray.insert(playerN, at: indexPath.row)
-                tableView.insertRows(at: [indexPath], with: .fade)
-                
-               /*
-                let cell = tableView.dequeueReusableCell(withIdentifier: "playerName", for: indexPath)
+        ) //updateTeamTotalsqueryPlayer
               
-                // Configure the cell...
-
-                cell.textLabel?.text = locationItem(at:indexPath)
-                */
-                
-                
-                
-            var textDisplay = playerN
+        } // func deletePlayer
             
-            textDisplay.append(" added to ")
             
-            textDisplay.append(team)
-            
-           print("textDisplay: ", textDisplay)
-            
-           //  messageTextView.text = textDisplay
-                
-                let dialogMessage = UIAlertController(title: "Player Added", message: textDisplay, preferredStyle: .alert)
-                
-                // Create OK button with action handler
-                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                    print("Ok button tapped")
-                 })
-                
-                //Add OK button to a dialog message
-                dialogMessage.addAction(ok)
-
-                // Present Alert to
-                self.present(dialogMessage, animated: true, completion: nil)
-
-              
-            
-            }  //if check.count >0 duplicate player
-       
-        
-       } // if editingStyle insert
-             */
-             // insert player code end
- 
  
     } // Swipe
         
@@ -365,7 +352,7 @@ class TeamTableViewTableViewController: UITableViewController {
                     
                   //  print("vcScore.playerN: ", vcScore.playerN)
                     
-                    print("vcScore.team ", vcScore.name)
+                print("vcScore.team ", vcScore.name)
                 
                 vcScore.title = self.team
                 vcScore.name = self.team
@@ -401,20 +388,20 @@ class TeamTableViewTableViewController: UITableViewController {
                     } // if selected player
                     }  // segue toPlayer
             
-                 if segue.identifier == "toSponsorList" {
+            if segue.identifier == "toSponsorList" {
                     
                                     print("toSponsorList")
                              
-                    if let selectedPlayer = sender as? String {
-                                    let vcRoster = segue.destination as! UINavigationController
+            if let selectedPlayer = sender as? String {
+            let vcRoster = segue.destination as! UINavigationController
                                    
-                                    let vcScore = vcRoster.viewControllers.first as! SponsorListViewController
+            let vcScore = vcRoster.viewControllers.first as! SponsorListViewController
                                     
-                                 //  vcScore.playerN = selectedPlayer
+            //  vcScore.playerN = selectedPlayer
                                     
-                                  //  vcScore.playerN = player
+            //  vcScore.playerN = player
                                     
-                                  //  print("vcScore.playerN: ", vcScore.playerN)
+            //  print("vcScore.playerN: ", vcScore.playerN)
                                     
                                 
                    //     var eventTitle = team
@@ -423,9 +410,9 @@ class TeamTableViewTableViewController: UITableViewController {
                    //     eventTitle.append(selectedPlayer)
                     //    eventTitle.append("-")
                     
-                    var eventTitle = selectedPlayer
-                    eventTitle.append(" ")
-                    eventTitle.append(eventN)
+                let eventTitle = selectedPlayer
+                  //  eventTitle.append(" ")
+                  //  eventTitle.append(eventN)
                  //  let eventTitle = selectedPlayer
                         
                     print("eventTitle in TVC: ", eventTitle)
@@ -447,10 +434,37 @@ class TeamTableViewTableViewController: UITableViewController {
                     } // if selected player
                     } //toSponsorList segue
                         
-                        
+             
+        if segue.identifier == "toPlayerEvents" {
+            
+           //  if segue.destination is ScoreViewController {
+                 
+                 print("toPlayerEvents Segue")
+                 
+                 if let selectedPlayer = sender as? String {
+                
+                     let vcRoster = segue.destination as! UINavigationController
+                    
+                     let vcScore = vcRoster.viewControllers.first as! PlayerEventsCollectionViewController
+                     
+                    vcScore.playerN = selectedPlayer
+                     
+                   //  vcScore.playerN = player
+                     
+                print("vcScore.playerN: ", vcScore.playerN)
+                     
+                print("vcScore.team: ", vcScore.self.team)
+                 
+                 vcScore.title = self.team
+                 vcScore.team = self.team
+                 
+                 } // if selected player
+                 }  // segue toPlayer
+       
+        
                         
                     
-           // } // to ScoreViewController
+          
           
          
             
@@ -479,14 +493,41 @@ class TeamTableViewTableViewController: UITableViewController {
      
         dispatchGroup.enter()
     
-    resultsArray = manager.rosterPicQuery(tName: team)
-  
+   // resultsArray = teamDataLoad.rosterPicQuery(tName: team)
+  /*
         var counter: Int = 0
         while counter <= 700000000 {
             counter += 1
         } // while loop
+      */
         
-    self.tableView.reloadData()
+    teamDataLoad.rosterPicQuery(tName: team, completion: { qResults in
+            
+            DispatchQueue.main.async {
+                
+           // self.queryResults = qResults
+        
+            
+                self.rosterResultsArray = qResults.rosterArray
+                self.rosterPicResultsArray = qResults.rosterPicArray
+                
+                print("# in rosterResultsArray: ", self.rosterResultsArray.count as Any)
+                print("rosterResultsArray: ", self.rosterResultsArray as Any)
+                print("# in rosterPicResultsArray: ", self.rosterPicResultsArray.count as Any)
+                print("rosterPicResultsArray: ", self.rosterPicResultsArray as Any)
+                
+               self.tableView.reloadData()
+               print("reloadData")
+                print("rosterResultsArray after reloadData: ", self.rosterResultsArray as Any)
+                
+            } //DispatchQueue
+           
+    
+        } ) // completion
+        
+        
+        
+   // self.tableView.reloadData()
         
         dispatchGroup.leave()
         
@@ -503,10 +544,16 @@ class TeamTableViewTableViewController: UITableViewController {
      }  // UIStoryboardSegue
     
     
+    @IBAction func unwindPlayerEventsCollectionViewControllerCancel(segue: UIStoryboardSegue) {
+        
+        print("unwind from PlayerEventsCollectionViewController")
+        
+     }  // UIStoryboardSegue
     
     
     
     
     
  }   // class TeamTableViewController
+
 

@@ -18,10 +18,11 @@ class PlayerTeamData {
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
    
-    func queryPlayer(pName: String, team: String) -> CKRecord   {
-    
-        
-          print("pName in PlayerTeamData: ", pName)
+  //  func queryPlayer(pName: String, team: String) -> CKRecord   {
+    func queryPlayer(pName: String, team: String, completion: @escaping (QPlayerRecord)->Void)  {
+      
+
+        print("pName in PlayerTeamData: ", pName)
         print("team in PlayerTeamData: ", team)
         
          
@@ -43,43 +44,38 @@ class PlayerTeamData {
                // let id = record.recordID
            // let results = record.value(forKey: "player")
             let recordResults = record
+            
             results = recordResults
             
-            print("results in FetchedBlock: ", results)
+            print("results in PlayerTeamData.queryPlayer FetchedBlock: ", results)
             
-            print("recordID for results in FetchedBlock: ", results.recordID)
+            print("recordID for results in PlayerTeamData.queryPlayer FetchedBlock: ", results.recordID)
             
           //  }  // DispatchQueue
              
                  }  //recordFetchedBlock
         
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    
+        
         queryOp.queryCompletionBlock = { cursor, error in
+            
+            let qResults = QPlayerRecord(playerRecord: results)
+            
+            completion(qResults)
             
          
         } // qOperttion queryCompletionBlock
     
 
-   // if playerArray.isEmpty  {
-       
-        var counter: Int = 0
-        while counter <= 700000000 {
-            counter += 1
-        } // while loop
-       
-        print("Counter: ", counter)
-        
-        print("results before return: ", results)
-        
-        return results
-   
+        CKContainer.default().publicCloudDatabase.add(queryOp)
+    
  } // queryPlayer
   
     
-    func queryPlayerEvent(team: String, eventName: String, eventDate: Date) -> CKRecord   {
+  //  func queryPlayerEvent(team: String, eventName: String, eventDate: Date) -> CKRecord   {
     
+    func queryPlayerEvent(team: String, eventName: String, eventDate: Date, completion: @escaping(QqueryPlayerEvent)->Void) {
+        
+        
         print("team in PlayerTeamData: ", team)
         print("eventName in PlayerTeamData: ", eventName)
         print("eventDate in PlayerTeamData: ", eventDate)
@@ -112,15 +108,23 @@ class PlayerTeamData {
              
                  }  //recordFetchedBlock
         
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    
+        
+        
         queryOp.queryCompletionBlock = { cursor, error in
+            
+            let qqueryPlayerEvent = QqueryPlayerEvent(results: results)
+            
+            completion(qqueryPlayerEvent)
+            
             
          
         } // qOperttion queryCompletionBlock
+        
+        CKContainer.default().publicCloudDatabase.add(queryOp)
     
-
+    
+       
+/*
    // if playerArray.isEmpty  {
        
         var counter: Int = 0
@@ -134,6 +138,8 @@ class PlayerTeamData {
         
         return results
    
+        */
+        
  } // queryPlayerEvent
 
     

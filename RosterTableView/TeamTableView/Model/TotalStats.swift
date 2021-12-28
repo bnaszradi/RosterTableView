@@ -20,7 +20,9 @@ class TotalStats {
     let eventRecord = EventTeamCheck()
     
 
-    func queryEventTotals(tName: String, eName: String, eDate: Date) -> (totAttempt: Array<Int>, totMake: Array<Int>, totPerShot: Array<Double>, totFlatDon: Array<Double>, totalDonation: Array<Double> )   {
+  //  func queryEventTotals(tName: String, eName: String, eDate: Date) -> (totAttempt: Array<Int>, totMake: Array<Int>, totPerShot: Array<Double>, totFlatDon: Array<Double>, totalDonation: Array<Double> )   {
+    
+    func queryEventTotals(tName: String, eName: String, eDate: Date, completion: @escaping (QqueryEventTotals)->Void) {
     
         var totAttemptArray = [] as Array<Int>
         var totMakeArray = [] as Array<Int>
@@ -61,20 +63,27 @@ class TotalStats {
         let totalDonations = record["totalDonation"] as! Double
         totalDonationArray.append(totalDonations)
         
-        
              
                  }  //recordFetchedBlock
         
       
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    
         queryOp.queryCompletionBlock = { cursor, error in
+            
+            let qqueryEventTotals = QqueryEventTotals(totAttemptArray: totAttemptArray, totMakeArray: totMakeArray, totPerShotArray: totPerShotArray, totFlatDonArray: totFlatDonArray, totalDonationArray: totalDonationArray)
+            
+            completion(qqueryEventTotals)
             
          
         } // qOperttion queryCompletionBlock
     
-   
+        
+        
+        
+        CKContainer.default().publicCloudDatabase.add(queryOp)
+    
+    
+       
+   /*
     
    // if playerArray.isEmpty  {
        
@@ -88,7 +97,8 @@ class TotalStats {
         //print("results before return: ", results)
         
         return (totAttemptArray, totMakeArray, totPerShotArray, totFlatDonArray, totalDonationArray)
-   
+   */
+        
  } // queryEventTotals
 
     

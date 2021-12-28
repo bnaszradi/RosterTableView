@@ -10,7 +10,7 @@ import CloudKit
 
 class TeamPlayerCheck {
     
-    // TeamPlayer func
+    // teamPlayer func
     //  TeamCheck func
     // playerPhoto func
     // EventCheck func
@@ -18,8 +18,10 @@ class TeamPlayerCheck {
     
     let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    func TeamPlayer(team: String, player: String) -> Array<Any> {
+   // func teamPlayer(team: String, player: String) -> Array<Any> {
     
+    func teamPlayer(team: String, player: String, completion: @escaping (QTeamPlayer)->Void)  {
+        
         var playerArray = [] as Array<String>
         
     //  check for team name and player in team type
@@ -30,9 +32,7 @@ class TeamPlayerCheck {
     
     let queryOp = CKQueryOperation(query: query)
     
-   // queryOp.desiredKeys = ["player", "LastDate", "TotAttempts","TotMakes", "TotPercentage"]
-        
-        queryOp.desiredKeys = ["teamName", "player"]
+    queryOp.desiredKeys = ["teamName", "player"]
     
     queryOp.resultsLimit = 25
     
@@ -45,29 +45,27 @@ class TeamPlayerCheck {
         
     }  // recordFetchedBlock
         
+        
+        queryOp.queryCompletionBlock = { cursor, error in
+            
+            let queryCount = playerArray.count
+           
+            print("Number rows in array in queryCompletionBlock: ", queryCount)
+            
+            let qPlayerArray = QTeamPlayer(playerArray: playerArray)
+            
+            completion(qPlayerArray)
+            
+        
+        } // qOperttion queryCompletionBlock
+        
+        
+        
         CKContainer.default().publicCloudDatabase.add(queryOp)
     
-    queryOp.queryCompletionBlock = { cursor, error in
-        
-        let queryCount = playerArray.count
-       
-        print("Number rows in array in queryCompletionBlock: ", queryCount)
-        
-    
-    } // qOperttion queryCompletionBlock
-    
-    
-        
-         var counter: Int = 0
-         while counter <= 700000000 {
-             counter += 1
-         } // while loop
-        
-         print("Counter: ", counter)
+   
         
         
-        return playerArray
-         
     } // TeamPlayer func
     
     
@@ -128,8 +126,10 @@ class TeamPlayerCheck {
     
     
     
-    func playerPhoto(team: String, player: String) -> Array<CKAsset> {
+  //  func playerPhoto(team: String, player: String) -> Array<CKAsset> {
     
+    func playerPhoto(team: String, player: String, completion: @escaping (QPlayerPhoto)->Void)  {
+            
        var playerArray = [] as Array<CKAsset>
       //  var photo: CKAsset!
        // var photo: Int!
@@ -145,17 +145,13 @@ class TeamPlayerCheck {
     
     let queryOp = CKQueryOperation(query: query)
     
-   // queryOp.desiredKeys = ["player", "LastDate", "TotAttempts","TotMakes", "TotPercentage"]
-        
         queryOp.desiredKeys = ["teamName", "player", "playerPhoto"]
     
     queryOp.resultsLimit = 25
     
     queryOp.recordFetchedBlock = { record in
         
-       // let player = record["player"] as! String
-       // print("player in recordFetchedBlock: ", player)
-      //  var photo = record["playerPhoto"] as! CKAsset
+      
         if let photo = record["playerPhoto"] as? CKAsset {
         
        // print("photo from playerPhoto: ", photo)
@@ -167,15 +163,21 @@ class TeamPlayerCheck {
         
     }  // recordFetchedBlock
         
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    //queryOp.perRecordProgressBlock = { self.progressView.progress = $1 }
         
     queryOp.queryCompletionBlock = {  cursor, error in
+            
+        let qPlayerArrayPhoto = QPlayerPhoto(playerArray: playerArray)
+        
+        completion(qPlayerArrayPhoto)
         
 
-    } // qOperttion queryCompletionBlock
+        } // qOperttion queryCompletionBlock
+        
+        
+    CKContainer.default().publicCloudDatabase.add(queryOp)
     
+
+    /*
          var counter: Int = 0
          while counter <= 700000000 {
              counter += 1
@@ -184,12 +186,17 @@ class TeamPlayerCheck {
          print("Counter: ", counter)
         
         return playerArray
-         
+       
+        */
+        
     } // playerPhoto func
     
     
-    //Check is event already exists in Event type
-    func EventCheck(team: String, eventDate: Date, eventName: String) -> Array<Any> {
+    //Check if event already exists in Event type
+  //  func EventCheck(team: String, eventDate: Date, eventName: String) -> Array<Any> {
+    
+    func EventCheck(team: String, eventDate: Date, eventName: String, completion: @escaping (QEventCheck)->Void)  {
+        
     
         var eventArray = [] as Array<String>
         
@@ -215,17 +222,26 @@ class TeamPlayerCheck {
         
     }  // recordFetchedBlock
         
+        
+        
+        queryOp.queryCompletionBlock = { cursor, error in
+            
+            let queryCount = eventArray.count
+           
+            print("Number rows in array in queryCompletionBlock: ", queryCount)
+           
+            let qEventCheck = QEventCheck(eventArray: eventArray)
+            
+            completion(qEventCheck)
+           
+
+        } // qOperttion queryCompletionBlock
+            
+        
         CKContainer.default().publicCloudDatabase.add(queryOp)
     
-    queryOp.queryCompletionBlock = { cursor, error in
-        
-        let queryCount = eventArray.count
-       
-        print("Number rows in array in queryCompletionBlock: ", queryCount)
-       
-
-    } // qOperttion queryCompletionBlock
-        
+   
+        /*
          var counter: Int = 0
          while counter <= 700000000 {
              counter += 1
@@ -235,7 +251,8 @@ class TeamPlayerCheck {
         
         
         return eventArray
-         
+        */
+        
     } // EventCheck func
    
     

@@ -5,8 +5,14 @@
 //  Created by Brian Naszradi on 12/27/20.
 //
 
+// funcs:
+// rosterQuery
+// rosterPicQuery
+
+
 import Foundation
 import CloudKit
+
 
 
 
@@ -16,11 +22,24 @@ class TeamDataLoad {
     
    let dispatchGroup = DispatchGroup()
     
-    /*
-    @objc func startTimer() {
-        print("Timer works!")
-    }  // startTimer
-    */
+    
+   /*
+    struct QResults {
+       // let rosterArray: Array<String>? = []
+       // let rosterPicArray: Array<CKAsset>? = []
+        var rosterArray = [] as Array<String>
+        var rosterPicArray = [] as Array<CKAsset>
+        
+       // rosterArray = rosterArray ?? []
+       // rosterPicArray = rosterPicArray ?? []
+          
+        
+    } // QResults
+*/
+        
+          
+        
+    
     
    // This searches for the team roster
    func rosterQuery(tName: String) -> Array<Any> {
@@ -82,8 +101,10 @@ class TeamDataLoad {
   
  
     // This is the query for retrieving roster with photos
-    func rosterPicQuery(tName: String) ->  (rosterArray: Array<String>, rosterPicArray: Array<CKAsset>) {
+   // func rosterPicQuery(tName: String)  ->  (rosterArray: Array<String>, rosterPicArray: Array<CKAsset>) {
         
+    func rosterPicQuery(tName: String, completion: @escaping (QResults)->Void)  {
+    
      var rosterArray = [] as Array<String>
      var rosterPicArray = [] as Array<CKAsset>
      
@@ -97,7 +118,7 @@ class TeamDataLoad {
          let qOperation = CKQueryOperation.init(query: query)
         
          qOperation.resultsLimit = 25
-         print("qOperation resultsLimit: ", qOperation.resultsLimit)
+       //  print("qOperation resultsLimit: ", qOperation.resultsLimit)
     
      //    qOperation.recordFetchedBlock = { record in
      
@@ -105,7 +126,7 @@ class TeamDataLoad {
             
         let playerResults = [record.value(forKey: "player") as! String]
         
-        rosterArray.append(contentsOf: playerResults)
+         rosterArray.append(contentsOf: playerResults)
         
          let picResults = [record.value(forKey: "playerPhoto") as! CKAsset]
               
@@ -114,28 +135,34 @@ class TeamDataLoad {
              
               }  //recordFetchedBlock
               
-        
-        CKContainer.default().publicCloudDatabase.add(qOperation)
-            
        
          qOperation.queryCompletionBlock = { cursor, error in
                     
-            DispatchQueue.main.async {
+          //  DispatchQueue.main.async {
              
            //  print("RosterArray in CompletionBlock: ", rosterArray)
               
              let queryCount = rosterArray.count
             
              print("Number rows in array in queryCompletionBlock: ", queryCount)
-            }  // DispatchQueue
+            
+             
+             let qResults = QResults(rosterArray: rosterArray, rosterPicArray: rosterPicArray)
+             
+             completion(qResults)
+             
+          //  }  // DispatchQueue
                 
          } // qOperttion queryCompletionBlock
        
      
+        CKContainer.default().publicCloudDatabase.add(qOperation)
+            
+        
 
       //  Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(startTimer), userInfo: nil, repeats: false)
     
-      
+    /*
      print("ResultsValueArray before loop: ", rosterArray)
      
      var counter: Int = 0
@@ -145,9 +172,9 @@ class TeamDataLoad {
      print("Counter: ", counter)
      
      print("ResultsValueArray after loop: ", rosterArray)
-    
+    */
         
-    return (rosterArray, rosterPicArray)
+   // return (rosterArray, rosterPicArray)
     
      
   } //rosterPicQuery func

@@ -8,13 +8,14 @@
 import Foundation
 import CloudKit
 
-class QueryEvents {
+class EventsList {
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    func eventsQuery(tName: String) -> (resultsNameArray: Array<String>, resultsDateArray: Array<Date>) {
+  //  func eventsQuery(tName: String) -> (resultsNameArray: Array<String>, resultsDateArray: Array<Date>) {
      
-     
+    func eventsQuery(tName: String, completion: @escaping (QEvents)->Void)  {
+        
         var resultsNameArray = [] as Array<String>
        
         var resultsDateArray = [] as Array<Date>
@@ -32,7 +33,7 @@ class QueryEvents {
          let qOperation = CKQueryOperation.init(query: query)
         
          qOperation.resultsLimit = 25
-         print("qOperation resultsLimit: ", qOperation.resultsLimit)
+       //  print("qOperation resultsLimit: ", qOperation.resultsLimit)
     
      //    qOperation.recordFetchedBlock = { record in
      
@@ -48,22 +49,21 @@ class QueryEvents {
              
              
               }  //recordFetchedBlock
-              
+      
+        qOperation.queryCompletionBlock = { cursor, error in
+                   
+          
+            let qEvents = QEvents(resultsNameArray: resultsNameArray, resultsDateArray: resultsDateArray)
+            
+            completion(qEvents)
+            
+         
+        } // qOperttion queryCompletionBlock
+      
+        
      CKContainer.default().publicCloudDatabase.add(qOperation)
      
-     
-         qOperation.queryCompletionBlock = { cursor, error in
-                    
-             
-             print("ResultsNameArray in CompletionBlock: ", resultsNameArray)
-              
-             let queryCount = resultsNameArray.count
-            
-             print("Number rows in array in queryCompletionBlock: ", queryCount)
-          
-         } // qOperttion queryCompletionBlock
-       
-     
+     /*
       print("ResultsNameArray before loop: ", resultsNameArray)
      
      var counter: Int = 0
@@ -73,8 +73,8 @@ class QueryEvents {
      print("Counter: ", counter)
      
      print("ResultsArray after loop: ", resultsNameArray)
-     
-    return (resultsNameArray, resultsDateArray)
+     */
+  //  return (resultsNameArray, resultsDateArray)
     
   } //eventsQuery func
    

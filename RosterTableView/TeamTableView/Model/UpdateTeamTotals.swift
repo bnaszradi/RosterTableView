@@ -20,8 +20,9 @@ class UpdateTeamTotals {
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
    
-    func queryPlayer(pName: String, team: String) -> (playID: CKRecord.ID, totalAttempts: Int, totalMakes: Int )   {
+  //  func queryPlayer(pName: String, team: String) -> (playID: CKRecord.ID, totalAttempts: Int, totalMakes: Int )   {
     
+    func queryPlayer(pName: String, team: String, completion: @escaping (QPlayer)->Void)  {
         
         //  print("pName in PlayerTeamData: ", pName)
         //  print("team in PlayerTeamData: ", team)
@@ -57,15 +58,11 @@ class UpdateTeamTotals {
         
       // queryOp.recordFetchedBlock = { (record : CKRecord) in
               
-          //  DispatchQueue.main.async {
-              
-               // let id = record.recordID
             let playerID = record.recordID
         
              playID = playerID
         
-       // playID = playerID
-           print("playID: ", playID)
+             print("playID in UpdateTeamTotals.queryPlayer: ", playID)
             
           //  let playResults = record.value(forKey: "player")
           //  playerName = playResults as! String
@@ -77,11 +74,11 @@ class UpdateTeamTotals {
             
             let totAttempts = record.value(forKey: "TotAttempts")
             totalAttempts = totAttempts as! Int
-            print("totalAttempts: ", totalAttempts)
+            print("totalAttempts in UpdateTeamTotals.queryPlayer: ", totalAttempts)
             
             let totMakes = record.value(forKey: "TotMakes")
             totalMakes = totMakes as! Int
-            print("totalMakes: ", totalMakes)
+            print("totalMakes in UpdateTeamTotals.queryPlayer:: ", totalMakes)
             
          //   let totPercentage = record.value(forKey: "TotPercentage")
           //  totalPercentage = totPercentage as! Double
@@ -96,33 +93,37 @@ class UpdateTeamTotals {
          //  print("results in UpdateTeamTotals FetchedBlock: ", results)
     
              
-                 }  //recordFetchedBlock
+                 } //recordFetchedBlock
         
-      
-   // CKContainer.default().publicCloudDatabase.add(qOperation)
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
-    
+
       //  qOperation.queryCompletionBlock = { cursor, error in
         queryOp.queryCompletionBlock = { cursor, error in
+           
             
-         
+            let qResults = QPlayer(playID: playID, totalAttempts: totalAttempts, totalMakes: totalMakes)
+            
+            completion(qResults)
+            
         } // qOperttion queryCompletionBlock
     
    
+        // CKContainer.default().publicCloudDatabase.add(qOperation)
+             CKContainer.default().publicCloudDatabase.add(queryOp)
+         
+        
     
    // if playerArray.isEmpty  {
-       
+       /*
         var counter: Int = 0
         while counter <= 700000000 {
             counter += 1
         } // while loop
        
         print("Counter: ", counter)
-        
+       */
         //print("results before return: ", results)
         
-        return (playID, totalAttempts, totalMakes)
+     //   return (playID, totalAttempts, totalMakes)
    
  } // queryPlayer
     
@@ -151,7 +152,7 @@ class UpdateTeamTotals {
     record["player"] = pName
         
     record["TotAttempts"] = attempts
-        print("TotAttempts in totalsUpdate: ", attempts)
+    print("TotAttempts in totalsUpdate: ", attempts)
         
     record["TotMakes"] = totalMakes
     

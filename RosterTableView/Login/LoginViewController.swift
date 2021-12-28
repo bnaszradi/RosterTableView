@@ -23,25 +23,29 @@ class LoginViewController: UIViewController {
           }  // touchesBegan
     
     
-  //  let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+   let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    let container = (UIApplication.shared.delegate as! AppDelegate).container
+  //  let container = (UIApplication.shared.delegate as! AppDelegate).container
 
     
    // let teamCheck = TeamPlayerCheck()
     
-    let loginCheck = LoginCheck()
+    let loginModel = LoginModel()
     
     var tName: String = ""
     
-    var passwordArray: Array<String> = []
-   
+    var passwordCheck: Array<Any> = []
     
-   
     @IBOutlet weak var teamName: UITextField!
     
 
     @IBOutlet weak var password: UITextField!
+    
+    
+    @IBAction func newTeam(_ sender: UIButton) {
+    
+    } //newTeam
+    
     
     
     @IBAction func login(_ sender: UIButton) {
@@ -74,7 +78,7 @@ class LoginViewController: UIViewController {
       
         }  // if name is blank
         
-            // Add check to determine if an extra blamk space was added to the team name when entered by user. If so, remove the blank character(s)
+            // Add check to determine if an extra blank space was added to the team name when entered by user. If so, remove the blank character(s)
             
             var teamArray = Array(name)
             
@@ -130,7 +134,7 @@ class LoginViewController: UIViewController {
           
             } // if pwd is blank
             
-                // Add check to determine if an extra blamk space was added to the password when entered by user. If so, remove the blank character(s)
+                // Add check to determine if an extra blank space was added to the password when entered by user. If so, remove the blank character(s)
                 
                 var pwdArray = Array(pwd)
                 
@@ -160,16 +164,31 @@ class LoginViewController: UIViewController {
           print("password after parsing blank characters from end and 6 character check: ", pword)
         
             // Check if team and password already exists in User DB
-          let passwordCheck = loginCheck.pwdTeamCheck(team: tName, password: pword)
+       // let PasswordArray: Array<String> = []
         
-      //  loginCheck.pwdTeamCheck(team: tName, password: pword)
-    
-       print("passwordCheck.count: ", passwordCheck.count)
+       // var passwordCheck: Array<Any> = []
         
-           if passwordCheck.count == 0 {
-             
-           //     if passwordArray.count == 0 {
-              
+       
+        loginModel.pwdTeamPwdCheck(team: tName, password: pword) { [self] (result) in
+                                     
+        DispatchQueue.main.async {
+            self.passwordCheck = result
+            print("passwordCheck in loginModel.pwdTeamcheck: ", self.passwordCheck)
+            
+           check(passwordCheck: passwordCheck)
+            
+        } // DispatchQueue
+        
+       } // loginModel.pwdTeamCheck
+        
+        func check(passwordCheck: Array<Any>) {
+            
+            print("passwordCheck.count: ", passwordCheck.count)
+        
+            if passwordCheck.count == 0 {
+                
+                print("passwordCheck.count after if: ", passwordCheck.count)
+                
                 let dialogMessage = UIAlertController(title: "Team and Password combination not found", message: "Correct Team and/or Password and retry or select New Team button to create a new team.", preferredStyle: .alert)
                 
                 // Create OK button with action handler
@@ -188,10 +207,12 @@ class LoginViewController: UIViewController {
                 
             } // If passwordCheck == Team and Password
           
-            
-            performSegue(withIdentifier: "initialTabBar", sender: self)
-    
-    
+       
+        
+                performSegue(withIdentifier: "initialTabBar", sender: self)
+         
+        } // func check
+        
     } //login button
     
     
@@ -220,3 +241,4 @@ class LoginViewController: UIViewController {
     
         
 }  //LoginViewController
+

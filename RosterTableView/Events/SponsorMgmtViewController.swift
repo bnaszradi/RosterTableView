@@ -16,8 +16,45 @@ extension StringProtocol {
 }
 
 
+
+
 class SponsorMgmtViewController: UIViewController {
 
+    
+    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+
+    var team: String = ""
+    var name: String = ""
+    var eventName: String = ""
+    var eventDate: Date = Date()
+
+    let eventTeamCheck = EventTeamCheck()
+
+    let playerRecord = PlayerTeamData()
+
+    let sponsorList = SponsorsList()
+
+    let playerTeamData = PlayerTeamData()
+
+    var sponsorN: String = ""
+
+    let dispatchGroup = DispatchGroup()
+
+    let updateDonationsTotals = UpdateDonationsTotals()
+
+    var sponsID: CKRecord.ID = CKRecord.ID()
+    // var attempts: Int = 0
+    // var makes: Int = 0
+    var perShotDons: Double = 0.00
+    var totShotDons: Double = 0.00
+    var flatDons: Double = 0.00
+    var totFlatDons: Double = 0.00
+    // var donations: Double = 0.0
+
+    var playerResults = CKRecord(recordType: "team")
+    var playerResultsforRef = CKRecord(recordType: "team")
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,37 +77,7 @@ class SponsorMgmtViewController: UIViewController {
     
     
     
-    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
-    
-    var team: String = ""
-    var name: String = ""
-    var eventName: String = ""
-    var eventDate: Date = Date()
-    
-    let eventRecord = EventTeamCheck()
-    
-    let playerRecord = PlayerTeamData()
-    
-    let sponsorRecord = SponsorsList()
-    
-    var sponsorN: String = ""
-    
-    let dispatchGroup = DispatchGroup()
-    
-    let updateDonationsTotals = UpdateDonationsTotals()
-    
-    var sponsID: CKRecord.ID = CKRecord.ID()
-   // var attempts: Int = 0
-   // var makes: Int = 0
-    var perShotDons: Double = 0.00
-    var totShotDons: Double = 0.00
-    var flatDons: Double = 0.00
-    var totFlatDons: Double = 0.00
-   // var donations: Double = 0.0
-    
-    
     @IBOutlet weak var eventN: UILabel!
-    
     
     
     @IBOutlet weak var sponsorName: UITextField!
@@ -80,7 +87,6 @@ class SponsorMgmtViewController: UIViewController {
     
     
     @IBOutlet weak var eventD: UILabel!
-    
     
     
     @IBOutlet weak var perShotD: UITextField!
@@ -154,11 +160,18 @@ class SponsorMgmtViewController: UIViewController {
         
         print("sponsorN after parsing blank characters from end: ", sponsorN)
 
-        
+      /*
         // check to see if sponsor already exists for the team event
-        let checkSponsor = sponsorRecord.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
+      //  let checkSponsor = sponsorRecord.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
         
-        let checkSpons = checkSponsor.sponsorArray
+        sponsorList.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN, completion: { qsponsorRecordQuery in
+        
+            DispatchQueue.main.async {
+                
+        
+      //  let checkSpons = checkSponsor.sponsorArray
+        let checkSpons = qsponsorRecordQuery.sponsorArray
+                
         
         print("checkSponsor count: ", checkSpons.count)
         
@@ -189,9 +202,12 @@ class SponsorMgmtViewController: UIViewController {
             return
 
                         
-        }  // checkSponsor
+        }  // if checkSponsor.count > 0
        
-        
+            } // DispatchQueue
+            
+        } ) // Completionhandler sponsorList.sponsorRecordQuery
+     */
         
         //Check to ensure sponsor phone number entered
         
@@ -432,24 +448,101 @@ class SponsorMgmtViewController: UIViewController {
             print("spinner started")
             
             
-            dispatchGroup.notify(queue: .main) { [self] in
+        dispatchGroup.notify(queue: .main) { [self] in
              
                 dispatchGroup.enter()
+         
+            // check to see if sponsor already exists for the team event
+         
+            sponsorList.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN, completion: { qsponsorRecordQuery in
+            
+                DispatchQueue.main.async {
+                    
+            
+          //  let checkSpons = checkSponsor.sponsorArray
+            let checkSpons = qsponsorRecordQuery.sponsorArray
+                    
+            
+            print("checkSponsor count: ", checkSpons.count)
+            
+            
+            if checkSpons.count > 0 {
+                
+                print("checkSponsor count: ", checkSpons.count)
+                
+                // Create Event Name alert
+                 let dialogMessage = UIAlertController(title: "Duplicate Sponsor Name", message: "Must enter a different sponsor name or delete the sponsor name and re-Add the sponsor name.", preferredStyle: .alert)
+                 
+                 // Create OK button with action handler
+                 let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                     print("Ok button tapped")
+                  //  removeSpinner()
+                  //  dispatchGroup.leave()
+                  })
+                 
+                 //Add OK button to a dialog message
+                 dialogMessage.addAction(ok)
+
+                 // Present Alert to
+                 self.present(dialogMessage, animated: true, completion: nil)
+
+                
+                removeSpinner()
+                dispatchGroup.leave()
+                return
+
+                            
+            }  // if checkSponsor.count > 0
+           
+       //         } // DispatchQueue
+                
+        //    } ) // Completionhandler sponsorList.sponsorRecordQuery
             
             
         let recordSponsor = CKRecord(recordType: "sponsor")
         
         
-        // Query the event and player to get this record for eventDate and player references
-        let eventResults = eventRecord.querySingleEvent(team: team, eventD: eventDate)
-        
-        let playerResults = playerRecord.queryPlayer(pName: name, team: team)
-        
+        // Query the event to get the record for eventDate reference
+      //  let eventResults = eventRecord.querySingleEvent(team: team, eventD: eventDate)
+                
+        eventTeamCheck.querySingleEvent(team: team, eventD: eventDate, completion: { qSingleEvent in
+            
+            DispatchQueue.main.async {
+               
+     //   let playerResults = playerRecord.queryPlayer(pName: name, team: team)
+        print("eventTeamCheck.querySingleEvent started")
+                
+                
+        let eventResults = qSingleEvent.recordResults
         
         recordSponsor["eventRef"] = CKRecord.Reference(record: eventResults, action: .deleteSelf)
         
-        recordSponsor["playerRef"] = CKRecord.Reference(record: playerResults, action: .deleteSelf)
+       //     } // DispatchQueue
+            
+     //   } )  // eventTeamCheck.querySingleEvent completionhandler
                 
+       //  recordSponsor["playerRef"] = CKRecord.Reference(record: playerResults, action: .deleteSelf)
+                
+        // Query the team to get the record for playerRef reference
+
+        playerTeamData.queryPlayer(pName: name, team: team, completion: { qResults in
+                                        
+                
+                DispatchQueue.main.async {
+                   
+         //   let playerResults = playerRecord.queryPlayer(pName: name, team: team)
+                    
+            print("playerTeamData.queryPlayer started")
+            
+            playerResults = qResults.playerRecord
+            print("playerResults in qResults: ", playerResults)
+            
+            recordSponsor["playerRef"] = CKRecord.Reference(record: playerResults, action: .deleteSelf)
+            
+         //     } // DispatchQueue
+                
+         //  } )  // CompletionHandler playerTeamData.queryPlayer
+            
         recordSponsor["player"] = name
         
         recordSponsor["sponsorName"] = sponsorN
@@ -478,60 +571,139 @@ class SponsorMgmtViewController: UIViewController {
                         
                   } //if error
                  } // DispatchQueue
-
+       
+                } // DispatchQueue
+                  
+             } )  // CompletionHandler playerTeamData.queryPlayer
+              
+            } // DispatchQueue
+            
+        } )  // eventTeamCheck.querySingleEvent completionhandler
+             
+            
         
         //If donation record for team, player, eventDate doesn't exist, create it
         
-        let donationCheckRecord = updateDonationsTotals.queryCheckSponsor(tName: team, pName: name, eDate: eventDate)
+       // let donationCheckRecord = updateDonationsTotals.queryCheckSponsor(tName: team, pName: name, eDate: eventDate)
+                
+        updateDonationsTotals.queryCheckSponsor(tName: team, pName: name, eDate: eventDate, completion: { qCheckSpons in
+                    
+                DispatchQueue.main.async {
+                       
+                let donationCheckRecord = qCheckSpons.playerArray
+                    
+               print("donationCheckRecord.count: ", donationCheckRecord.count)
         
-        if donationCheckRecord.player.count == 0 {
-            let tAttempts: Int = 0
-            let tMakes: Int = 0
-            let tPerShot: Double = 0.0
-            let tFlatDonation: Double = 0.0
-            let tDonation: Double = 0.0
+                if donationCheckRecord.count == 0 {
+                           
+                    let tAttempts: Int = 0
+                    let tMakes: Int = 0
+                    let tPerShot: Double = Double(perShotD.text!)!
+                    let tFlatDonation: Double = Double(flatD.text!)!
+                    let tDonation: Double = Double(flatD.text!)!
             
+            playerTeamData.queryPlayer(pName: name, team: team, completion: { qResults in
+                                                    
+                            
+                    DispatchQueue.main.async {
+                               
+                     //   let playerResults = playerRecord.queryPlayer(pName: name, team: team)
+                                
+                print("playerTeamData.queryPlayer started")
+                        
+                    playerResultsforRef = qResults.playerRecord
+                    print("playerResultsforRef in qResults: ", playerResultsforRef)
             
-            updateDonationsTotals.createDonationRecord(teamName: team, pName: name, eDate: eventDate, totAttempts: tAttempts, totMakes: tMakes, totPerShot: tPerShot, totFlatDonation: tFlatDonation, totalDonation: tDonation, eventName: eventName)
+            print("playerResults before updateDonationsTotals.createDonationRecord: ", self.playerResults)
+                    
+            updateDonationsTotals.createDonationRecord(teamName: team, pName: name, eDate: eventDate, totAttempts: tAttempts, totMakes: tMakes, totPerShot: tPerShot, totFlatDonation: tFlatDonation, totalDonation: tDonation, eventName: eventName, recordPlayer: playerResultsforRef)
             
-            
-        }  // above - if donation record doesn't exist create it
+                        
+                // Display message and stop status spinner
+                        
+                        var textDisplay:String = sponsorName.text!
+                        
+                        textDisplay.append(" added for ")
+                        
+                        textDisplay.append(name)
+                        
+                        textDisplay.append(" sponsor list")
+                        
+                       print("textDisplay: ", textDisplay)
+                            
+                           
+                         let dialogMessage = UIAlertController(title: "Sponsor Added for player", message: textDisplay, preferredStyle: .alert)
+                         
+                         // Create OK button with action handler
+                         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                            removeSpinner()
+                            dispatchGroup.leave()
+                            print("Ok button tapped")
+                            
+                               })
+                         
+                         //Add OK button to a dialog message
+                         dialogMessage.addAction(ok)
+
+                         
+                         // Present Alert to
+                         self.present(dialogMessage, animated: true, completion: nil)
+                    
+                  
+                        
+                    } // DispatchQueue
+                
+            } ) //Completionhandler playerTeamData.queryPlayer
+                    
+                        
+                        
+                    
+                }  else { // above - if donation record doesn't exist create it
         
+                  
         
         //Update donations table to add Total PerShot, Total Flat Donation
         
         
-        let donationRecord = updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate)
+     //   let donationRecord = updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate)
+        updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate, completion: { qSponsWithShots in
+            
+           
+            DispatchQueue.main.async {
+            
+            let donationRecord = qSponsWithShots
+            
+            sponsID = donationRecord.sponsorID
         
-        sponsID = donationRecord.sponsorID
+            perShotDons = donationRecord.totPerShot
+            print("perShotDons: ", perShotDons)
+            let perShotValue = Double(perShotD.text!)
+            totShotDons = perShotDons + perShotValue!
+            
+            print("totShotsDons: ", totShotDons)
         
-        perShotDons = donationRecord.totPerShot
-        print("perShotDons: ", perShotDons)
-        let perShotValue = Double(perShotD.text!)
-        totShotDons = perShotDons + perShotValue!
-        print("totShotsDons: ", totShotDons)
+            flatDons = donationRecord.totFlatDon
+            print("flatDons: ", flatDons)
+            let flatValue = Double(flatD.text!)
+            totFlatDons = flatDons + flatValue!
+            print("totFlatDons: ", totFlatDons)
         
-        flatDons = donationRecord.totFlatDon
-        print("flatDons: ", flatDons)
-        let flatValue = Double(flatD.text!)
-        totFlatDons = flatDons + flatValue!
-        print("totFlatDons: ", totFlatDons)
+            let tMakes = donationRecord.totMake
+            let donMakes: Double = Double(tMakes) * totShotDons
+            print("tMakes: ", tMakes)
         
-        let tMakes = donationRecord.totMake
-        let donMakes: Double = Double(tMakes) * totShotDons
-        print("tMakes: ", tMakes)
+            let totDonation = donationRecord.totalDonation
+            print("totDonation: ", totDonation)
         
-        let totDonation = donationRecord.totalDonation
-        print("totDonation: ", totDonation)
-        
-        let allDonation = donMakes + totFlatDons
-        print("allDonation: ", allDonation)
+            let allDonation = donMakes + totFlatDons
+            print("allDonation: ", allDonation)
        
         
+        //Update donations table
+              
         updateDonationsTotals.totalsUpdate(sponsorID: sponsID, teamName: team, pName: name, totalPerShot: totShotDons, totalFlatDonation: totFlatDons, totalDonation: allDonation)
         
-          //Update donations table above
-        
+          
         
             var textDisplay:String = sponsorName.text!
             
@@ -561,6 +733,21 @@ class SponsorMgmtViewController: UIViewController {
              // Present Alert to
              self.present(dialogMessage, animated: true, completion: nil)
         
+           
+            
+            } // DispatchQueue for completionhandler
+      
+        } )  //  completionhandler updateDonationsTotals.queryCheckSponsor
+                
+                } // else-if donation record = 0
+                
+            } // DispatchQueue
+            
+        } ) // Completionhandler updateDonationsTotals.querySponsorWithShots
+                
+                } // DispatchQueue
+                
+            } ) // Completionhandler sponsorList.sponsorRecordQuery
             
         }  // dispatchGroup.notify
             
@@ -636,11 +823,17 @@ class SponsorMgmtViewController: UIViewController {
 
          // Add check if sponsor exists
          
-         let sponsorVerify = sponsorRecord.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
-     
-       let sponsorVer = sponsorVerify.sponsorArray
+       //  let sponsorVerify = sponsorRecord.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
+            
+            sponsorList.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN, completion: { qsponsorRecordQuery in
+            
+                DispatchQueue.main.async {
+                    
+          //  let sponsorVer = sponsorVerify.sponsorArray
+                    
+            let sponsorVer = qsponsorRecordQuery.sponsorArray
         
-        print("sponsorVer.count: ", sponsorVer.count)
+            print("sponsorVer.count: ", sponsorVer.count)
         
             if sponsorVer.count == 0 {
              
@@ -665,7 +858,6 @@ class SponsorMgmtViewController: UIViewController {
 
          } //if sponsor exists check
          
-       
         
          let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this sponsor?", preferredStyle: .alert)
          
@@ -694,8 +886,13 @@ class SponsorMgmtViewController: UIViewController {
          // Present dialog message to user
          self.present(dialogMessage, animated: true, completion: nil)
          
+                } // DispatchQueue
+                                               
+            } ) //Completionhandler sponsorList.sponsorRecordQuery
+                    
        } // Dispatchgroup.Notify
             
+        
      }  // deletePlayer
      
     
@@ -709,19 +906,32 @@ class SponsorMgmtViewController: UIViewController {
           
         // Query sponsor (team, player, event date, sponsor) from sponsor table and return perShot, donation
         
-        let getSponsor = sponsorRecord.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
+      //  let getSponsor = sponsorRecord.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
+         
+         sponsorList.sponsorRecordQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN, completion: { qsponsorRecordQuery in
+         
+             DispatchQueue.main.async {
+             
+        let perShotSponsorArray = qsponsorRecordQuery.perShotArray
         
-        let perShotSponsor = getSponsor.perShotArray[0]
-        print("perShotSponsor: ", perShotSponsor)
+        let perShotSponsor = perShotSponsorArray[0]
+        print("perShotSponsorArray: ", perShotSponsorArray)
         
-        let donationSponsor = getSponsor.donationArray[0]
-        print("donationSponsor: ", donationSponsor)
+        let donationSponsorArray = qsponsorRecordQuery.donationArray
+        
+        let donationSponsor = donationSponsorArray[0]
+        print("donationSponsorArray: ", donationSponsorArray)
         
         
         //Query (team, player, event date) in donations table and then substract sponsor's perShot, flatDonation and totalDonation from sponssor table
         
-        let getDonation = updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate)
-        
+     //   let getDonation = updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate)
+         
+        self.updateDonationsTotals.querySponsorWithShots(tName: self.team, pName: self.name, eDate: self.eventDate, completion:  { qSponsWithShots in
+             
+        DispatchQueue.main.async {
+                 
+        let getDonation = qSponsWithShots
         
         let playerID = getDonation.sponsorID
         
@@ -754,19 +964,29 @@ class SponsorMgmtViewController: UIViewController {
         let updatedTotFlatDonation = playerTotFlatDonation - donationSponsor
         print("updatedTotFlatDonation: ", updatedTotFlatDonation)
         
-        let updatedTotalDonation = playerTotalDonation - (playerPerShotCalc + donationSponsor)
+        let updatedTotalDonation: Double = playerTotalDonation - (playerPerShotCalc + donationSponsor)
         print("updatedTotalDonation: ", updatedTotalDonation)
         
         
-        updateDonationsTotals.totalsUpdate(sponsorID: playerID, teamName: team, pName: name, totalPerShot: updatedTotPerShot, totalFlatDonation: updatedTotFlatDonation, totalDonation: updatedTotalDonation)
+        self.updateDonationsTotals.totalsUpdate(sponsorID: playerID, teamName: self.team, pName: self.name, totalPerShot: updatedTotPerShot, totalFlatDonation: updatedTotFlatDonation, totalDonation: updatedTotalDonation)
        
-        
+             } // DispatchQueue completionhandler
+             
+         } ) // completionhandler updateDonationsTotals.querySponsorWithShots
+                 
+                 
 
         //Delete sponsoer record
-        let sponsorVerify = sponsorRecord.querySponsor(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
+       // let sponsorVerify = sponsorRecord.querySponsor(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
+            
+        self.sponsorList.querySponsor(tName: self.team, pName: self.name, eDate: self.eventDate, sponsorN: self.sponsorN, completion: { qquerySponsor in
+            
+            DispatchQueue.main.async {
+            
      
-          let sponsorID = sponsorVerify
+        //  let sponsorID = sponsorVerify
         
+        let sponsorID = qquerySponsor.resultsID
         
           CKContainer.default().publicCloudDatabase.delete(withRecordID: sponsorID) {(recordID, error) in
              
@@ -782,20 +1002,20 @@ class SponsorMgmtViewController: UIViewController {
                     //  self.persent(ac, animated: true)
                   }  // else
                   
-            } //if error
+              } //if errorself.
            } // DispatchQueue
 
         
         
-        var textMessDelete =  sponsorName.text!
+        var textMessDelete =  self.sponsorName.text!
           
-          textMessDelete.append(" removed from ")
+        textMessDelete.append(" removed from ")
           
-          textMessDelete.append(name)
+        textMessDelete.append(self.name)
         
         textMessDelete.append(" Sponsor List for ")
         
-        textMessDelete.append(team)
+        textMessDelete.append(self.team)
         
         textMessDelete.append(" event")
         
@@ -819,8 +1039,21 @@ class SponsorMgmtViewController: UIViewController {
          // Present Alert to
          self.present(dialogMessage, animated: true, completion: nil)
   
+            }  //DispatchQueue
+            
+        }  )  // Completionhandler sponsorList.sponsorQuery
+                
+                 
+             } // DispatchQueue
+             
+         } )  // Completionhandler sponsorList.sponsorRecordQuery
+                 
+                 
+                 
+                 
     } // deleteSponsor func
 
 
     
 }  // SponsorMgmtViewController
+

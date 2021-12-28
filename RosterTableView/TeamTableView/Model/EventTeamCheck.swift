@@ -19,7 +19,11 @@ class EventTeamCheck {
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
-    func queryEvent(team: String, eventN: String, eventD: Date) -> CKRecord.ID   {
+  //  func queryEvent(team: String, eventN: String, eventD: Date) -> CKRecord.ID   {
+    
+    
+    func queryEvent(team: String, eventN: String, eventD: Date, completion: @escaping (QqueryEvent)->Void)  {
+           
     
         print("team in EventTeamCheck: ", team)
       
@@ -51,14 +55,22 @@ class EventTeamCheck {
                  }  //recordFetchedBlock
         
     
-        CKContainer.default().publicCloudDatabase.add(queryOp)
-    
         queryOp.queryCompletionBlock = { cursor, error in
             
-         
+            let qqueryEvent = QqueryEvent(resultsID: resultsID)
+            print("qqueryEvent in CompletionBlock: ", qqueryEvent)
+            
+            completion(qqueryEvent)
+            
+        
         } // qOperttion queryCompletionBlock
     
+        
+    
+        CKContainer.default().publicCloudDatabase.add(queryOp)
+    
        
+      /*
         var counter: Int = 0
         while counter <= 700000000 {
             counter += 1
@@ -69,14 +81,18 @@ class EventTeamCheck {
         print("results before return: ", resultsID)
         
         return resultsID
-   
+   */
+        
  } // queryPlayer
   
     
-    func querySingleEvent(team: String, eventD: Date) -> CKRecord   {
+   // func querySingleEvent(team: String, eventD: Date) -> CKRecord   {
     
+    func querySingleEvent(team: String, eventD: Date, completion: @escaping (QSingleEvent)->Void)  {
+           
    
-        print("team in EventTeamCheck: ", team)
+        print("team in EventTeamCheck.querySingleEvent: ", team)
+        print("eventD in EventTeamCheck.querySingleEvent: ", eventD)
         
          
         var recordResults = CKRecord(recordType: "events")
@@ -96,7 +112,6 @@ class EventTeamCheck {
         queryOp.resultsLimit = 25
        
  
-        
         // This is non-structure data fetch
        //  queryOp.recordFetchedBlock = { record in
         
@@ -112,9 +127,9 @@ class EventTeamCheck {
              recordResults = record
             
            
-           // print("results in FetchedBlock: ", results)
+            print("eventRecord in EventTeamCheck.querySingleEvent FetchedBlock: ", recordResults)
             
-            print("record for results in FetchedBlock: ", recordResults)
+           // print("record for results in FetchedBlock: ", recordResults)
             
           //  }  // DispatchQueue
              
@@ -122,17 +137,24 @@ class EventTeamCheck {
                  }  //recordFetchedBlock
         
       
+        //  qOperation.queryCompletionBlock = { cursor, error in
+          queryOp.queryCompletionBlock = { cursor, error in
+              
+              let qSingleEvent = QSingleEvent(recordResults: recordResults)
+              print("qSingleEvent in CompletionBlock: ", qSingleEvent)
+              
+              completion(qSingleEvent)
+              
+          } // qOperttion queryCompletionBlock
+      
+        
+        
    // CKContainer.default().publicCloudDatabase.add(qOperation)
         CKContainer.default().publicCloudDatabase.add(queryOp)
     
     
-      //  qOperation.queryCompletionBlock = { cursor, error in
-        queryOp.queryCompletionBlock = { cursor, error in
-            
-         
-        } // qOperttion queryCompletionBlock
-    
-       
+      
+     /*
         var counter: Int = 0
         while counter <= 700000000 {
             counter += 1
@@ -143,12 +165,15 @@ class EventTeamCheck {
         print("results before return: ", recordResults)
         
         return recordResults
-   
+   */
+        
  } // querySingleEvent func
 
     
     
-    func eventText (team: String, eventN: String, eventD: Date) -> (smsText: String, eventID: CKRecord.ID) {
+ //   func eventText (team: String, eventN: String, eventD: Date) -> (smsText: String, eventID: CKRecord.ID) {
+    
+    func eventText (team: String, eventN: String, eventD: Date, completion: @escaping (QEventText)->Void)  {
         
         print("team in eventText: ", team)
         print("eventN in eventText: ", eventN)
@@ -203,12 +228,21 @@ class EventTeamCheck {
               
             }  //recordFetchedBlock
          
+       
+        queryOp.queryCompletionBlock = { cursor, error in
+         
+            let qEventText = QEventText(smsText: smsText, eventID: eventID)
+            
+            completion(qEventText)
+            
+        
+        } // qOperttion queryCompletionBlock
+    
+        
          CKContainer.default().publicCloudDatabase.add(queryOp)
      
-         queryOp.queryCompletionBlock = { cursor, error in
-          
-         } // qOperttion queryCompletionBlock
-     
+         
+        /*
          var counter: Int = 0
          while counter <= 700000000 {
              counter += 1
@@ -217,6 +251,7 @@ class EventTeamCheck {
          print("Counter: ", counter)
          
          return (smsText, eventID)
+        */
         
     } //func eventText
     

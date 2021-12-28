@@ -12,8 +12,6 @@ import MobileCoreServices
 
 class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-   // var teamTableViewTableViewController: TeamTableViewTableViewController?=nil
-    
     var name: String = ""
     
     var playerName: String = ""
@@ -25,7 +23,7 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
     
     let teamPlayerCheck = TeamPlayerCheck()
     
-    let playerSearch = UpdateTeamTotals()
+    let updateTeamTotals = UpdateTeamTotals()
  
     var playerID: CKRecord.ID = CKRecord.ID()
     
@@ -123,11 +121,18 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
     
        // Check if player already exists on roster
         
-        let check = teamPlayerCheck.TeamPlayer(team: tName, player: pName)
+        teamPlayerCheck.teamPlayer(team: tName, player: pName, completion: {
+            qPlayerArray in
+            
+            DispatchQueue.main.async {
+                
+                let check = qPlayerArray.playerArray.count
+                
+                print("qPlayerArray check: ", check)
+                
         
-        print("check.count: ", check.count)
-        
-        if check.count > 0 {
+       
+        if check > 0 {
           
             //Duplicate team and player detected
             
@@ -144,11 +149,15 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
 
              // Present Alert to
              self.present(dialogMessage, animated: true, completion: nil)
+          
+            return
+            
+        } // if check.count
             
             
-        }  else {
+     //   }  else {
         
-            if PlayerPhoto.image == nil {
+            if self.PlayerPhoto.image == nil {
                 
             // Create Alert for missing photo
              let dialogMessage = UIAlertController(title: "Missing Photo", message: "Must select a new photo before updating existing Player photo", preferredStyle: .alert)
@@ -173,13 +182,13 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
         
         // Add photo
             
-            if let image = PlayerPhoto.image {
+            if let image = self.PlayerPhoto.image {
             
-            let asset = CKAsset(fileURL: saveImageToFile(image))
+                let asset = CKAsset(fileURL: self.saveImageToFile(image))
             
-        recordPlayer["player"] = pName
+                recordPlayer["player"] = self.pName
     
-        recordPlayer["teamName"] = tName
+                recordPlayer["teamName"] = self.tName
         
         recordPlayer["TotAttempts"] = 0
         
@@ -206,11 +215,11 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
              } // DispatchQueue
        
             
-        var textDisplay = pName
+                var textDisplay = self.pName
         
         textDisplay.append(" added to ")
         
-        textDisplay.append(tName)
+                textDisplay.append(self.tName)
         
        print("textDisplay: ", textDisplay)
         
@@ -228,12 +237,19 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
             // Present Alert to
             self.present(dialogMessage, animated: true, completion: nil)
             
-        } // if - else to check for duplicate team and player
-
        
         
         } // if image
         
+      
+            }  // DispatchQueue
+                                 
+            } ) // teamPlayerCheck.teamPlayer
+                     
+                
+                
+                
+                
     } // AddPlayer
     
     
@@ -241,6 +257,28 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
 
     // Update photo
     @IBAction func AddPhoto(_ sender: Any) {
+        
+        // Check to see if a photo is selected to update
+        if self.PlayerPhoto.image == nil {
+                
+                // Create Alert for missing photo
+                 let dialogMessage = UIAlertController(title: "Missing Photo", message: "Must select a new photo before updating existing Player photo", preferredStyle: .alert)
+                 
+                 // Create OK button with action handler
+                 let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                     print("Ok button tapped")
+                  })
+                 
+                 //Add OK button to a dialog message
+                 dialogMessage.addAction(ok)
+
+                 // Present Alert to
+                 self.present(dialogMessage, animated: true, completion: nil)
+
+                return
+                
+         }  // if missing photo alert
+        
         
         // Check for team and player names
         
@@ -294,23 +332,29 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
         extraPlayerCharLessOne = playerNumChar - 1
         print("extraPlayerCharLessOne: ", extraPlayerCharLessOne)
             
-        } // if teamArray
+        } // while playerArray
         
         pName = String(playerArray)
         
         print("pName after parsing blank characters from end: ", pName)
     
+    // Check if player (and photo) for team exists
+    
+        teamPlayerCheck.teamPlayer(team: tName, player: pName, completion: {
+            qPlayerArray in
+            
+        DispatchQueue.main.async {
         
-        let check = teamPlayerCheck.TeamPlayer(team: tName, player: pName)
+        let check = qPlayerArray.playerArray.count
         
-        print("check.count in AddPhoto: ", check.count)
+        print("check in AddPhoto: ", check)
         
-        if check.count == 0 {
+        if check == 0 {
           
             //Player not on roster yet
             
             // Create new Alert
-             let dialogMessage = UIAlertController(title: "Player Missing", message: "Player not found on Team roster. Add Player to approprieate Team then update Player photo", preferredStyle: .alert)
+             let dialogMessage = UIAlertController(title: "Player Not Found", message: "Player not found on Team roster. Add correct Player to this Team then Update Photo", preferredStyle: .alert)
              
              // Create OK button with action handler
              let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
@@ -322,41 +366,17 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
 
              // Present Alert to
              self.present(dialogMessage, animated: true, completion: nil)
-            
-            
+          
+            return
+           //   } // if check == 0
+                
+    
         }  else {
    
-            //Check if there is already a photo in player record
-            let photoCheck = teamPlayerCheck.playerPhoto(team: tName, player: pName)
-            
-            if photoCheck.count > 0 {
+       
+                // Create alert to confirm replacement of player photo
                 
-                // Check to see if a photo is selected to update
-                if PlayerPhoto.image == nil {
-                    
-                    // Create Alert for missing photo
-                     let dialogMessage = UIAlertController(title: "Missing Photo", message: "Must select a new photo before updating existing Player photo", preferredStyle: .alert)
-                     
-                     // Create OK button with action handler
-                     let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                         print("Ok button tapped")
-                      })
-                     
-                     //Add OK button to a dialog message
-                     dialogMessage.addAction(ok)
-
-                     // Present Alert to
-                     self.present(dialogMessage, animated: true, completion: nil)
-
-                    return
-                    
-                    
-                }  // if missing photo alert
-
-                
-                // Create new Alert
-                
-                let dialogMessage = UIAlertController(title: "Player already has Photo", message: "Do you want to replace the current Player's Photo?", preferredStyle: .alert)
+                let dialogMessage = UIAlertController(title: "Replace existing Player Photo", message: "Do you want to replace the current Player's Photo?", preferredStyle: .alert)
                 
                 // Create OK button with action handler
                 let ok = UIAlertAction(title: "OK", style: .default, handler: { [self] (action) -> Void in
@@ -371,17 +391,21 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
                     
                   // let name = teamName.text!
                  //   let playerName = pName
-                   let scoreDate = Date()
+                     let scoreDate = Date()
                     
                     // Get CKRecordID for team and player in team DB
                     //Assign to playerID
                     
-                    let playerRecord = playerSearch.queryPlayer(pName: pName, team: name)
-                    
-                    playerID = playerRecord.playID
-                    print("playerID for photo: ", playerID)
-                    
-                    // This code works
+                  
+                updateTeamTotals.queryPlayer(pName: pName, team: name, completion: { qResults in
+                            
+                        DispatchQueue.main.async {
+                                      
+                                
+                        let playerID = qResults.playID
+                                  
+                        print("playerID in updateTeamTotals.queryPlayer: ", playerID)
+                         
                     CKContainer.default().publicCloudDatabase.fetch(withRecordID: playerID) { (record, error) in
 
                     if let recordToSave =  record {
@@ -397,7 +421,7 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
                         let operation = CKModifyRecordsOperation(recordsToSave: [recordToSave], recordIDsToDelete: nil)
                        // print("operation for save photo: ", operation)
                         
-                        
+                     
                    operation.savePolicy = CKModifyRecordsOperation.RecordSavePolicy.changedKeys
                     
                     
@@ -411,19 +435,17 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
                                 
                            
                         } // if error
-                     } // completionblock
+                     } // modifyRecordsCompletionblock
                     
-                   
+        
                    CKContainer.default().publicCloudDatabase.add(operation)
                     
                         
-                    } // Record to save
-                    }  // Fetch
+                   } // If let Record to save
+                   }  // CKContainer Fetch
                         
-                     
-                    // Code above to save photo in Cloudkit
             
-                    }  //if image
+                       
                     
                     // Create new Alert
                      let dialogMessage = UIAlertController(title: "Player photo updated", message: "Photo for player successfully updated", preferredStyle: .alert)
@@ -441,8 +463,15 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
                      self.present(dialogMessage, animated: true, completion: nil)
 
                     
-                })  // UIAlertAction ok
+                        }  //if image is selected
+                    
+                    })  // UIAlertAction ok
                 
+                    } //DispatchQueue
+                                                            
+                  } ) //Completionhandler updateTeamTotals.queryPlayer
+                           
+                    
                 // Create Cancel button with action handlder
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
                    // print("Cancel button tapped")
@@ -457,10 +486,14 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
                
             }  // if photoCheck count
             
-            } //if photoCheck
-            
+            } //DispatchQueue
+                                                                
+          } ) //Completionhandler teamPlayerCheck.teamPlayer
+                                                                
+                                                     
+       
         
-    }  // selectPhoto
+   }  // selectPhoto
     
     
     
@@ -584,8 +617,16 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
         
         // Add check if player on team exists
         
-        let playerVerify = teamPlayerCheck.TeamPlayer(team: name, player: pName)
+     //  let playerVerify = teamPlayerCheck.teamPlayer(team: name, player: pName)
+        
+        teamPlayerCheck.teamPlayer(team: tName, player: pName, completion: {
+            qPlayerArray in
+            
+        DispatchQueue.main.async {
+        
+            let playerVerify = qPlayerArray.playerArray
     
+        
         if playerVerify.count == 0 {
             
             
@@ -606,9 +647,9 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
             self.present(dialogMessage, animated: true, completion: nil)
 
         } //if playerVerify check
-        
+       
         //If player exists present dialog to confirm deletion of player
-        let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this player?", preferredStyle: .alert)
+        let dialogMessage = UIAlertController(title: "Confirm Delete Player", message: "Are you sure you want to delete this player?", preferredStyle: .alert)
         
         // Create OK button with action handler
         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
@@ -630,8 +671,19 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
         // Present dialog message to user
         self.present(dialogMessage, animated: true, completion: nil)
         
+        }  // DispatchQueue
+                
+        } ) // teamPlayerCheck.teamPlayer
+            
+            
+            
     }  // deletePlayer
     
+            
+            
+            
+            
+            
     func deleteRecord(pName: String)
     {
         print("Delete record function called")
@@ -640,12 +692,22 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
         
         print("tName in delete function: ", tName)
          
-         let recordTeam = playerSearch.queryPlayer(pName: pName, team: tName)
+       //  let recordTeam = playerSearch.queryPlayer(pName: pName, team: tName)
         
-         playerID = recordTeam.playID
+       //  playerID = recordTeam.playID
        
+        
+        updateTeamTotals.queryPlayer(pName: pName, team: tName, completion: { qResults in
+            
+                  DispatchQueue.main.async {
+                      
+                
+                self.playerID = qResults.playID
+                  
+                print("playerID: ", self.playerID)
+                  
        
-         CKContainer.default().publicCloudDatabase.delete(withRecordID: playerID) {(recordID, error) in
+                CKContainer.default().publicCloudDatabase.delete(withRecordID: self.playerID) {(recordID, error) in
             
            
           //  } { record, error in
@@ -665,7 +727,7 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
          
          textMessDelete.append(" removed from ")
          
-         textMessDelete.append(tName)
+            textMessDelete.append(self.tName)
          
         print("textMessDelete: ", textMessDelete)
          
@@ -682,7 +744,14 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
         // Present Alert to
         self.present(dialogMessage, animated: true, completion: nil)
         
-    } // DeletePlayer
+                      
+            } //DispatchQueue
+             
+          } ) //Completionhandler updateTeamTotalsqueryPlayer
+            
+                      
+        
+    } // DeletePlayer func
 
     
     
@@ -711,6 +780,5 @@ class PlayerManagement: UIViewController, UIImagePickerControllerDelegate, UINav
     
     
     
-    
 
-}  // PlayerManagement Class
+    }  // PlayerManagement Class

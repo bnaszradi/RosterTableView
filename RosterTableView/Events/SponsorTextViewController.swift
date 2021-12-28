@@ -28,42 +28,6 @@ class SponsorTextViewController: UIViewController, MFMessageComposeViewControlle
            }
     } // messageComposeViewController
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        
-        playerName.text = name
-        
-       let sponsorsList = SponsorsList()
-        
-        let updateDonationsTotals = UpdateDonationsTotals()
-        
-        
-        //Query to get this number of player makes
-        let donationArray = updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate)
-        
-        eventN.text = eventName
-        sponsorName.text = sponsorN
-        
-        makes.text = String(donationArray.totMake)
-        
-        // Query to get perShot, donation and sponsor phone number
-        let sponsorPhone = sponsorsList.sponsorPhoneQuery(tName: team, pName: name, eDate: eventDate, sponsorN: sponsorN)
-        
-        sponsorPhoneNumber.text = String(sponsorPhone.phoneN)
-        phone = String(sponsorPhone.phoneN)
-        
-        perShot.text = String(sponsorPhone.perShot)
-        
-        flatDonation.text = String(sponsorPhone.donation)
-        
-        totalAmount = Double(donationArray.totMake) * sponsorPhone.perShot + sponsorPhone.donation
-        
-        total.text = String(totalAmount)
-        
-        
-    } //override
-    
     
     var name: String = ""
     var team: String = ""
@@ -76,6 +40,72 @@ class SponsorTextViewController: UIViewController, MFMessageComposeViewControlle
     let eventTeamCheck = EventTeamCheck()
     
     let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+    
+    
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        playerName.text = name
+        
+       let sponsorsList = SponsorsList()
+        
+        let updateDonationsTotals = UpdateDonationsTotals()
+        
+        eventN.text = self.eventName
+        sponsorName.text = self.sponsorN
+
+        
+        //Query to get this number of player makes
+      //  let donationArray = updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate)
+     
+        updateDonationsTotals.querySponsorWithShots(tName: team, pName: name, eDate: eventDate, completion: {
+            qSpponsorWithShots in
+            
+           // self.eventN.text = self.eventName
+           // self.sponsorName.text = self.sponsorN
+    
+            DispatchQueue.main.async {
+               
+                let donationArray = qSpponsorWithShots
+                
+                self.makes.text = String(donationArray.totMake)
+        
+        // Query to get perShot, donation and sponsor phone number
+          //  let sponsorPhone = sponsorsList.sponsorPhoneQuery(tName: self.team, pName: self.name, eDate: self.eventDate, sponsorN: self.sponsorN)
+        
+                sponsorsList.sponsorPhoneQuery(tName: self.team, pName: self.name, eDate: self.eventDate, sponsorN: self.sponsorN, completion: { qsponsorPhoneQuery in
+                    
+                    DispatchQueue.main.async {
+                      
+                
+              //  self.sponsorPhoneNumber.text = String(sponsorPhone.phoneN)
+                self.sponsorPhoneNumber.text = String(qsponsorPhoneQuery.sponsorPhone)
+               // self.phone = String(sponsorPhone.phoneN)
+                self.phone = String(qsponsorPhoneQuery.sponsorPhone)
+                        
+                //self.perShot.text = String(sponsorPhone.perShot)
+                self.perShot.text = String(qsponsorPhoneQuery.perShot)
+        
+               // self.flatDonation.text = String(sponsorPhone.donation)
+                self.flatDonation.text = String(qsponsorPhoneQuery.donation)
+        
+              //  self.totalAmount = Double(donationArray.totMake) * sponsorPhone.perShot + sponsorPhone.donation
+                        
+                self.totalAmount = Double(donationArray.totMake) * qsponsorPhoneQuery.perShot + qsponsorPhoneQuery.donation
+        
+                self.total.text = String(self.totalAmount)
+        
+                    }  // DispatchQueue
+                    
+                } ) // Complettionhandler sponsorsList.sponsorPhoneQuery
+                    
+            } // DispatchQueue for completionhandker
+        } ) // completionhandler updateDonationsTotals.querySponsorWithShots
+                
+        
+    } //override
+    
     
     
     @IBOutlet weak var playerName: UILabel!
@@ -122,11 +152,15 @@ class SponsorTextViewController: UIViewController, MFMessageComposeViewControlle
         
         //Fetch optional text for Event and add it to the text string
         
-        let eventTxtResults = eventTeamCheck.eventText(team: team, eventN: eventName, eventD: eventDate)
+   //     let eventTxtResults = eventTeamCheck.eventText(team: team, eventN: eventName, eventD: eventDate)
         
+        eventTeamCheck.eventText(team: team, eventN: eventName, eventD: eventDate, completion: { qEventText in
+                
+            DispatchQueue.main.async {
+             
+          //  let eventTxt = eventTxtResults.smsText
         
-        let eventTxt = eventTxtResults.smsText
-        
+                let eventTxt = qEventText.smsText
         
         textProse.append(eventTxt)
         
@@ -137,7 +171,13 @@ class SponsorTextViewController: UIViewController, MFMessageComposeViewControlle
             self.present(composeVC, animated: true, completion: nil)
         } else {
             print("Can't send messages.")
-        } // else
+        } // if - else
+                
+            }  // DispatchQueue
+            
+        }  )   // CompletionHandler eventTeamCheck.eventText
+                
+                
     } //MFMessageComposeViewController
     
     

@@ -22,6 +22,8 @@ class ScoreViewController: UIViewController {
     
     let updateDonationsTotals = UpdateDonationsTotals()
     
+    let teamPlayerCheck = TeamPlayerCheck()
+    
     var team: String = ""
     
     var eventN: String = ""
@@ -53,7 +55,11 @@ class ScoreViewController: UIViewController {
     
     var eventSwitch: Bool = false
     
+    var recordTeam = CKRecord(recordType: "team")
+
+    
     let dispatchGroup = DispatchGroup()
+    
    
    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
@@ -76,53 +82,89 @@ class ScoreViewController: UIViewController {
         dateFormatter.dateStyle = .short
         //dateFormatter.timeStyle = .short
         
-        print("eventDate: ", eventDate)
+        print("eventDate in viewDidLoad ScoreviewController: ", eventDate)
         FundEventDate.text = dateFormatter.string(from: eventDate)
         
         //Update event score
+        print("eMake in ViewDidLoad ScoreViewController: ", eMake)
         tMake.text = eMake
+        
+        print("eMiss in ViewDidLoad ScoreViewController: ", eMiss)
         tMiss.text = eMiss
         
         
         // Add query for playerN and team of team record type to retrieve playerPhoto
-      
-      let playerPicture = TeamPlayerCheck()
+        // Need to fix this query
         
-        let photo = playerPicture.playerPhoto(team: team, player: playerN)
+      //  let photo = teamPlayerCheck.playerPhoto(team: team, player: playerN)
+         
+        print("team in viewDidLoad ScoreViewController: ", team)
+        print("playerN in viewDidLoad ScoreViewController: ", playerN)
+        
+         teamPlayerCheck.playerPhoto(team: team, player: playerN, completion:  { qPlayerArrayPhoto in
+             
+             DispatchQueue.main.async {
+                 
        
         //Code to display playerPhoto
         
-        if photo.isEmpty {
+      //  if photo.isEmpty {
+                 
+            let image = qPlayerArrayPhoto.playerArray
+                 
+                 if image.isEmpty {
             
-            photoPlayer.image = nil
+                     self.photoPlayer.image = nil
+                     print("photoPlayer in viewDidLoad ScoreViewController is nil")
             
-        } else {
+                 } else {
             
-        let photoPic = photo[0]
-       // print("photoPic: ", photoPic)
+                     //let photoPic = photo[0]
+                   let photoPic = image[0]
+                     print("photPic image[0]: ",  image[0])
        
         let imageData = NSData(contentsOf: photoPic.fileURL!)
-       // print("imageData: ", imageData as Any)
-        
+       
         let image = UIImage(data: imageData! as Data)
         
-        photoPlayer.image = image
+            self.photoPlayer.image = image
         
-        }  // if else
+                  }  // if image isNmpty else
+    
+        } // DispatchQueue
+       
+         } ) // Completionhandler teamPlayerCheck.playerPhoto
         
         
         if eventSwitch == false {
         
         //Retrieve scores from team DB
-        let recordTotals = self.updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team)
+      //  let recordTotals = self.updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team)
+            
+            
+        updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team, completion: { qResults in
+                
+            DispatchQueue.main.async {
+                          
         
-        let totalAtt = recordTotals.totalAttempts
-        let totalMis = totalAtt - recordTotals.totalMakes
+                // let totalAtt = recordTotals.totalAttempts
+                let totalAtt = qResults.totalAttempts
+                                 
+                          
+                // let totalMis = totalAtt - recordTotals.totalMakes
+                let totalMis = totalAtt - qResults.totalMakes
         
-        // Update scoreboard for totalMake and totalMiss
-        tMake.text = String(recordTotals.totalMakes)
-        tMiss.text = String(totalMis)
+                // Update scoreboard for totalMake and totalMiss
+                // tMake.text = String(recordTotals.totalMakes)
+                self.tMake.text = String(qResults.totalMakes)
+                          
+                self.tMiss.text = String(totalMis)
         
+                } //DispatchQueue
+                 
+              } ) //Completionhandler updateTeamTotalsqueryPlayer
+            
+                          
         }  // if eventSwitch = false
         
     }  //viewDidLoad
@@ -197,26 +239,69 @@ class ScoreViewController: UIViewController {
         
         // Query the team type to get this record for teamName and player
         
-            let recordTeam = self.playerTeamData.queryPlayer(pName: self.playerN, team: self.team)
+     //       let recordTeam = self.playerTeamData.queryPlayer(pName: self.playerN, team: self.team)
         
-       //print("recordTeam in ScoreViewController: ", recordTeam)
-        
-        // establish reference between record types
-        recordPlayer["teamReference"] = CKRecord.Reference(record: recordTeam, action: .deleteSelf)
+            playerTeamData.queryPlayer(pName: self.playerN, team: self.team, completion: { qResults in
                 
-        //Check if event is chosen and if chosen create a reference to event type for event
-            
-            print("eventSwitch value: ", eventSwitch)
+            DispatchQueue.main.async {
+                    
+                    recordTeam = qResults.playerRecord
+                    
+                    print("recordTeam in ScoreViewController: ", recordTeam)
         
+                    // establish reference between record types
+                recordPlayer["teamReference"] = CKRecord.Reference(record: recordTeam, action: .deleteSelf)
+                
+            //Check if event is chosen and if chosen create a reference to event type for event
+            print("eventSwitch value: ", eventSwitch)
+                
             if eventSwitch == true {
                 
-                let recordEvent = self.eventTeamCheck.querySingleEvent(team: team, eventD: eventDate)
+            //    let recordEvent = self.eventTeamCheck.querySingleEvent(team: team, eventD: eventDate)
                 
-                recordPlayer["eventReference"] = CKRecord.Reference(record: recordEvent, action: .deleteSelf)
+                eventTeamCheck.querySingleEvent(team: self.team, eventD: self.eventDate, completion: { qSingleEvent in
+                    
+                    DispatchQueue.main.async {
+                     
+                    let recordResults = qSingleEvent.recordResults
+                        
+                  print("recordResults in ScoreViewController: ", recordResults)
                 
-            } //if eventSwitch is true
+                  recordPlayer["eventReference"] = CKRecord.Reference(record: recordResults, action: .deleteSelf)
+                
+                    recordPlayer["player"] = self.playerPicked.text
+                        
+                    recordPlayer["shotAttempts"] = Int(nomAttempts)
+                        
+                    recordPlayer["shotMakes"] = Int(self.playerMake)
+                        
+                    recordPlayer["date"] = scoreDate
+                        
+                    recordPlayer["shotPercentage"] = Double(shotPercent)
+                        
+                                    
+                        print("recordPlayer before save: ", recordPlayer)
+                                    
+                    CKContainer.default().publicCloudDatabase.save(recordPlayer) { record, error in
+                                DispatchQueue.main.async {
+                                   if error == nil {
+                                        
+                                    } else {
+                                       let ac = UIAlertController(title: "Error", message: "There was a problem submitting your data \(error!.localizedDescription)", preferredStyle: .alert)
+                                       ac.addAction(UIAlertAction(title: "OK", style: .default))
+                                      
+                                    }  // else
+                                    
+                              } //if error
+                             } // DispatchQueue
+                        
+                    } // DispatchQueue
+                }) // Completionhandler eventTeamCheck.querySingleEvent
+                        
+                        
+            }  else { //if eventSwitch is not true
           
-            
+       
         recordPlayer["player"] = self.playerPicked.text
         
         recordPlayer["shotAttempts"] = Int(nomAttempts)
@@ -227,7 +312,10 @@ class ScoreViewController: UIViewController {
         
         recordPlayer["shotPercentage"] = Double(shotPercent)
         
-            CKContainer.default().publicCloudDatabase.save(recordPlayer) { record, error in
+                    
+        print("recordPlayer before save: ", recordPlayer)
+                    
+        CKContainer.default().publicCloudDatabase.save(recordPlayer) { record, error in
                 DispatchQueue.main.async {
                    if error == nil {
                         
@@ -239,22 +327,37 @@ class ScoreViewController: UIViewController {
                     
               } //if error
              } // DispatchQueue
-       
-
+            } // else
+                
+                } //DispatchQueue for completionhandler
+                
+            })  // playerTeamData.queryPlayer completionhandler
+                    
+            
         // Fetch player record in team DB and update with score for all shots
             
-        let recordTotals = self.updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team)
-        print("recordTotals: ", recordTotals)
-        
-        playerID = recordTotals.playID
+       // let recordTotals = self.updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team)
+       // print("recordTotals: ", recordTotals)
+            
+            
+        updateTeamTotals.queryPlayer(pName: self.playerN, team: self.team, completion: { qResults in
+                
+            DispatchQueue.main.async {
+                        
+            
+      //  playerID = recordTotals.playID
+        playerID = qResults.playID
         print("playerID: ", self.playerID)
         
-        attempts = recordTotals.totalAttempts
+      //  attempts = recordTotals.totalAttempts
+        attempts = qResults.totalAttempts
         print("total attempts: ", attempts)
+                          
         let totAttempts = attempts + nomAttempts
         print("totAttempts: ", totAttempts)
         
-        totalMakes = recordTotals.totalMakes
+       // totalMakes = recordTotals.totalMakes
+        totalMakes = qResults.totalMakes
         print("total makes: ", totalMakes)
         let totMakes = totalMakes + playerMake
         print("totMakes: ", totMakes)
@@ -272,102 +375,84 @@ class ScoreViewController: UIViewController {
         print("shotPercentage: ", shotPercentage)
        
 
+        // Update team DB with totals
         updateTeamTotals.totalsUpdate(playerID: playerID, teamName: team, pName: playerN, attempts: totAttempts, totalMakes: totMakes, shotPercentage: shotPercentage, scoreDate: scoreDate)
         
+                          
+                      } //DispatchQueue
+                 
+              }  //Completionhandler
+                
+            ) //updateTeamTotals.queryPlayer
+
     
         // Check if event has been chosen. If event chosen, update the donations table
-        /*
-        if FundEventName.text == "" {
-           
-            // Fetch player record in team DB and update with score for non-event shots
-                
-                let recordTotals = self.teamSearch.queryPlayer(pName: self.playerN, team: self.team)
-            print("recordTotals: ", recordTotals)
-            
-            playerID = recordTotals.playID
-                print("playerID: ", self.playerID)
-            
-            attempts = recordTotals.totalAttempts
-            print("total attempts: ", attempts)
-            let totAttempts = attempts + nomAttempts
-            print("totAttempts: ", totAttempts)
-            
-            
-            totalMakes = recordTotals.totalMakes
-            print("total makes: ", totalMakes)
-            let totMakes = totalMakes + playerMake
-            print("totMakes: ", totMakes)
-            
-            /*
-            // Update scoreboard for totalMake and totalMiss
-                totalMake.text = String(totMakes)
-                let missTot = totAttempts - totMakes
-                totalMiss.text = String(missTot)
-               */
-                
-            let shotPer =  Double (Double(totMakes) / Double(totAttempts))
-            
-            let shotPercentage = Double(round(shotPer*1000)/1000)
-            print("shotPercentage: ", shotPercentage)
-           
-
-            teamSearch.totalsUpdate(playerID: playerID, teamName: team, pName: playerN, attempts: totAttempts, totalMakes: totMakes, shotPercentage: shotPercentage, scoreDate: scoreDate)
-            */
-            /*
-            var textScoreAdded = playerPicked.text!
-            
-            // Update scoreboard for totalMake and totalMiss
-                tMake.text = String(totMakes)
-                let missTot = totAttempts - totMakes
-                tMiss.text = String(missTot)
-                
-            textScoreAdded.append(" score recorded")
-            
-           print("textScoreAdded: ", textScoreAdded)
-               
-            let dialogMessage = UIAlertController(title: "Score Recorded", message: textScoreAdded, preferredStyle: .alert)
-            
-            // Create OK button with action handler
-            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                print("Ok button tapped")
-                
-                self.dispatchGroup.leave()
-                self.removeSpinner()
-             })
-            
-            //Add OK button to a dialog message
-            dialogMessage.addAction(ok)
-
-            // Present Alert to
-            self.present(dialogMessage, animated: true, completion: nil)
-           */
-            
         
             //If event selected
+    print("eventSwitch check in Submit button: ", eventSwitch)
             
             if eventSwitch == true {
-            
-            let donationCheckRecord = updateDonationsTotals.queryCheckSponsor(tName: team, pName: playerN, eDate: eventDate)
-            
-            //If donation record for team, player, eventDate doesn't exist, create it
                 
-            if donationCheckRecord.player.count == 0 {
-                let tAttempts: Int = 0
-                let tMakes: Int = 0
+       //     let donationCheckRecord = updateDonationsTotals.queryCheckSponsor(tName: team, pName: playerN, eDate: eventDate)
+            
+            updateDonationsTotals.queryCheckSponsor(tName: team, pName: playerN, eDate: eventDate, completion: { qCheckSpons in
+                
+                print("Started updateDonationsTotals.queryCheckSponsor ")
+                
+                DispatchQueue.main.async {
+                   
+            //If donation record for team, player, eventDate doesn't exist, create it
+                    
+            let donationCheckRecord = qCheckSpons.playerArray
+                
+            print("donationCheckRecord.count: ", donationCheckRecord.count)
+                    
+            if donationCheckRecord.count == 0 {
+               
+               // let tAttempts: Int = 0
+                let tAttempts: Int = nomAttempts
+              //  let tMakes: Int = 0
+                let tMakes: Int = playerMake
                 let tPerShot: Double = 0.0
+              //  let tPerShot: Double = shotPercent
                 let tFlatDonation: Double = 0.0
                 let tDonation: Double = 0.0
                 
                 
-                updateDonationsTotals.createDonationRecord(teamName: team, pName: playerN, eDate: eventDate, totAttempts: tAttempts, totMakes: tMakes, totPerShot: tPerShot, totFlatDonation: tFlatDonation, totalDonation: tDonation, eventName: eventN)
+                playerTeamData.queryPlayer(pName: self.playerN, team: self.team, completion: { qResults in
+                    
+                DispatchQueue.main.async {
+                        
+                let recordPlay = qResults.playerRecord
+                        
+                    print("recordPlay in ScoreViewController: ", recordPlay)
+            
+                        // establish reference between record types
+                //     recordPlayer["teamReference"] = CKRecord.Reference(record: recordPlay, action: .deleteSelf)
+                
+               
+                
+         //  updateDonationsTotals.createDonationRecord(teamName: team, pName: playerN, eDate: eventDate, totAttempts: tAttempts, totMakes: tMakes, totPerShot: tPerShot, totFlatDonation: tFlatDonation, totalDonation: tDonation, eventName: eventN)
+             
+            updateDonationsTotals.createDonationRecord(teamName: team, pName: playerN, eDate: eventDate, totAttempts: tAttempts, totMakes: tMakes, totPerShot: tPerShot, totFlatDonation: tFlatDonation, totalDonation: tDonation, eventName: eventN, recordPlayer: recordPlay)
+                    
+                } //dispatchQueue
+                } )  // completionhanlder playerTeamData.queryPlayer
                 
                 
-            }  // above - if donation record doesn't exist create it
+
+              }  // above - if donation record doesn't exist create it
             
         // Query donations for team, player, eventDate and retrieve totAttampts, totMakes, totFlatDonation, totPerShot, totalDonation values
         
-        let donationValues = updateDonationsTotals.querySponsorWithShots(tName: team, pName: playerN, eDate: eventDate)
-        
+      //  let donationValues = updateDonationsTotals.querySponsorWithShots(tName: team, pName: playerN, eDate: eventDate)
+          
+            updateDonationsTotals.querySponsorWithShots(tName: team, pName: playerN, eDate: eventDate, completion: { qSponsorWithShots in
+                                                    
+            DispatchQueue.main.async {
+             
+            let donationValues = qSponsorWithShots
+                
             let recordID = donationValues.sponsorID
             let totalAttempt = donationValues.totAttempt
             let totalMake = donationValues.totMake
@@ -396,7 +481,15 @@ class ScoreViewController: UIViewController {
         
         updateDonationsTotals.totalsUpdateWithShots(sponsorID: recordID, teamName: team, pName: playerN, totalAttempt: attemptTotal, totalMake: makesTotal, totalPerShot: totalPerShot, totalFlatDonation: totalFlatDonation, totalDonation: donationsTotal)
         
-        
+            } // DispatchQuue for completionhandler
+           
+            } ) // completionhandler updateDonationsTotals.querySponsorWithShots
+                
+            } // DispatchQueue for completionhandler
+                
+            })  // Completionhandler updateDonationsTotals.queryCheckSponsor
+                    
+                    
          }  // if  event chosen
             
             
@@ -429,7 +522,12 @@ class ScoreViewController: UIViewController {
        // self.removeSpinner()
         
         } // dispatchGroup.notify
-      
+     
+        
+        
+     
+        
+        
     }  //submitButton
     
    
@@ -445,9 +543,9 @@ class ScoreViewController: UIViewController {
         
       //  eventSwitch = true
       //  print("eventSwitch value after EventButton: ", eventSwitch)
+        print("toEventsList segue from EventButton")
         
         performSegue(withIdentifier: "toEventsList", sender: self)
-        print("toEventsList segue")
         
     } // EventButton
     
@@ -485,13 +583,12 @@ class ScoreViewController: UIViewController {
                 
             let scoreboardVar: Bool = true
             
-                
             vcEvents.title = self.team
             vcEvents.team = self.team
             vcEvents.playerN = self.playerN
             vcEvents.scoreboardVariable = scoreboardVar
         
-            print("vcEvents.team ", vcEvents.team)
+            print("vcEvents.team in toEvents segue: ", vcEvents.team)
 
                 
             } // toEventsList

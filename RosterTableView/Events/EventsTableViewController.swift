@@ -31,9 +31,10 @@ class EventsTableViewController: UITableViewController {
 
     var team: String = ""
     
-    let manager = QueryEvents()
-    
-    lazy var resultsArray = manager.eventsQuery(tName: team)
+   // let manager = QueryEvents()
+    let manager = EventsList()
+    /*
+   // lazy var resultsArray = manager.eventsQuery(tName: team)
     
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -127,4 +128,5 @@ class EventsTableViewController: UITableViewController {
     }
     */
 
+     */
 } // EventsTableViewController

@@ -28,6 +28,7 @@
 		D31060A92688FCDC00E253EB /* SponsorsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31060A82688FCDC00E253EB /* SponsorsList.swift */; };
 		D31060AB269CB62C00E253EB /* SponsorMgmtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31060AA269CB62C00E253EB /* SponsorMgmtViewController.swift */; };
 		D31060AD26A61CAD00E253EB /* UpdateDonationsTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31060AC26A61CAD00E253EB /* UpdateDonationsTotals.swift */; };
+		D327DB99276115EC00647C43 /* QEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D327DB98276115EB00647C43 /* QEvents.swift */; };
 		D32FC138264CBFAE001E5BB9 /* PlayerManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */; };
 		D335405F26C7461B00C7189C /* ActSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D335405E26C7461B00C7189C /* ActSpinner.swift */; };
 		D335406126DC0CE400C7189C /* SponsorTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D335406026DC0CE400C7189C /* SponsorTextViewController.swift */; };
@@ -44,6 +45,11 @@
 		D35DD0A52718E7960079B139 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3023A64259670260060A0B2 /* CloudKit.framework */; };
 		D35DD0A9271B269F0079B139 /* TotalStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35DD0A8271B269F0079B139 /* TotalStatsViewController.swift */; };
 		D35DD0AB271B2A930079B139 /* TotalStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35DD0AA271B2A930079B139 /* TotalStats.swift */; };
+		D3742CF0277511F500B83F85 /* SponsorStatsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3742CEF277511F500B83F85 /* SponsorStatsReusableView.swift */; };
+		D3742CF22778DEEE00B83F85 /* PlayerEventsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3742CF12778DEEE00B83F85 /* PlayerEventsCollectionViewController.swift */; };
+		D3742CF42778F3B800B83F85 /* PlayerEventsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3742CF32778F3B800B83F85 /* PlayerEventsCollectionViewCell.swift */; };
+		D3742CF62779024300B83F85 /* PlayerEventsCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3742CF52779024300B83F85 /* PlayerEventsCollectionReusableView.swift */; };
+		D3742CF827790D3200B83F85 /* QqueryDonations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3742CF727790D3200B83F85 /* QqueryDonations.swift */; };
 		D38FFACD26B1F90600303268 /* DonationStatsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38FFACC26B1F90600303268 /* DonationStatsCollectionViewController.swift */; };
 		D38FFACF26B1FA9C00303268 /* DonationStatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38FFACE26B1FA9C00303268 /* DonationStatsCollectionViewCell.swift */; };
 		D3911C7125BA6D7500B19AD2 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */; };
@@ -53,8 +59,30 @@
 		D3A92B3F25ABB24900846458 /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A92B3E25ABB24900846458 /* ScoreViewController.swift */; };
 		D3A92B4425B0ADAE00846458 /* ScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A92B4325B0ADAE00846458 /* ScoreData.swift */; };
 		D3AB49F326168DA800A9BEC7 /* TeamPlayerCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AB49F226168DA800A9BEC7 /* TeamPlayerCheck.swift */; };
+		D3AC169E274F347A00CDEF12 /* QResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC169D274F347A00CDEF12 /* QResults.swift */; };
+		D3AC16A02751668200CDEF12 /* QPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC169F2751668100CDEF12 /* QPlayer.swift */; };
+		D3AC16A22756637100CDEF12 /* QStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC16A12756637100CDEF12 /* QStats.swift */; };
+		D3AC16A427566FE800CDEF12 /* QPlayerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC16A327566FE800CDEF12 /* QPlayerRecord.swift */; };
+		D3B050DC2757184B00AB28F6 /* QTeamPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B050DB2757184B00AB28F6 /* QTeamPlayer.swift */; };
+		D3B050DE275939E900AB28F6 /* QPlayerPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B050DD275939E900AB28F6 /* QPlayerPhoto.swift */; };
+		D3B050E0275D72A400AB28F6 /* QSingleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B050DF275D72A400AB28F6 /* QSingleEvent.swift */; };
+		D3B050E2275D83CA00AB28F6 /* QCheckSponsor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B050E1275D83CA00AB28F6 /* QCheckSponsor.swift */; };
+		D3B050E6275D942400AB28F6 /* QSponsorWithShots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B050E5275D942400AB28F6 /* QSponsorWithShots.swift */; };
 		D3B5F22426B30EDC006CD30F /* SponsorStatsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F22326B30EDC006CD30F /* SponsorStatsCollectionViewController.swift */; };
 		D3B5F22626B312CE006CD30F /* SponssorStatsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F22526B312CE006CD30F /* SponssorStatsCollectionViewCell.swift */; };
+		D3BC4D9F2767AB36000AA0EE /* QEventCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4D9E2767AB36000AA0EE /* QEventCheck.swift */; };
+		D3BC4DA12767B467000AA0EE /* QEventText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DA02767B467000AA0EE /* QEventText.swift */; };
+		D3BC4DA32768F642000AA0EE /* QqueryDonationPlayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DA22768F642000AA0EE /* QqueryDonationPlayers.swift */; };
+		D3BC4DA5276A416A000AA0EE /* QqueryEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DA4276A416A000AA0EE /* QqueryEvent.swift */; };
+		D3BC4DA7276A7524000AA0EE /* QsponsorQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DA6276A7524000AA0EE /* QsponsorQuery.swift */; };
+		D3BC4DA9276C2334000AA0EE /* QsponsorRecordQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DA8276C2334000AA0EE /* QsponsorRecordQuery.swift */; };
+		D3BC4DAB276C2AB7000AA0EE /* QquerySponsor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DAA276C2AB7000AA0EE /* QquerySponsor.swift */; };
+		D3BC4DAD276ED082000AA0EE /* QsponsorPhoneQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DAC276ED082000AA0EE /* QsponsorPhoneQuery.swift */; };
+		D3BC4DAF276FB423000AA0EE /* QqueryDonationWithShots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DAE276FB423000AA0EE /* QqueryDonationWithShots.swift */; };
+		D3BC4DB1276FBEF4000AA0EE /* QqueryEventTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DB0276FBEF4000AA0EE /* QqueryEventTotals.swift */; };
+		D3BC4DB3276FC67A000AA0EE /* QqueryPlayerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DB2276FC67A000AA0EE /* QqueryPlayerEvent.swift */; };
+		D3BC4DB5276FC94B000AA0EE /* QeventPlayerQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC4DB4276FC94B000AA0EE /* QeventPlayerQuery.swift */; };
+		D3FB67972774071A00714A4D /* SponsorReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FB67962774071A00714A4D /* SponsorReusableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +132,7 @@
 		D31060A82688FCDC00E253EB /* SponsorsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorsList.swift; sourceTree = "<group>"; };
 		D31060AA269CB62C00E253EB /* SponsorMgmtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorMgmtViewController.swift; sourceTree = "<group>"; };
 		D31060AC26A61CAD00E253EB /* UpdateDonationsTotals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDonationsTotals.swift; sourceTree = "<group>"; };
+		D327DB98276115EB00647C43 /* QEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QEvents.swift; sourceTree = "<group>"; };
 		D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManagement.swift; sourceTree = "<group>"; };
 		D335405E26C7461B00C7189C /* ActSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActSpinner.swift; sourceTree = "<group>"; };
 		D335406026DC0CE400C7189C /* SponsorTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorTextViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +148,11 @@
 		D35A90D025FD930100B0B936 /* PlayerStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D35DD0A8271B269F0079B139 /* TotalStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalStatsViewController.swift; sourceTree = "<group>"; };
 		D35DD0AA271B2A930079B139 /* TotalStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalStats.swift; sourceTree = "<group>"; };
+		D3742CEF277511F500B83F85 /* SponsorStatsReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorStatsReusableView.swift; sourceTree = "<group>"; };
+		D3742CF12778DEEE00B83F85 /* PlayerEventsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEventsCollectionViewController.swift; sourceTree = "<group>"; };
+		D3742CF32778F3B800B83F85 /* PlayerEventsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEventsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D3742CF52779024300B83F85 /* PlayerEventsCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEventsCollectionReusableView.swift; sourceTree = "<group>"; };
+		D3742CF727790D3200B83F85 /* QqueryDonations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QqueryDonations.swift; sourceTree = "<group>"; };
 		D38FFACC26B1F90600303268 /* DonationStatsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationStatsCollectionViewController.swift; sourceTree = "<group>"; };
 		D38FFACE26B1FA9C00303268 /* DonationStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationStatsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D3911C7025BA6D7500B19AD2 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
@@ -128,8 +162,30 @@
 		D3A92B3E25ABB24900846458 /* ScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
 		D3A92B4325B0ADAE00846458 /* ScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreData.swift; sourceTree = "<group>"; };
 		D3AB49F226168DA800A9BEC7 /* TeamPlayerCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPlayerCheck.swift; sourceTree = "<group>"; };
+		D3AC169D274F347A00CDEF12 /* QResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QResults.swift; sourceTree = "<group>"; };
+		D3AC169F2751668100CDEF12 /* QPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPlayer.swift; sourceTree = "<group>"; };
+		D3AC16A12756637100CDEF12 /* QStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QStats.swift; sourceTree = "<group>"; };
+		D3AC16A327566FE800CDEF12 /* QPlayerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPlayerRecord.swift; sourceTree = "<group>"; };
+		D3B050DB2757184B00AB28F6 /* QTeamPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTeamPlayer.swift; sourceTree = "<group>"; };
+		D3B050DD275939E900AB28F6 /* QPlayerPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPlayerPhoto.swift; sourceTree = "<group>"; };
+		D3B050DF275D72A400AB28F6 /* QSingleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QSingleEvent.swift; sourceTree = "<group>"; };
+		D3B050E1275D83CA00AB28F6 /* QCheckSponsor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCheckSponsor.swift; sourceTree = "<group>"; };
+		D3B050E5275D942400AB28F6 /* QSponsorWithShots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QSponsorWithShots.swift; sourceTree = "<group>"; };
 		D3B5F22326B30EDC006CD30F /* SponsorStatsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorStatsCollectionViewController.swift; sourceTree = "<group>"; };
 		D3B5F22526B312CE006CD30F /* SponssorStatsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponssorStatsCollectionViewCell.swift; sourceTree = "<group>"; };
+		D3BC4D9E2767AB36000AA0EE /* QEventCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QEventCheck.swift; sourceTree = "<group>"; };
+		D3BC4DA02767B467000AA0EE /* QEventText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QEventText.swift; sourceTree = "<group>"; };
+		D3BC4DA22768F642000AA0EE /* QqueryDonationPlayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QqueryDonationPlayers.swift; sourceTree = "<group>"; };
+		D3BC4DA4276A416A000AA0EE /* QqueryEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QqueryEvent.swift; sourceTree = "<group>"; };
+		D3BC4DA6276A7524000AA0EE /* QsponsorQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QsponsorQuery.swift; sourceTree = "<group>"; };
+		D3BC4DA8276C2334000AA0EE /* QsponsorRecordQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QsponsorRecordQuery.swift; sourceTree = "<group>"; };
+		D3BC4DAA276C2AB7000AA0EE /* QquerySponsor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QquerySponsor.swift; sourceTree = "<group>"; };
+		D3BC4DAC276ED082000AA0EE /* QsponsorPhoneQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QsponsorPhoneQuery.swift; sourceTree = "<group>"; };
+		D3BC4DAE276FB423000AA0EE /* QqueryDonationWithShots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QqueryDonationWithShots.swift; sourceTree = "<group>"; };
+		D3BC4DB0276FBEF4000AA0EE /* QqueryEventTotals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QqueryEventTotals.swift; sourceTree = "<group>"; };
+		D3BC4DB2276FC67A000AA0EE /* QqueryPlayerEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QqueryPlayerEvent.swift; sourceTree = "<group>"; };
+		D3BC4DB4276FC94B000AA0EE /* QeventPlayerQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QeventPlayerQuery.swift; sourceTree = "<group>"; };
+		D3FB67962774071A00714A4D /* SponsorReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorReusableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +317,29 @@
 				D31060AC26A61CAD00E253EB /* UpdateDonationsTotals.swift */,
 				D335406726EE704B00C7189C /* LoginModel.swift */,
 				D35DD0AA271B2A930079B139 /* TotalStats.swift */,
+				D3AC169D274F347A00CDEF12 /* QResults.swift */,
+				D3AC169F2751668100CDEF12 /* QPlayer.swift */,
+				D3AC16A12756637100CDEF12 /* QStats.swift */,
+				D3AC16A327566FE800CDEF12 /* QPlayerRecord.swift */,
+				D3B050DB2757184B00AB28F6 /* QTeamPlayer.swift */,
+				D3B050DD275939E900AB28F6 /* QPlayerPhoto.swift */,
+				D3B050DF275D72A400AB28F6 /* QSingleEvent.swift */,
+				D3B050E1275D83CA00AB28F6 /* QCheckSponsor.swift */,
+				D3B050E5275D942400AB28F6 /* QSponsorWithShots.swift */,
+				D327DB98276115EB00647C43 /* QEvents.swift */,
+				D3BC4D9E2767AB36000AA0EE /* QEventCheck.swift */,
+				D3BC4DA02767B467000AA0EE /* QEventText.swift */,
+				D3BC4DA22768F642000AA0EE /* QqueryDonationPlayers.swift */,
+				D3BC4DA4276A416A000AA0EE /* QqueryEvent.swift */,
+				D3BC4DA6276A7524000AA0EE /* QsponsorQuery.swift */,
+				D3BC4DA8276C2334000AA0EE /* QsponsorRecordQuery.swift */,
+				D3BC4DAA276C2AB7000AA0EE /* QquerySponsor.swift */,
+				D3BC4DAC276ED082000AA0EE /* QsponsorPhoneQuery.swift */,
+				D3BC4DAE276FB423000AA0EE /* QqueryDonationWithShots.swift */,
+				D3BC4DB0276FBEF4000AA0EE /* QqueryEventTotals.swift */,
+				D3BC4DB2276FC67A000AA0EE /* QqueryPlayerEvent.swift */,
+				D3BC4DB4276FC94B000AA0EE /* QeventPlayerQuery.swift */,
+				D3742CF727790D3200B83F85 /* QqueryDonations.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,6 +398,11 @@
 				D3B5F22526B312CE006CD30F /* SponssorStatsCollectionViewCell.swift */,
 				D34DDE8226F9079B0046240E /* EventPlayerStatsCollectionViewController.swift */,
 				D34DDE8426F90CB40046240E /* EventPlayerStatsCollectionViewCell.swift */,
+				D3FB67962774071A00714A4D /* SponsorReusableView.swift */,
+				D3742CEF277511F500B83F85 /* SponsorStatsReusableView.swift */,
+				D3742CF12778DEEE00B83F85 /* PlayerEventsCollectionViewController.swift */,
+				D3742CF32778F3B800B83F85 /* PlayerEventsCollectionViewCell.swift */,
+				D3742CF52779024300B83F85 /* PlayerEventsCollectionReusableView.swift */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -466,24 +550,37 @@
 			files = (
 				D335406626ED1DB900C7189C /* LoginViewController.swift in Sources */,
 				D35A90AF25F5A94000B0B936 /* UpdateTeamTotals.swift in Sources */,
+				D3AC16A02751668200CDEF12 /* QPlayer.swift in Sources */,
 				D3023A992598FF8F0060A0B2 /* TeamDataLoad.swift in Sources */,
 				D38FFACD26B1F90600303268 /* DonationStatsCollectionViewController.swift in Sources */,
 				D335405F26C7461B00C7189C /* ActSpinner.swift in Sources */,
 				D31060952673F3A400E253EB /* EventsTableViewController.swift in Sources */,
 				D3AB49F326168DA800A9BEC7 /* TeamPlayerCheck.swift in Sources */,
+				D3742CF0277511F500B83F85 /* SponsorStatsReusableView.swift in Sources */,
+				D3AC169E274F347A00CDEF12 /* QResults.swift in Sources */,
 				D3023A3025966FD90060A0B2 /* AppDelegate.swift in Sources */,
 				D3911C7125BA6D7500B19AD2 /* StatsViewController.swift in Sources */,
+				D3AC16A22756637100CDEF12 /* QStats.swift in Sources */,
+				D3742CF62779024300B83F85 /* PlayerEventsCollectionReusableView.swift in Sources */,
 				D31060A92688FCDC00E253EB /* SponsorsList.swift in Sources */,
+				D3BC4DA5276A416A000AA0EE /* QqueryEvent.swift in Sources */,
 				D3023A3225966FD90060A0B2 /* SceneDelegate.swift in Sources */,
+				D3BC4D9F2767AB36000AA0EE /* QEventCheck.swift in Sources */,
 				D31060AB269CB62C00E253EB /* SponsorMgmtViewController.swift in Sources */,
 				D3963C6025C5E5EA00B33D3F /* StatsCollectionViewController.swift in Sources */,
 				D35A90AA25EC0CBF00B0B936 /* PlayerTeamData.swift in Sources */,
+				D3B050E2275D83CA00AB28F6 /* QCheckSponsor.swift in Sources */,
 				D31060A52686C58A00E253EB /* SponsorListViewController.swift in Sources */,
 				D31060A3268650C600E253EB /* EventTeamCheck.swift in Sources */,
 				D34DDE8526F90CB40046240E /* EventPlayerStatsCollectionViewCell.swift in Sources */,
 				D3023A942597E5FF0060A0B2 /* TeamTableViewTableViewController.swift in Sources */,
+				D3742CF827790D3200B83F85 /* QqueryDonations.swift in Sources */,
+				D3BC4DAB276C2AB7000AA0EE /* QquerySponsor.swift in Sources */,
+				D327DB99276115EC00647C43 /* QEvents.swift in Sources */,
 				D310609F2677FBB200E253EB /* EventsMgmtViewController.swift in Sources */,
+				D3BC4DA12767B467000AA0EE /* QEventText.swift in Sources */,
 				D3963C6525C5E60C00B33D3F /* StatsCollectionViewCell.swift in Sources */,
+				D3BC4DAF276FB423000AA0EE /* QqueryDonationWithShots.swift in Sources */,
 				D35DD0AB271B2A930079B139 /* TotalStats.swift in Sources */,
 				D310609D267634A800E253EB /* EventsCollectionViewCell.swift in Sources */,
 				D35DD0A9271B269F0079B139 /* TotalStatsViewController.swift in Sources */,
@@ -493,18 +590,33 @@
 				D310609926740D3C00E253EB /* EventsList.swift in Sources */,
 				D335406A26F1727300C7189C /* NewTeamViewController.swift in Sources */,
 				D31060AD26A61CAD00E253EB /* UpdateDonationsTotals.swift in Sources */,
+				D3B050DC2757184B00AB28F6 /* QTeamPlayer.swift in Sources */,
+				D3BC4DB5276FC94B000AA0EE /* QeventPlayerQuery.swift in Sources */,
+				D3BC4DB3276FC67A000AA0EE /* QqueryPlayerEvent.swift in Sources */,
 				D31060A72688F50000E253EB /* SponsorListCollectionViewCell.swift in Sources */,
 				D3023A6E25967A3D0060A0B2 /* RosterViewController.swift in Sources */,
+				D3B050E0275D72A400AB28F6 /* QSingleEvent.swift in Sources */,
+				D3742CF22778DEEE00B83F85 /* PlayerEventsCollectionViewController.swift in Sources */,
 				D3A92B4425B0ADAE00846458 /* ScoreData.swift in Sources */,
+				D3BC4DA9276C2334000AA0EE /* QsponsorRecordQuery.swift in Sources */,
+				D3B050E6275D942400AB28F6 /* QSponsorWithShots.swift in Sources */,
 				D3B5F22426B30EDC006CD30F /* SponsorStatsCollectionViewController.swift in Sources */,
+				D3BC4DA32768F642000AA0EE /* QqueryDonationPlayers.swift in Sources */,
+				D3B050DE275939E900AB28F6 /* QPlayerPhoto.swift in Sources */,
+				D3BC4DAD276ED082000AA0EE /* QsponsorPhoneQuery.swift in Sources */,
 				D310609B26762CBD00E253EB /* EventsCollectionViewController.swift in Sources */,
 				D35A90D125FD930100B0B936 /* PlayerStatsCollectionViewCell.swift in Sources */,
 				D3A92B3F25ABB24900846458 /* ScoreViewController.swift in Sources */,
 				D34DDE8326F9079B0046240E /* EventPlayerStatsCollectionViewController.swift in Sources */,
 				D335406826EE704B00C7189C /* LoginModel.swift in Sources */,
+				D3BC4DA7276A7524000AA0EE /* QsponsorQuery.swift in Sources */,
+				D3742CF42778F3B800B83F85 /* PlayerEventsCollectionViewCell.swift in Sources */,
+				D3BC4DB1276FBEF4000AA0EE /* QqueryEventTotals.swift in Sources */,
+				D3AC16A427566FE800CDEF12 /* QPlayerRecord.swift in Sources */,
 				D32FC138264CBFAE001E5BB9 /* PlayerManagement.swift in Sources */,
 				D3B5F22626B312CE006CD30F /* SponssorStatsCollectionViewCell.swift in Sources */,
 				D38FFACF26B1FA9C00303268 /* DonationStatsCollectionViewCell.swift in Sources */,
+				D3FB67972774071A00714A4D /* SponsorReusableView.swift in Sources */,
 				D35A90CC25FD8C7300B0B936 /* PlayerStatsCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -691,7 +803,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -714,7 +826,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "Brian-Naszradi.RosterTableView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

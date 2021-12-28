@@ -71,7 +71,7 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     
     
-    let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+   // let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
     @IBOutlet weak var teamName: UILabel!
     
@@ -81,7 +81,7 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
         name = teamName.text!
        
             // Add check if team roster already exists
-
+            /*
             let teamVerify = teamCheck.TeamCheck(team: name)
         
             print("teamVerify.count: ", teamVerify.count)
@@ -119,8 +119,9 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
                 performSegue(withIdentifier: "teamPasser", sender: self)
                 
             }  // else Team exists
-            
+            */
     
+        performSegue(withIdentifier: "teamPasser", sender: self)
         
     }  //IBAction func rosterName
     
@@ -146,10 +147,13 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
           
                     print("teamPasser Segue")
              
+            let playersVar: Bool = true
+            
             let vc = segue.destination as! UINavigationController
             let tableVC = vc.viewControllers.first as! TeamTableViewTableViewController
             tableVC.team = self.name
             tableVC.title = self.name
+            tableVC.playerVariable = playersVar
             
             
             

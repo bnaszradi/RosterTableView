@@ -8,11 +8,11 @@
 import UIKit
 import CloudKit
 
-@main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+
+@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
 
  //  let container = CKContainer.default()
-    let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
+  //  let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
 
 

@@ -40,6 +40,7 @@ extension UITextField {
 
 class EventsMgmtViewController: UIViewController {
 
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -160,7 +161,9 @@ class EventsMgmtViewController: UIViewController {
 
                 return
                 
-            }  else {
+         //   }  else {
+                
+            } // if eName blank
                 
                 if eDateCheck == "" {
                     
@@ -219,10 +222,17 @@ class EventsMgmtViewController: UIViewController {
             print("Add Event: eventName before check: ", eName)
                 
                 
-       let check = teamPlayerCheck.EventCheck(team: name, eventDate: eDate, eventName: eName)
-        print("check.count: ", check.count)
+    //   let check = teamPlayerCheck.EventCheck(team: name, eventDate: eDate, eventName: eName)
+       
+        teamPlayerCheck.EventCheck(team: name, eventDate: eDate, eventName: eName, completion: { qEventCheck in
+         
+            DispatchQueue.main.async {
+            
+                let check = qEventCheck.eventArray
+                
+                print("check.count: ", check.count)
         
-        if check.count > 0 {
+            if check.count > 0 {
           
             //Duplicate event detected
             
@@ -242,23 +252,24 @@ class EventsMgmtViewController: UIViewController {
             
             return
             
-        } //Check count if event already exists
+            } else {  //Check count if event already exists
         
         let recordEvent = CKRecord(recordType: "events")
         
-        recordEvent["eventName"] = eName
+        recordEvent["eventName"] = self.eName
         
-        recordEvent["team"] = tName
+        recordEvent["team"] = self.tName
         
-        print("eDate to be stored in DB: ", eDate)
-        recordEvent["eventDate"] = eDate
+        print("eDate to be stored in DB: ", self.eDate)
+        recordEvent["eventDate"] = self.eDate
             
-        if textMessage.text == "Enter text here" {
-                    textMessage.text = "."
+        if self.textMessage.text == "Enter text here" {
+        self.textMessage.text = "."
                 }
-        print("textMessage in add event button: ", textMessage.text!)
                 
-        recordEvent["textMessage"] = textMessage.text!
+        print("textMessage in add event button: ", self.textMessage.text!)
+                
+        recordEvent["textMessage"] = self.textMessage.text!
         
                 
             CKContainer.default().publicCloudDatabase.save(recordEvent) { record, error in
@@ -275,11 +286,11 @@ class EventsMgmtViewController: UIViewController {
              } // DispatchQueue
        
             
-        var textDisplay = eName
+        var textDisplay = self.eName
         
         textDisplay.append(" added to ")
         
-        textDisplay.append(tName)
+        textDisplay.append(self.tName)
         
         textDisplay.append(" events list")
         
@@ -301,7 +312,11 @@ class EventsMgmtViewController: UIViewController {
            
             } // else if
         
-        
+        } // DispatchQueue
+                                   
+    } )   // CompletionHandler teamPlayerCheck.EventCheck
+                
+                
         
     } // addEvent button
     
@@ -335,7 +350,8 @@ class EventsMgmtViewController: UIViewController {
 
                 return
                 
-            }  else {
+         //   }  else {
+            }  // if eName is blank
                 
                 if eDateCheck == "" {
                     
@@ -355,7 +371,7 @@ class EventsMgmtViewController: UIViewController {
 
                     return
                     
-                } //eDateCheck
+                } // if eDateCheck is blank
             
      
                 // Add check to determine if an extra blamk space was added to the event name when entered by user. If so, remove the blank character(s)
@@ -381,7 +397,7 @@ class EventsMgmtViewController: UIViewController {
                 extraEventCharLessOne = eventNumChar - 1
                 print("extraEventCharLessOne: ", extraEventCharLessOne)
                     
-                } // if eventArray
+                } // while eventArray
                 
                 print("eventArray after parsing: ", eventArray.count)
                 
@@ -389,13 +405,19 @@ class EventsMgmtViewController: UIViewController {
                 
                 print("eName after parsing blank characters from end: ", eName)
         
-          } // else if
+        //  } // else if
         
         // Check if event already exists
         
-         let eventVerify = teamPlayerCheck.EventCheck(team: tName, eventDate: eDate, eventName: eName)
+     //    let eventVerify = teamPlayerCheck.EventCheck(team: tName, eventDate: eDate, eventName: eName)
+        
+        teamPlayerCheck.EventCheck(team: name, eventDate: eDate, eventName: eName, completion: { qEventCheck in
+         
+            DispatchQueue.main.async {
+            
+            let eventVerify = qEventCheck.eventArray
      
-         if eventVerify.count == 0 {
+            if eventVerify.count == 0 {
              
              let dialogMessage = UIAlertController(title: "Event not found", message: "Re-enter correct date for event", preferredStyle: .alert)
              
@@ -412,39 +434,61 @@ class EventsMgmtViewController: UIViewController {
              // Present dialog message to user
              self.present(dialogMessage, animated: true, completion: nil)
 
-         } //if eventVerify check
+            } else { //if eventVerify.count check
         
-        print("name before eventText: ", name)
-        print("eName before eventText: ", eName)
-        print("eDate before eventText: ", eDate)
+        print("name before eventText: ", self.name)
+        print("eName before eventText: ", self.eName)
+        print("eDate before eventText: ", self.eDate)
         
-        let eventTxt = eventTeamCheck.eventText(team: tName, eventN: eName, eventD: eDate)
+        //  let eventTxt = eventTeamCheck.eventText(team: tName, eventN: eName, eventD: self.eDate)
+                
+        self.eventTeamCheck.eventText(team: self.tName, eventN: self.eName, eventD: self.eDate, completion: { qEventText in
+                
+            DispatchQueue.main.async {
+            
+                let eventTxt = qEventText.smsText
         
-        print("eventTxt: ", eventTxt)
+                print("eventTxt: ", eventTxt)
         
-        textMessage.text = eventTxt.smsText
+                self.textMessage.text = eventTxt
         
-        var textDisplay = "SMS text retrieved for "
+                var textDisplay = "SMS text retrieved for "
         
-        textDisplay.append(eName)
+                textDisplay.append(self.eName)
         
-        textDisplay.append(" event")
+                textDisplay.append(" event")
         
-        let dialogMessage = UIAlertController(title: "Event SMS Text Retrieved", message: textDisplay, preferredStyle: .alert)
+                let dialogMessage = UIAlertController(title: "Event SMS Text Retrieved", message: textDisplay, preferredStyle: .alert)
         
-        // Create OK button with action handler
-        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-            print("Ok button tapped")
-              })
+                // Create OK button with action handler
+                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                    print("Ok button tapped")
+                })
         
-        //Add OK button to a dialog message
-        dialogMessage.addAction(ok)
+                //Add OK button to a dialog message
+                dialogMessage.addAction(ok)
 
         
-        // Present Alert to
-        self.present(dialogMessage, animated: true, completion: nil)
+                // Present Alert to
+                self.present(dialogMessage, animated: true, completion: nil)
         
-      //  } // else if
+               
+            }  // DispatchQueue
+                
+        }  ) // CompletionHandler eventTeamCheck.eventText
+                
+            
+                
+        } // else if
+                
+      
+            } // DispatchQueue
+                                       
+        } )   // CompletionHandler teamPlayerCheck.EventCheck
+             
+                
+                
+                
 
     } // retrieveText button
     
@@ -535,9 +579,15 @@ class EventsMgmtViewController: UIViewController {
         
         // Check if event already exists
         
-         let eventVerify = teamPlayerCheck.EventCheck(team: tName, eventDate: eDate, eventName: eName)
-     
-         if eventVerify.count == 0 {
+      //   let eventVerify = teamPlayerCheck.EventCheck(team: tName, eventDate: eDate, eventName: eName)
+     /*
+        teamPlayerCheck.EventCheck(team: tName, eventDate: eDate, eventName: eName, completion: { qEventCheck in
+         
+            DispatchQueue.main.async {
+            
+                let eventVerify = qEventCheck.eventArray
+        
+                if eventVerify.count == 0 {
              
              
              let dialogMessage = UIAlertController(title: "Event not found", message: "Re-enter correct date for event", preferredStyle: .alert)
@@ -556,24 +606,57 @@ class EventsMgmtViewController: UIViewController {
              self.present(dialogMessage, animated: true, completion: nil)
 
          } //if eventVerify check
+        */
+                
+        print("name before eventText: ", self.name)
+        print("eventName before eventText: ", self.eventName.text!)
+        print("eDate before eventText: ", self.eDate)
         
-        print("name before eventText: ", name)
-        print("eventName before eventText: ", eventName.text!)
-        print("eDate before eventText: ", eDate)
+        // Check if event exists and retrieve and update the SMS
         
-        let eventTxt = eventTeamCheck.eventText(team: tName, eventN: eName, eventD: eDate)
+        
+     //   let eventTxt = eventTeamCheck.eventText(team: tName, eventN: eName, eventD: eDate)
+        
+        eventTeamCheck.eventText(team: tName, eventN: eName, eventD: eDate, completion: {  qEventText in
+            
+            DispatchQueue.main.async {
+                
+            let eventTxt = qEventText.smsText
+                
+           if eventTxt.count == 0 {
+     
+     
+               let dialogMessage = UIAlertController(title: "Event not found", message: "Re-enter correct date for event", preferredStyle: .alert)
+     
+               // Create OK button with action handler
+               let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                   // print("Ok button tapped")
+         
+                   return
+
+               })  // UIAlertAction ok
+     
+               dialogMessage.addAction(ok)
+    
+               // Present dialog message to user
+               self.present(dialogMessage, animated: true, completion: nil)
+
+        
+           }  else {  // if eventTxt = 0
+        
         
         print("eventTxt: ", eventTxt)
         
-        let textMess = textMessage.text!
+        let textMess = self.textMessage.text!
         
-       let eventIdent = eventTxt.eventID
-        
-        eventTeamCheck.updateEventText(eventID: eventIdent, textMessage: textMess)
+     //  let eventIdent = eventTxt.eventID
+        let eventIdent = qEventText.eventID
+               
+        self.eventTeamCheck.updateEventText(eventID: eventIdent, textMessage: textMess)
         
         var textDisplay = "SMS text updated for "
         
-        textDisplay.append(eName)
+        textDisplay.append(self.eName)
         
         textDisplay.append(" event")
         
@@ -590,6 +673,14 @@ class EventsMgmtViewController: UIViewController {
         
         // Present Alert to
         self.present(dialogMessage, animated: true, completion: nil)
+          
+           }  // if else eventTxt = 0
+                
+            }  // DispatchQueue
+            
+        } )  // CompletionHandler teamPlayerCheck.EventCheck
+                
+                
         
     } // updateText button
     
@@ -626,7 +717,9 @@ class EventsMgmtViewController: UIViewController {
 
                 return
                 
-            }  else {
+          //  }  else {
+                
+            }  // if eName is blank
                 
                 if eDateCheck == "" {
                     
@@ -646,7 +739,7 @@ class EventsMgmtViewController: UIViewController {
 
                     return
                     
-                } //eDateCheck
+                } //eDate is blank
         
         // Add check to determine if an extra blamk space was added to the event name when entered by user. If so, remove the blank character(s)
         
@@ -684,9 +777,15 @@ class EventsMgmtViewController: UIViewController {
             
         // Check if event already exists
         
-         let eventVerify = teamPlayerCheck.EventCheck(team: name, eventDate: eDate, eventName: eName)
+      //   let eventVerify = teamPlayerCheck.EventCheck(team: name, eventDate: eDate, eventName: eName)
+                
+        teamPlayerCheck.EventCheck(team: name, eventDate: eDate, eventName: eName, completion: { qEventCheck in
+            
+            DispatchQueue.main.async {
+            
+            let eventVerify = qEventCheck.eventArray
      
-         if eventVerify.count == 0 {
+            if eventVerify.count == 0 {
              
              
              let dialogMessage = UIAlertController(title: "Event not found", message: "Re-enter correct date for event", preferredStyle: .alert)
@@ -731,8 +830,13 @@ class EventsMgmtViewController: UIViewController {
          // Present dialog message to user
          self.present(dialogMessage, animated: true, completion: nil)
            
-            } // Ok alert
+      //  } // Ok alert
                 
+        } // DispatchQueue
+                                   
+        } )  // CompletionHandler teamPlayerCheck.EventCheck
+            
+            
      }  // deletePlayer
      
     
@@ -759,32 +863,72 @@ class EventsMgmtViewController: UIViewController {
             
             self.dispatchGroup.enter()
             
+       // Need to update this with CompletionHandler
+      //  let donationRecord = updateDonationTotals.queryDonationPlayers(team: name, eventName: eName, eventDate: eDate)
+            
+        updateDonationTotals.queryDonationPlayers(team: name, eventName: eName, eventDate: eDate, completion: { qqueryDonationPlayers in
+                                                    
+                DispatchQueue.main.async {
+            
+      //  print("donationRecord player \(donationRecord.player)")
         
-        let donationRecord = updateDonationTotals.queryDonationPlayers(team: name, eventName: eName, eventDate: eDate)
-        
-        print("donationRecord player \(donationRecord.player)")
-        
-        let donationRecordCount = donationRecord.player.count
+      //  let donationRecordCount = donationRecord.player.count
+        let playerRecord: Array<String> = qqueryDonationPlayers.playerArray
+                    
+        let teamRecord: Array<String> = qqueryDonationPlayers.teamArray
+                    
+        let playerRecordCount = playerRecord.count
+        print("playerRecordCount: ", playerRecordCount)
         
         var recordCounter = 0
         
-        while recordCounter < donationRecordCount {
+        while recordCounter < playerRecordCount {
             print("recordCounter: ", recordCounter)
             
-            let teamRecord = updateTeamTotals.queryPlayer(pName: donationRecord.player[recordCounter], team: donationRecord.team[recordCounter])
+            print("qqueryDonationPlayers.totAttemptArray[recordCounter]: ", qqueryDonationPlayers.totAttemptArray[recordCounter])
+            let totAttemptArrayValue = qqueryDonationPlayers.totAttemptArray[recordCounter]
             
-            print("teamRecord.totalAttempts: ", teamRecord.totalAttempts)
-            print("donationRecord.totAttempt[recordCounter]: ", donationRecord.totAttempt[recordCounter])
             
-            let totAttempt = teamRecord.totalAttempts - donationRecord.totAttempt[recordCounter]
+            print("qqueryDonationPlayers.totMakeArray[recordCounter]: ", qqueryDonationPlayers.totMakeArray[recordCounter])
+            
+            let totMakeArrayValue = qqueryDonationPlayers.totMakeArray[recordCounter]
+            
+            let playerRecordValue  = playerRecord[recordCounter]
+            
+            
+           // let teamRecord = updateTeamTotals.queryPlayer(pName: donationRecord.player[recordCounter], team: donationRecord.team[recordCounter])
+            
+        //    updateTeamTotals.queryPlayer(pName: donationRecord.player[recordCounter], team: donationRecord.team[recordCounter],   completion: { qResults in
+            
+        updateTeamTotals.queryPlayer(pName: playerRecord[recordCounter], team: teamRecord[recordCounter],   completion: { qResults in
+                
+                DispatchQueue.main.async {
+                          
+                     
+                //  print("teamRecord.totalAttempts: ", teamRecord.totalAttempts)
+                print("qResults.totalAttempts: ", qResults.totalAttempts)
+                          
+       // print("qqueryDonationPlayers.totAttemptArray[recordCounter]: ", qqueryDonationPlayers.totAttemptArray[recordCounter])
+            
+          //  let totAttempt = teamRecord.totalAttempts - donationRecord.totAttempt[recordCounter]
+                          
+      //  let totAttempt = qResults.totalAttempts - qqueryDonationPlayers.totAttemptArray[recordCounter]
+        let totAttempt = qResults.totalAttempts - totAttemptArrayValue
+                          
         
-            print("totAttempt: ", totAttempt)
+        print("totAttempt: ", totAttempt)
             
-            print("teamRecord.totalMakes: ", teamRecord.totalMakes)
-            print("donationRecord.totMake[recordCounter]: ", donationRecord.totMake[recordCounter])
+       // print("teamRecord.totalMakes: ", teamRecord.totalMakes)
             
-            let totMake = teamRecord.totalMakes - donationRecord.totMake[recordCounter]
+        print("qResults.totalMakes: ", qResults.totalMakes)
+                          
+      //  print("qqueryDonationPlayers.totMakeArray[recordCounter]: ", qqueryDonationPlayers.totMakeArray[recordCounter])
             
+        //let totMake = teamRecord.totalMakes - donationRecord.totMake[recordCounter]
+                          
+      //  let totMake = qResults.totalMakes - qqueryDonationPlayers.totMakeArray[recordCounter]
+        let totMake = qResults.totalMakes - totMakeArrayValue
+        
             print("totMake: ", totMake)
             
             let shotP = Double(Double(totMake)/Double(totAttempt))
@@ -796,39 +940,65 @@ class EventsMgmtViewController: UIViewController {
             let newDate = Date()
             print("newDate: ", newDate)
             
-            let playerId = teamRecord.playID
+            //  let playerId = teamRecord.playID
+            let playerId = qResults.playID
+                          
             
-            let playerN = donationRecord.player[recordCounter]
-            
+        //    let playerN = donationRecord.player[recordCounter]
+          //  let playerN = playerRecord[recordCounter]
+          let playerN = playerRecordValue
+                    
+                    
             updateTeamTotals.totalsUpdate(playerID: playerId, teamName: name, pName: playerN, attempts: totAttempt, totalMakes: totMake, shotPercentage: totPercent, scoreDate: newDate)
             
+            } //DispatchQueue
+                          
+            } ) //Completionhandler updateTeamTotals.queryPlayer
+                
             recordCounter += 1
+            
         } // while recordCounter
         
-        let eventVerify = eventTeamCheck.queryEvent(team: name, eventN: eName, eventD: eDate)
+                    
+               }  // DispatchQueue
+            
+       }  )  // CompletionHandler updateDonationTotals.queryDonationPlayers
+                    
+            
+     //   let eventVerify = eventTeamCheck.queryEvent(team: name, eventN: eName, eventD: eDate)
+        
+        eventTeamCheck.queryEvent(team: name, eventN: eName, eventD: eDate, completion: { qqueryEvent in
+                
+                DispatchQueue.main.async {
+                    
          
-          eventID = eventVerify
+           //   eventID = eventVerify
+                    
+                eventID = qqueryEvent.resultsID
         
         
         
           CKContainer.default().publicCloudDatabase.delete(withRecordID: eventID) {(recordID, error) in
              
               //NSLog("OK error")
-              
+            // The below error checking code doesn't work
+            /*
            //  } { record, error in
               DispatchQueue.main.async {
                  if error == nil {
                       
                   } else {
                      let ac = UIAlertController(title: "Error", message: "There was a problem submitting your data \(error!.localizedDescription)", preferredStyle: .alert)
+                      
                      ac.addAction(UIAlertAction(title: "OK", style: .default))
                     //  self.persent(ac, animated: true)
                   }  // else
                   
             } //if error
            } // DispatchQueue
-
-        
+          */
+            } // Container delete Record eventID
+          
           var textMessDelete = eventName.text!
           
           textMessDelete.append(" removed from ")
@@ -853,10 +1023,22 @@ class EventsMgmtViewController: UIViewController {
          // Present Alert to
          self.present(dialogMessage, animated: true, completion: nil)
   
-        } // dispatchGroup.notify
+          //      } // Container delete Record eventID
       
+              } // DispatchQueue
             
-    } // deleteEvent
+            } )  // eventTeamCheck.queryEvent
+          
+               
+      
+     //   }  // DispatchQueue
+               
+      //    } )  // CompletionHandler updateDonationTotals.queryDonationPlayers
+                
+        } // dispatchGroup.notify
+                
+                
+    } // deleteEvent func
     
     
     

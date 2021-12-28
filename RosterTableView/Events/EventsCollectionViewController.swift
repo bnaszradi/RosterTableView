@@ -12,19 +12,6 @@ private let reuseIdentifier = "Cell"
 
 class EventsCollectionViewController: UICollectionViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-       
-    } // viewDidLoad
-
-    
     let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
      
     
@@ -50,14 +37,59 @@ class EventsCollectionViewController: UICollectionViewController {
     
     var eventTotalsVariable: Bool = false
     
-    let manager = QueryEvents()
+   // let queryEvents = QueryEvents()
+    let eventsList = EventsList()
     
     let updateDonationsTotals = UpdateDonationsTotals()
     
+    var totalMiss: Int = 0
+    var totalMake: Int = 0
+    
+   // var resultsEventArray: Array<String> = ["Loading roster..."]
+    
+    var resultsEventArray: Array<String> = []
+    var resultsDateArray: Array<Date> = []
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        
+        // self.clearsSelectionOnViewWillAppear = false
+        // Register cell classes
+        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+              
+        
+        eventsList.eventsQuery(tName: team, completion: { qEvents in
+            
+            DispatchQueue.main.async {
+                
+            self.resultsEventArray = qEvents.resultsNameArray
+            print("resultsEventArray: ", self.resultsEventArray)
+                
+            self.resultsDateArray = qEvents.resultsDateArray
+            print("resultsDateArray: ", self.resultsDateArray)
+                
+            self.collectionView.reloadData()
+            print("reloadData")
+             
+            } // DispatchQueue
+        
+            } ) // CompletionHandler eventsList.eventsQuery
+                
+
+    } // viewDidLoad
+
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+        return headerView
+    } // collectionView for viewForSupplementary
+    
    
     // Add Datasource
-    lazy var resultsArray = manager.eventsQuery(tName: team)
-    
+  //  lazy var resultsArray = eventsList.eventsQuery(tName: team)
+   
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         
@@ -67,7 +99,10 @@ class EventsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        
-        let rosterLength = resultsArray.resultsNameArray.count
+      //  let rosterLength = resultsArray.resultsNameArray.count
+        
+        let rosterLength = resultsEventArray.count
+          
         
         return rosterLength
         
@@ -81,7 +116,9 @@ class EventsCollectionViewController: UICollectionViewController {
         if let eventCell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventsCell", for: indexPath) as? EventsCollectionViewCell {
         
         
-            eventCell.eventName.text = String(resultsArray.resultsNameArray[indexPath.row])
+          //  eventCell.eventName.text = String(resultsArray.resultsNameArray[indexPath.row])
+            
+            eventCell.eventName.text = String(self.resultsEventArray[indexPath.row])
             
             let dateFormatter = DateFormatter()
             
@@ -90,8 +127,11 @@ class EventsCollectionViewController: UICollectionViewController {
            // dateFormatter.timeStyle = .short
             
             
-            eventCell.eventDate.text = dateFormatter.string(from: resultsArray.resultsDateArray[indexPath.row])
+           // eventCell.eventDate.text = dateFormatter.string(from: resultsArray.resultsDateArray[indexPath.row])
         
+    
+           eventCell.eventDate.text =  dateFormatter.string(from: self.resultsDateArray[indexPath.row])
+            
         
             //eventD = resultsArray.resultsDateArray[indexPath.row]
             
@@ -111,15 +151,21 @@ class EventsCollectionViewController: UICollectionViewController {
     
     func locationName(at index:IndexPath) -> String {
        
-        resultsArray.resultsNameArray[index.item]
+      //  resultsArray.resultsNameArray[index.item]
        
+        resultsEventArray[index.item]
+        
+        
+        
     } //locationName func
     
     
     func locationDate(at index:IndexPath) -> Date {
        
-        resultsArray.resultsDateArray[index.item]
+      //  resultsArray.resultsDateArray[index.item]
        
+        resultsDateArray[index.item]
+        
     } //locationItem func
 
     
@@ -143,11 +189,13 @@ class EventsCollectionViewController: UICollectionViewController {
         
         
         if eventVariable == true {
-                performSegue(withIdentifier: "toEventMgmt", sender: selectedEvent)
+               
+            performSegue(withIdentifier: "toEventMgmt", sender: selectedEvent)
 
             } //event segue
          
             
+          
         if playerVariable == true {
             
         performSegue(withIdentifier: "toPlayerList", sender: selectedEvent)
@@ -162,9 +210,44 @@ class EventsCollectionViewController: UICollectionViewController {
         } // if toDonationStats
             
         
+          
          if scoreboardVariable == true {
             
-            performSegue(withIdentifier: "backToScoreboard", sender: selectedEvent)
+             print("team in backtoScoreboard segue: ", team)
+             print("playerN in backtoScoreboard segue: ", playerN)
+             print("eventD in backtoScoreboard segue: ", eventD)
+            
+            updateDonationsTotals.querySponsorWithShots(tName: team, pName: playerN, eDate: eventD, completion: { qSponsWithShots in
+                 
+               //  print("updateDonationsTotals.querySponsorWithShots in scoreboardVariable")
+                
+                DispatchQueue.main.async {
+                     
+             //   let donationValues = qSponsWithShots
+                 
+              //  let totalAttempt = donationValues.totAttempt
+                let totalAttempt = qSponsWithShots.totAttempt
+                    
+            //    let totalMake = donationValues.totMake
+                self.totalMake = qSponsWithShots.totMake
+                print("totalMake in EventCollectionView segue backToScoreboard", self.totalMake)
+             
+                self.totalMiss = totalAttempt - self.totalMake
+                print("totalMiss in EventCollectionView segue backToScoreboard", self.totalMiss)
+                 
+                    
+            
+
+               self.performSegue(withIdentifier: "backToScoreboard", sender: selectedEvent)
+                    
+                    
+                 } // DispatchQueue completionhandler
+                   
+                
+               } ) // Completionhandler updateDonationsTotals.querySponsorWithShots
+        
+             
+       // performSegue(withIdentifier: "backToScoreboard", sender: selectedEvent)
        
         } //if backToScoreboard
             
@@ -328,7 +411,7 @@ class EventsCollectionViewController: UICollectionViewController {
                   //  print("vcScore.playerN: ", vcScore.playerN)
                     
              
-            print("vcMgmt.team ", team)
+            print("vcMgmt.team in toEventsMgmt: ", team)
             
                 vcMgmt.title = self.team
                 vcMgmt.name = self.team
@@ -337,10 +420,11 @@ class EventsCollectionViewController: UICollectionViewController {
                     
                 } // to EventsMgmtController
           
-         
+      
         if segue.identifier == "toPlayerList" {
           
-                    print("toPlayerList Segue")
+        print("toPlayerList Segue in EventsCollectionView")
+        print("playerVariable in toPlayerList segue: ", playerVariable)
              
                     let vcEvents = segue.destination as! UINavigationController
                    
@@ -360,9 +444,9 @@ class EventsCollectionViewController: UICollectionViewController {
        // eventTitle.append(eventN)
             let eventTitle = eventN
         
-        print("eventTitle: ", eventTitle)
-        print("vcMgmt.team ", vcMgmt.team)
-        print("eventN: ", eventN)
+        print("eventTitle in toPlayerList: ", eventTitle)
+        print("vcMgmt.team in toPlayerList: ", vcMgmt.team)
+        print("eventN in toPlayerList: ", eventN)
             
             let eventVar: Bool = true
                 
@@ -378,43 +462,31 @@ class EventsCollectionViewController: UICollectionViewController {
         
         if segue.identifier == "backToScoreboard" {
           
-                    print("backToScoreboard Segue")
+        print("backToScoreboard Segue in EventsCollectionView")
              
-                    let vcScore = segue.destination as! UINavigationController
+           let vcScore = segue.destination as! UINavigationController
                    
-                    let vcMgmt = vcScore.viewControllers.first as! ScoreViewController
+            let vcSBMgmt = vcScore.viewControllers.first as! ScoreViewController
                     
-                
-          // Retrieve score from donation DB
+                    
+            vcSBMgmt.title = self.team
+            vcSBMgmt.team = self.team
+                    
+            print("vcSBMgmt.team in backToScoreboard: ", vcSBMgmt.team)
             
-            let donationValues = updateDonationsTotals.querySponsorWithShots(tName: team, pName: playerN, eDate: eventD)
+            vcSBMgmt.eventN = self.eventN
+            vcSBMgmt.eventDate = self.eventD
+            vcSBMgmt.playerN = self.playerN
+           
+            print("totalMake in backToScoreboard segue: ", totalMake)
+           vcSBMgmt.eMake = String(totalMake)
             
-               
-                let totalAttempt = donationValues.totAttempt
-                let totalMake = donationValues.totMake
+            print("totalMiss in backToScoreboard segue: ", totalMiss)
+           vcSBMgmt.eMiss = String(totalMiss)
             
-                let totalMiss = totalAttempt - totalMake
-            
-            
-        //    var eventTitle = team
-        /*
-        eventTitle.append(" ")
-        eventTitle.append(eventN)
-        
-        print("eventTitle: ", eventTitle)
-        print("vcMgmt.team ", vcMgmt.team)
-        print("eventN: ", eventN)
-        */
-            vcMgmt.title = self.team
-            vcMgmt.team = self.team
-            vcMgmt.eventN = self.eventN
-            vcMgmt.eventDate = eventD
-            vcMgmt.playerN = self.playerN
-            vcMgmt.eMake = String(totalMake)
-            vcMgmt.eMiss = String(totalMiss)
-            vcMgmt.eventSwitch = true
+            vcSBMgmt.eventSwitch = true
 
-        
+                    
         } //backToScoreboard
         
             
@@ -469,7 +541,7 @@ class EventsCollectionViewController: UICollectionViewController {
                 vcMgmt.eventTotalsVariable = eventTotalsVariable
               //  vcMgmt.donationVariable = donationVariable
                     
-                } // toTotalStatsView
+            } // toTotalStatsView
           
         
         } // prepare func
@@ -483,15 +555,28 @@ class EventsCollectionViewController: UICollectionViewController {
          
          print("team name in unwindEventsMgmt: ", team)
       
-    resultsArray = manager.eventsQuery(tName: team)
+   // resultsArray = eventsList.eventsQuery(tName: team)
         
-     
-     // DispatchQueue.main.async {
         
-        //Use this
-    self.collectionView.reloadData()
-      
-    // }  // DispatchQueue
+        //Query events and reload collectionview
+        
+        eventsList.eventsQuery(tName: team, completion: { qEvents in
+            
+            DispatchQueue.main.async {
+                
+            self.resultsEventArray = qEvents.resultsNameArray
+            print("resultsEventArray: ", self.resultsEventArray)
+                
+            self.resultsDateArray = qEvents.resultsDateArray
+            print("resultsDateArray: ", self.resultsDateArray)
+                
+            self.collectionView.reloadData()
+            print("reloadData")
+             
+            } // DispatchQueue
+        
+            } ) // eventsList.eventsQuery
+        
      
     }  // UIStoryboardSegue  unwindPlayerManagementCancel
 

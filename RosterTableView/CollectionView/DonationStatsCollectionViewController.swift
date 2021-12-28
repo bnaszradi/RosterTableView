@@ -20,6 +20,18 @@ class DonationStatsCollectionViewController: UICollectionViewController {
     var donationVariable: Bool = false
     var eventPlayerVariable: Bool = false
     
+    let updateDonationTotals = UpdateDonationsTotals()
+     
+    
+    var playerArray = [] as Array<String>
+    var totAttemptArray = [] as Array<Int>
+    var totMakeArray = [] as Array<Int>
+    var totPerShotArray = [] as Array<Double>
+    var totFlatDonArray = [] as Array<Double>
+    var totalDonationArray = [] as Array<Double>
+    
+
+    
    let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
     
     
@@ -30,23 +42,53 @@ class DonationStatsCollectionViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-      //  self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+       self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
-        // Do any additional setup after loading the view.
         
+        updateDonationTotals.queryDonationWithShots(tName: team, eDate: eDate, completion: { qqueryDonationWithShots in
+            
+            DispatchQueue.main.async {
+                
+            self.playerArray = qqueryDonationWithShots.playerArray
+               
+            self.totAttemptArray = qqueryDonationWithShots.totAttemptArray
+                
+            self.totMakeArray = qqueryDonationWithShots.totMakeArray
+                
+            self.totPerShotArray = qqueryDonationWithShots.totPerShotArray
+                
+            self.totFlatDonArray = qqueryDonationWithShots.totFlatDonArray
+                
+            self.totalDonationArray = qqueryDonationWithShots.totalDonationArray
+                
+            self.collectionView.reloadData()
+            print("reloadData")
+                 
+                
+                
+            }  // DispatchQueue
+            
+        } ) // completionhandler updateDonationTotals.queryDonationWithShots
+                
     }  // viewDidLoad
 
     
-    // Create donation query object
-    let updateDonationTotals = UpdateDonationsTotals()
-     
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+        return headerView
+    } // collectionView for viewForSupplementary
     
-    lazy var resultsArray = updateDonationTotals.queryDonationWithShots(tName: team, eDate: eDate)
     
+    
+    
+  //  lazy var resultsArray = updateDonationTotals.queryDonationWithShots(tName: team, eDate: eDate)
+    
+   
+
     
     // Code for selecting cell
     func locationItem(at index:IndexPath) -> String {
-        resultsArray.playerN[index.item]
+        playerArray[index.item]
     } //locationItem func
     
     
@@ -59,7 +101,7 @@ class DonationStatsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let resultsLength = resultsArray.playerN.count
+        let resultsLength = playerArray.count
         
         return resultsLength
         
@@ -72,17 +114,24 @@ class DonationStatsCollectionViewController: UICollectionViewController {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "donationCell", for: indexPath) as? DonationStatsCollectionViewCell {
         
     
-            cell.player.text = resultsArray.playerN[indexPath.row]
+          //  cell.player.text = resultsArray.playerN[indexPath.row]
+            cell.player.text = playerArray[indexPath.row]
             
-            cell.attempts.text = String(resultsArray.totAttempt[indexPath.row])
             
-            cell.makes.text = String(resultsArray.totMake[indexPath.row])
+          //  cell.attempts.text = String(resultsArray.totAttempt[indexPath.row])
+            cell.attempts.text = String(totAttemptArray[indexPath.row])
             
-            cell.totalDonation.text = String(resultsArray.totalDonation[indexPath.row])
+          //  cell.makes.text = String(resultsArray.totMake[indexPath.row])
+            cell.makes.text = String(totMakeArray[indexPath.row])
             
-            cell.perShot.text = String(resultsArray.totPerShot[indexPath.row])
+          //  cell.totalDonation.text = String(resultsArray.totalDonation[indexPath.row])
+            cell.totalDonation.text = String(totalDonationArray[indexPath.row])
             
-            cell.flat.text = String(resultsArray.totFlatDon[indexPath.row])
+          //  cell.perShot.text = String(resultsArray.totPerShot[indexPath.row])
+            cell.perShot.text = String(totPerShotArray[indexPath.row])
+            
+          //  cell.flat.text = String(resultsArray.totFlatDon[indexPath.row])
+            cell.flat.text = String(totFlatDonArray[indexPath.row])
             
         
           donationCell = cell
@@ -167,9 +216,9 @@ class DonationStatsCollectionViewController: UICollectionViewController {
            // var Title = team
            // Title.append(" ")
            // Title.append(selectedPlayer)
-            var Title = selectedPlayer
-            Title.append(" ")
-            Title.append(eventName)
+            let Title = selectedPlayer
+            //Title.append(" ")
+            //Title.append(eventName)
            // Title.append(eDate)
             
             vcStats.title = Title
@@ -207,9 +256,10 @@ class DonationStatsCollectionViewController: UICollectionViewController {
            // var Title = team
            // Title.append(" ")
            // Title.append(selectedPlayer)
-            var Title = selectedPlayer
-                Title.append(" ")
-                Title.append(eventName)
+         //   var Title = selectedPlayer
+            //    Title.append(" ")
+            //    Title.append(eventName)
+            let Title = eventName
            // Title.append(eDate)
             
             vcStats.title = Title
