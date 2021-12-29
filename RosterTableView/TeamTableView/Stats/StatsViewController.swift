@@ -49,6 +49,8 @@ class StatsViewController: UIViewController {
         } // while extraTeamCharLessOne
         
         teamName.text = String(teamArray)
+       
+        print("teamName in StatsViewController viewDidLoad: ", teamName.text)
         
       //  print("tname after parsing blank characters from end: ", teamName.text)
         
@@ -120,6 +122,7 @@ class StatsViewController: UIViewController {
     @IBAction func playerEvents(_ sender: UIButton) {
         
         tName = teamName.text!
+        
         print("tName in playerEvents button: ", tName)
         
         // Change this segue for the new collectionView
@@ -131,7 +134,7 @@ class StatsViewController: UIViewController {
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-      //  tName = teamName.text!
+        tName = teamName.text!
         
         if segue.identifier == "statsSegue" {
           
@@ -230,7 +233,7 @@ class StatsViewController: UIViewController {
              
             
        // collectionVC.player = self.playName
-        print("tName in StatsViewController: ", tName)
+        print("tName in StatsViewController Prepare: ", tName)
       //  collectionVC.team = tName
        // let eventTotalsVariable: Bool = true
             

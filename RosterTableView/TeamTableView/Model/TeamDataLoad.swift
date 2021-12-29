@@ -23,25 +23,9 @@ class TeamDataLoad {
    let dispatchGroup = DispatchGroup()
     
     
-   /*
-    struct QResults {
-       // let rosterArray: Array<String>? = []
-       // let rosterPicArray: Array<CKAsset>? = []
-        var rosterArray = [] as Array<String>
-        var rosterPicArray = [] as Array<CKAsset>
-        
-       // rosterArray = rosterArray ?? []
-       // rosterPicArray = rosterPicArray ?? []
-          
-        
-    } // QResults
-*/
-        
-          
-        
     
     
-   // This searches for the team roster
+   // This searches for the team roster **** Do NOT believe that this function is used ***
    func rosterQuery(tName: String) -> Array<Any> {
     
     var resultsValueArray = [] as Array
@@ -108,7 +92,7 @@ class TeamDataLoad {
      var rosterArray = [] as Array<String>
      var rosterPicArray = [] as Array<CKAsset>
      
-       print("tName in DataLoader: ", tName)
+       print("tName in TeamDataLoad.rosterPicQuery: ", tName)
          
          let teamPredicate = NSPredicate(format: "teamName == %@", tName)
         // print("teamPredicate: ", teamPredicate)
@@ -159,23 +143,6 @@ class TeamDataLoad {
         CKContainer.default().publicCloudDatabase.add(qOperation)
             
         
-
-      //  Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(startTimer), userInfo: nil, repeats: false)
-    
-    /*
-     print("ResultsValueArray before loop: ", rosterArray)
-     
-     var counter: Int = 0
-     while counter <= 700000000 {
-         counter += 1
-     } // while loop
-     print("Counter: ", counter)
-     
-     print("ResultsValueArray after loop: ", rosterArray)
-    */
-        
-   // return (rosterArray, rosterPicArray)
-    
      
   } //rosterPicQuery func
     

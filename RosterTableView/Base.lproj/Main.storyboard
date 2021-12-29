@@ -41,11 +41,15 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="eBr-ez-ZsF">
-                                <rect key="frame" x="62.5" y="165" width="250" height="195"/>
+                                <rect key="frame" x="62.5" y="165" width="250" height="310"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wxh-Y4-9zr">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="55"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="50"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="250" id="a5N-Ca-LVo"/>
+                                            <constraint firstAttribute="height" constant="50" id="o9G-c3-1Oq"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="Event Total Stats">
@@ -57,12 +61,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="32d-Ug-ahU">
-                                        <rect key="frame" x="0.0" y="70" width="250" height="55"/>
+                                        <rect key="frame" x="0.0" y="65" width="250" height="50"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="55" id="Zct-52-vbO"/>
-                                            <constraint firstAttribute="width" constant="250" id="ag4-PR-bsy"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <state key="normal" title="Event Donation Stats">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -73,7 +73,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oG-mY-vAA">
-                                        <rect key="frame" x="0.0" y="140" width="250" height="55"/>
+                                        <rect key="frame" x="0.0" y="130" width="250" height="50"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <state key="normal" title="Event Player Stats">
@@ -84,34 +84,32 @@
                                             <segue destination="Gzi-5f-KrH" kind="presentation" identifier="toEventsList" id="PiE-qS-pP4"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6S-dA-wUN">
+                                        <rect key="frame" x="0.0" y="195" width="250" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Player Events Stats">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="playerEvents:" destination="MjS-hr-FEe" eventType="touchUpInside" id="Ada-Kk-EFc"/>
+                                            <segue destination="B2T-Rh-QVm" kind="presentation" identifier="toPlayerRoster" id="SIf-vw-sTX"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="5gJ-v5-m3H">
+                                        <rect key="frame" x="0.0" y="260" width="250" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <state key="normal" title="All Player Stats">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="viewStatsButton:" destination="MjS-hr-FEe" eventType="touchUpInside" id="Fys-ZX-zLY"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="5gJ-v5-m3H">
-                                <rect key="frame" x="62" y="440" width="250" height="55"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray4Color"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <state key="normal" title="All Player Stats">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="viewStatsButton:" destination="MjS-hr-FEe" eventType="touchUpInside" id="Fys-ZX-zLY"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6S-dA-wUN">
-                                <rect key="frame" x="63" y="372" width="250" height="55"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray4Color"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Player Events Stats">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="playerEvents:" destination="MjS-hr-FEe" eventType="touchUpInside" id="Ada-Kk-EFc"/>
-                                    <segue destination="B2T-Rh-QVm" kind="presentation" identifier="toPlayerRoster" id="SIf-vw-sTX"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZBJ-Th-BMu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -3327,7 +3325,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="QOe-uh-aMb"/>
-        <segue reference="GtP-z1-cov"/>
+        <segue reference="PiE-qS-pP4"/>
         <segue reference="MDn-22-WK2"/>
         <segue reference="SIf-vw-sTX"/>
     </inferredMetricsTieBreakers>

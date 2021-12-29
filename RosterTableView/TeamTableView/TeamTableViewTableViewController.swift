@@ -73,6 +73,8 @@ class TeamTableViewTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.dataSource = self
        
+        print("team in TeamTableViewTableViewContoller viewDidLoad: ", team)
+        
         teamDataLoad.rosterPicQuery(tName: team, completion: { qResults in
             
             DispatchQueue.main.async {
