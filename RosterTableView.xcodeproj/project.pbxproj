@@ -29,6 +29,8 @@
 		D31060AB269CB62C00E253EB /* SponsorMgmtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31060AA269CB62C00E253EB /* SponsorMgmtViewController.swift */; };
 		D31060AD26A61CAD00E253EB /* UpdateDonationsTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31060AC26A61CAD00E253EB /* UpdateDonationsTotals.swift */; };
 		D327DB99276115EC00647C43 /* QEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D327DB98276115EB00647C43 /* QEvents.swift */; };
+		D3291731278D012A003647D6 /* DonationStatsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3291730278D012A003647D6 /* DonationStatsReusableView.swift */; };
+		D3291735278DD51E003647D6 /* EventPlayerStatsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3291734278DD51E003647D6 /* EventPlayerStatsReusableView.swift */; };
 		D32FC138264CBFAE001E5BB9 /* PlayerManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */; };
 		D335405F26C7461B00C7189C /* ActSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D335405E26C7461B00C7189C /* ActSpinner.swift */; };
 		D335406126DC0CE400C7189C /* SponsorTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D335406026DC0CE400C7189C /* SponsorTextViewController.swift */; };
@@ -133,6 +135,8 @@
 		D31060AA269CB62C00E253EB /* SponsorMgmtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorMgmtViewController.swift; sourceTree = "<group>"; };
 		D31060AC26A61CAD00E253EB /* UpdateDonationsTotals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDonationsTotals.swift; sourceTree = "<group>"; };
 		D327DB98276115EB00647C43 /* QEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QEvents.swift; sourceTree = "<group>"; };
+		D3291730278D012A003647D6 /* DonationStatsReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationStatsReusableView.swift; sourceTree = "<group>"; };
+		D3291734278DD51E003647D6 /* EventPlayerStatsReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPlayerStatsReusableView.swift; sourceTree = "<group>"; };
 		D32FC137264CBFAE001E5BB9 /* PlayerManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManagement.swift; sourceTree = "<group>"; };
 		D335405E26C7461B00C7189C /* ActSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActSpinner.swift; sourceTree = "<group>"; };
 		D335406026DC0CE400C7189C /* SponsorTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorTextViewController.swift; sourceTree = "<group>"; };
@@ -403,6 +407,8 @@
 				D3742CF12778DEEE00B83F85 /* PlayerEventsCollectionViewController.swift */,
 				D3742CF32778F3B800B83F85 /* PlayerEventsCollectionViewCell.swift */,
 				D3742CF52779024300B83F85 /* PlayerEventsCollectionReusableView.swift */,
+				D3291730278D012A003647D6 /* DonationStatsReusableView.swift */,
+				D3291734278DD51E003647D6 /* EventPlayerStatsReusableView.swift */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -572,6 +578,7 @@
 				D3B050E2275D83CA00AB28F6 /* QCheckSponsor.swift in Sources */,
 				D31060A52686C58A00E253EB /* SponsorListViewController.swift in Sources */,
 				D31060A3268650C600E253EB /* EventTeamCheck.swift in Sources */,
+				D3291731278D012A003647D6 /* DonationStatsReusableView.swift in Sources */,
 				D34DDE8526F90CB40046240E /* EventPlayerStatsCollectionViewCell.swift in Sources */,
 				D3023A942597E5FF0060A0B2 /* TeamTableViewTableViewController.swift in Sources */,
 				D3742CF827790D3200B83F85 /* QqueryDonations.swift in Sources */,
@@ -608,6 +615,7 @@
 				D35A90D125FD930100B0B936 /* PlayerStatsCollectionViewCell.swift in Sources */,
 				D3A92B3F25ABB24900846458 /* ScoreViewController.swift in Sources */,
 				D34DDE8326F9079B0046240E /* EventPlayerStatsCollectionViewController.swift in Sources */,
+				D3291735278DD51E003647D6 /* EventPlayerStatsReusableView.swift in Sources */,
 				D335406826EE704B00C7189C /* LoginModel.swift in Sources */,
 				D3BC4DA7276A7524000AA0EE /* QsponsorQuery.swift in Sources */,
 				D3742CF42778F3B800B83F85 /* PlayerEventsCollectionViewCell.swift in Sources */,
@@ -723,6 +731,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -778,6 +787,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -796,9 +806,11 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RosterTableView/RosterTableView.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 5D5WRV22MD;
 				INFOPLIST_FILE = RosterTableView/Info.plist;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -819,9 +831,10 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = RosterTableView/RosterTableView.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 5D5WRV22MD;
 				INFOPLIST_FILE = RosterTableView/Info.plist;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

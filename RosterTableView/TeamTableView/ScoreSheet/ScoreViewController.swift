@@ -26,7 +26,7 @@ class ScoreViewController: UIViewController {
     
     var team: String = ""
     
-    var eventN: String = ""
+    var eventN: String = "Press Here to Select Event"
     
     var eventDate: Date = Date()
     
@@ -76,7 +76,10 @@ class ScoreViewController: UIViewController {
         
         // Display text in UILabels from segues
         playerPicked.text = playerN
-        FundEventName.text = eventN
+     
+        print("eventN in ViewDidLoad: ", eventN)
+      // UIOutlet Button for retrieving event name
+       EventName.setTitle(eventN, for: .normal)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
@@ -170,6 +173,9 @@ class ScoreViewController: UIViewController {
     }  //viewDidLoad
     
     
+    
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             view.endEditing(true)
           super.touchesBegan(touches, with: event)
@@ -208,6 +214,86 @@ class ScoreViewController: UIViewController {
     @IBAction func submitButton(_ sender: Any) {
    
         print("Submit Button selected")
+        
+        // Verify that user wants to submit score
+        
+        if eventN == "Press Here to Select Event" {
+        
+        var messageText = "Confirm that you want to submit this score of: "
+            
+            messageText.append("Makes: ")
+            messageText.append(String(self.playerMake))
+            messageText.append(" and Misses: ")
+            messageText.append(String(self.playerMiss))
+            messageText.append(" without an event selected?")
+            
+        let dialogMessage = UIAlertController(title: "Event not selected", message: messageText, preferredStyle: .alert)
+        
+        // Create OK button with action handler
+        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+           // print("Ok button tapped")
+           recordScore()
+            
+        })  // UIAlertAction ok
+        
+        // Create Cancel button with action handlder
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+           // print("Cancel button tapped")
+        } //UIAlertAction cancel
+        
+        //Add OK and Cancel button to dialog message
+        dialogMessage.addAction(ok)
+        dialogMessage.addAction(cancel)
+        
+        // Present dialog message to user
+        self.present(dialogMessage, animated: true, completion: nil)
+      
+        }  else {  // if eventN not changed
+         
+            var messageText = "Confirm that you want to submit this score of: "
+            messageText.append("Makes: ")
+            messageText.append(String(self.playerMake))
+            messageText.append(" and Misses: ")
+            messageText.append(String(self.playerMiss))
+            messageText.append(" for event: ")
+            messageText.append(self.eventN)
+            messageText.append(" on ")
+            
+            let dateFormatter = DateFormatter()
+                
+            dateFormatter.dateStyle = .short
+              //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+               // dateFormatter.timeStyle = .short
+                
+            let eventDat =  dateFormatter.string(from: self.eventDate)
+            
+            messageText.append(eventDat)
+            
+            let dialogMessage = UIAlertController(title: "Confirm Score", message: messageText, preferredStyle: .alert)
+            
+            // Create OK button with action handler
+            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+               // print("Ok button tapped")
+                recordScore()
+            
+            })  // UIAlertAction ok
+            
+            // Create Cancel button with action handlder
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+               // print("Cancel button tapped")
+            } //UIAlertAction cancel
+            
+            //Add OK and Cancel button to dialog message
+            dialogMessage.addAction(ok)
+            dialogMessage.addAction(cancel)
+            
+            // Present dialog message to user
+            self.present(dialogMessage, animated: true, completion: nil)
+        
+        }  // else if eventN not selected
+        
+        
+        func recordScore() {
         
         // Show that activity spinner
         self.showSpinner()
@@ -523,22 +609,22 @@ class ScoreViewController: UIViewController {
         
         } // dispatchGroup.notify
      
-        
-        
-     
-        
+        } //func recordScore
         
     }  //submitButton
     
    
-    @IBOutlet weak var FundEventName: UITextField!
+    
+    @IBOutlet weak var EventName: UIButton!
+    
     
     
     @IBOutlet weak var FundEventDate: UILabel!
     
     
     // Event button to query and select an event for the team selected
-    
+   
+    /*
     @IBAction func EventButton(_ sender: UIButton) {
         
       //  eventSwitch = true
@@ -548,7 +634,7 @@ class ScoreViewController: UIViewController {
         performSegue(withIdentifier: "toEventsList", sender: self)
         
     } // EventButton
-    
+   */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
        

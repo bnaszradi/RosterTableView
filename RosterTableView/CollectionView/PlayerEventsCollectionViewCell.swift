@@ -12,6 +12,8 @@ class PlayerEventsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var event: UILabel!
     
+    @IBOutlet weak var eventD: UILabel!
+    
     @IBOutlet weak var total: UILabel!
     
     @IBOutlet weak var attempts: UILabel!
@@ -23,9 +25,19 @@ class PlayerEventsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var flat: UILabel!
     
     
-    func configure(with eventN: String, totalD: Double, totAttempts: Int, totMakes: Int, totPerShot: Double, totFlat: Double) {
+    func configure(with eventN: String, eventDat: Date, totalD: Double, totAttempts: Int, totMakes: Int, totPerShot: Double, totFlat: Double) {
         
     event.text = eventN
+    
+    let dateFormatter = DateFormatter()
+            
+    dateFormatter.dateStyle = .short
+    //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+    // dateFormatter.timeStyle = .short
+            
+    eventD.text =  dateFormatter.string(from: eventDat)
+        
+    //eventD.text = String(eventDat)
      
     total.text = String(totalD)
     attempts.text = String(totAttempts)

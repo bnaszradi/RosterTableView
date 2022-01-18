@@ -36,6 +36,18 @@ class TotalStatsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        eventN.text = eventName
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateStyle = .short
+      //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+       // dateFormatter.timeStyle = .short
+        
+       let eventDate =  dateFormatter.string(from: eDate)
+        
+        eventD.text =  eventDate
+        
        // let eventResults = totalStats.queryEventTotals(tName: team, eName: eventName, eDate: eDate)
         
         totalStats.queryEventTotals(tName: team, eName: eventName, eDate: eDate, completion: { qqueryEventTotals in
@@ -159,7 +171,10 @@ class TotalStatsViewController: UIViewController {
     } // override viewDidLoad
     
     
-   
+    @IBOutlet weak var eventN: UILabel!
+    
+    @IBOutlet weak var eventD: UILabel!
+    
     
     @IBOutlet weak var totalDonation: UILabel!
     

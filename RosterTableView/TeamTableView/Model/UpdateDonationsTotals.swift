@@ -687,6 +687,7 @@ class UpdateDonationsTotals {
         var totPerShotArray = [] as Array<Double>
         var totFlatDonArray = [] as Array<Double>
         var totalDonationArray = [] as Array<Double>
+        var eventDateArray = [] as Array<Date>
         
      //   let sponsorPredicate = NSPredicate(format: "team == %@ AND eventDate == %@", tName, eDate as CVarArg)
         
@@ -732,6 +733,8 @@ class UpdateDonationsTotals {
         let totalDonations = record["totalDonation"] as! Double
         totalDonationArray.append(totalDonations)
         
+        let eventDate = record["eventDate"] as! Date
+        eventDateArray.append(eventDate)
         
              
                  }  //recordFetchedBlock
@@ -740,7 +743,7 @@ class UpdateDonationsTotals {
         queryOp.queryCompletionBlock = { cursor, error in
             
             
-            let qqueryDonations = QqueryDonations(eventArray: eventArray, totAttemptArray: totAttemptArray, totMakeArray: totMakeArray, totPerShotArray: totPerShotArray, totFlatDonArray: totFlatDonArray, totalDonationArray: totalDonationArray)
+            let qqueryDonations = QqueryDonations(eventArray: eventArray, totAttemptArray: totAttemptArray, totMakeArray: totMakeArray, totPerShotArray: totPerShotArray, totFlatDonArray: totFlatDonArray, totalDonationArray: totalDonationArray, eventDateArray: eventDateArray)
             
         completion(qqueryDonations)
             

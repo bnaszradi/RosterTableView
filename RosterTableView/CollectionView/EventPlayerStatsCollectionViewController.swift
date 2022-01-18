@@ -10,7 +10,7 @@ import CloudKit
 
 // private let reuseIdentifier = "Cell"
 
-class EventPlayerStatsCollectionViewController: UICollectionViewController {
+class EventPlayerStatsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
@@ -42,6 +42,12 @@ class EventPlayerStatsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        print("team in viewDidLoad EventPlayerStatsCV: ", team)
+        print("eventName in viewDidLoad EventPlayerStatsCV: ", eventName)
+        print("eventDate in viewDidLoad EventPlayerStatsCV: ", eDate)
+        
+        
         // Code to fetch the CKRecord.ID from event DB for team, eName, eDate
         playerTeamData.queryPlayerEvent(team: team, eventName: eventName, eventDate: eDate, completion: { qqueryPlayerEvent in
             
@@ -82,20 +88,54 @@ class EventPlayerStatsCollectionViewController: UICollectionViewController {
     } //viewDidLoad
 
     
-    
-    //code to fetch the CKRecord.ID from team DB for player and teamName fields
-  // lazy var playerRecord = playerTeam.queryPlayer(pName: player, team: team)
+   
     
     
-    // Code to fetch the CKRecord.ID from event DB for team, eName, eDate
-  //  lazy var eventRecord = playerTeamData.queryPlayerEvent(team: team, eventName: eventName, eventDate: eDate)
+    @IBOutlet weak var EventPlayerStatsCollectionViewFlowViewController: UICollectionViewFlowLayout!
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-   // let playerID = playerRecord.recordID
+        let height = view.frame.size.height
+        let width = view.frame.size.width
+        
+        return CGSize(width: width, height: height * 0.15)
+        
+    } // CollectionViewLayout
     
     
-  //  let recordToMatch = CKRecord.Reference(recordID: playerID, action: .deleteSelf)
     
-  // lazy var resultsArray = playerManager.playerQuery(pName: player, teamRecord: playerRecord)
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        var headerView = EventPlayerStatsReusableView()
+        
+       if let headerViewText = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerViewText", for: indexPath) as? EventPlayerStatsReusableView {
+        
+           headerViewText.eventN.text = self.eventName
+               
+           let dateFormatter = DateFormatter()
+               
+           dateFormatter.dateStyle = .short
+             //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+              // dateFormatter.timeStyle = .short
+               
+           let eventDat =  dateFormatter.string(from: self.eDate)
+               
+           headerViewText.eventD.text = eventDat
+           
+           headerView = headerViewText
+           
+       } // if headerViewText
+        
+        
+        return headerView
+        
+    } // collectionView for viewForSupplementary
+   
+    
+    
+
    
     // Code to query player DB for records for event with CKRecord.ID
    

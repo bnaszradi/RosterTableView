@@ -10,7 +10,7 @@ import CloudKit
 
 //private let reuseIdentifier = "playerCell"
 
-class StatsCollectionViewController: UICollectionViewController {
+class StatsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var player: String = ""
     var team: String = ""
@@ -77,7 +77,24 @@ class StatsCollectionViewController: UICollectionViewController {
        
     }  //viewDidLoad
 
-   
+    
+    
+    
+    @IBOutlet weak var StatsCollectionViewFlowViewController: UICollectionViewFlowLayout!
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let height = view.frame.size.height
+        let width = view.frame.size.width
+        
+        return CGSize(width: width, height: height * 0.15)
+        
+        
+    } // CollectionViewLayout
+    
+    
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
         return headerView

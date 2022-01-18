@@ -10,7 +10,7 @@ import CloudKit
 
 private let reuseIdentifier = "Cell"
 
-class DonationStatsCollectionViewController: UICollectionViewController {
+class DonationStatsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     
    // var player: String = ""
@@ -73,8 +73,45 @@ class DonationStatsCollectionViewController: UICollectionViewController {
     }  // viewDidLoad
 
     
+    
+    @IBOutlet weak var DonationStatsCollectionViewFlowViewController: UICollectionViewFlowLayout!
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let height = view.frame.size.height
+        let width = view.frame.size.width
+        
+        return CGSize(width: width, height: height * 0.15)
+        
+    } // CollectionViewLayout
+    
+    
+    
+    
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+        
+        var headerView = DonationStatsReusableView()
+        
+       if let headerViewText = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerViewText", for: indexPath) as? DonationStatsReusableView {
+        
+           headerViewText.eventN.text = self.eventName
+               
+           let dateFormatter = DateFormatter()
+               
+           dateFormatter.dateStyle = .short
+             //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+              // dateFormatter.timeStyle = .short
+               
+           let eventDat =  dateFormatter.string(from: self.eDate)
+               
+           headerViewText.eventD.text = eventDat
+           
+           headerView = headerViewText
+           
+       } // if headerViewText
+        
+        
         return headerView
     } // collectionView for viewForSupplementary
     
@@ -253,13 +290,13 @@ class DonationStatsCollectionViewController: UICollectionViewController {
           //  print("vcStats.eDate: ", eDate)
             
             
-           // var Title = team
+            let Title = team
            // Title.append(" ")
            // Title.append(selectedPlayer)
          //   var Title = selectedPlayer
             //    Title.append(" ")
             //    Title.append(eventName)
-            let Title = eventName
+          //  let Title = eventName
            // Title.append(eDate)
             
             vcStats.title = Title

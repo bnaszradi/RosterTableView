@@ -10,7 +10,10 @@ import CloudKit
 
 private let reuseIdentifier = "Cell"
 
-class EventsCollectionViewController: UICollectionViewController {
+//class EventsCollectionViewController: UICollectionViewController {
+
+class EventsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout
+{
 
     let container = CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
      
@@ -54,7 +57,7 @@ class EventsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+      
         // self.clearsSelectionOnViewWillAppear = false
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -80,6 +83,28 @@ class EventsCollectionViewController: UICollectionViewController {
 
     } // viewDidLoad
 
+    
+    //   This doesn't change the cell size on minin iPad
+
+    
+    @IBOutlet weak var eventCollectionViewFlowLayout: UICollectionViewFlowLayout!
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let height = view.frame.size.height
+        let width = view.frame.size.width
+        
+        return CGSize(width: width, height: height * 0.15)
+        
+        
+    } // CollectionViewLayout
+    
+   
+    
+    
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
@@ -442,7 +467,18 @@ class EventsCollectionViewController: UICollectionViewController {
         
        // eventTitle.append(" ")
        // eventTitle.append(eventN)
-            let eventTitle = eventN
+            var eventTitle = eventN
+            eventTitle.append(" ")
+            
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.dateStyle = .short
+          //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+           // dateFormatter.timeStyle = .short
+            
+           let eventDateTitle =  dateFormatter.string(from: eventD)
+        eventTitle.append(eventDateTitle)
+           
         
         print("eventTitle in toPlayerList: ", eventTitle)
         print("vcMgmt.team in toPlayerList: ", vcMgmt.team)
@@ -507,11 +543,24 @@ class EventsCollectionViewController: UICollectionViewController {
              
          //   print("vcMgmt.team ", team)
             
-            //var Title = team
-            //Title.append(" ")
-            //Title.append(eventN)
-            let Title = eventN
+            let Title = team
             
+            
+           // Code to include event name and date in title
+            /*
+            var Title = eventN
+            
+            Title.append(" ")
+            
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.dateStyle = .short
+          //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+           // dateFormatter.timeStyle = .short
+            
+           let eventDateTitle =  dateFormatter.string(from: eventD)
+           Title.append(eventDateTitle)
+           */
                 vcMgmt.title = Title
                 vcMgmt.team = self.team
                 vcMgmt.eventName = self.eventN
@@ -531,8 +580,23 @@ class EventsCollectionViewController: UICollectionViewController {
                    
                     let vcMgmt = vcEvents.viewControllers.first as! TotalStatsViewController
                     
-                
-            let Title = eventN
+            let Title = self.team
+            // This code displays the event name and date in the title
+            /*
+            var Title = eventN
+            
+            Title.append(" ")
+            
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.dateStyle = .short
+          //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+           // dateFormatter.timeStyle = .short
+            
+           let eventDateTitle =  dateFormatter.string(from: eventD)
+           Title.append(eventDateTitle)
+           */
+            
             
                 vcMgmt.title = Title
                 vcMgmt.team = self.team

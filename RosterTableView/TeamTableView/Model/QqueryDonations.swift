@@ -17,6 +17,8 @@ struct QqueryDonations {
     var totPerShotArray = [] as Array<Double>
     var totFlatDonArray = [] as Array<Double>
     var totalDonationArray = [] as Array<Double>
+    var eventDateArray = [] as Array<Date>
+    
     
 }  // QqueryDonatonWithShots
 

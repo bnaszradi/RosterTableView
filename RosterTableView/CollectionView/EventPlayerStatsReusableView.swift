@@ -1,18 +1,18 @@
 //
-//  SponsorReusableView.swift
+//  EventPlayerStatsReusableView.swift
 //  RosterTableView
 //
-//  Created by Brian Naszradi on 12/22/21.
+//  Created by Brian Naszradi on 1/11/22.
 //
 
 import UIKit
 
-class SponsorReusableView: UICollectionReusableView {
-     
-    
+class EventPlayerStatsReusableView: UICollectionReusableView {
+        
     @IBOutlet weak var eventN: UILabel!
     
     @IBOutlet weak var eventD: UILabel!
+    
     
     func configure(with eventName: String, eventDate: String) {
         
@@ -21,5 +21,4 @@ class SponsorReusableView: UICollectionReusableView {
         
     } // configure
     
-    
-}  // SponsorReusableView
+}  // EventPlayerStatsReusableView

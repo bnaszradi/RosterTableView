@@ -10,7 +10,7 @@ import CloudKit
 
 private let reuseIdentifier = "Cell"
 
-class SponsorStatsCollectionViewController: UICollectionViewController {
+class SponsorStatsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     
     let sponsorsList = SponsorsList()
@@ -92,6 +92,22 @@ class SponsorStatsCollectionViewController: UICollectionViewController {
     } //viewDidLoad
 
     
+    
+    
+    @IBOutlet weak var SponsorStatsCollectionViewFlowViewController: UICollectionViewFlowLayout!
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let height = view.frame.size.height
+        let width = view.frame.size.width
+        
+        return CGSize(width: width, height: height * 0.15)
+        
+    } // CollectionViewLayout
+    
+    
+    
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
        
         var headerView = SponsorStatsReusableView()
@@ -100,7 +116,18 @@ class SponsorStatsCollectionViewController: UICollectionViewController {
         if let headerViewText = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerViewText", for: indexPath) as? SponsorStatsReusableView {
         
         headerViewText.eventN.text = self.eventName
-        
+            
+        let dateFormatter = DateFormatter()
+            
+        dateFormatter.dateStyle = .short
+          //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+           // dateFormatter.timeStyle = .short
+            
+        let eventDat =  dateFormatter.string(from: self.eventDate)
+            
+        headerViewText.eventD.text = eventDat
+            
+            
         headerView = headerViewText
             
        

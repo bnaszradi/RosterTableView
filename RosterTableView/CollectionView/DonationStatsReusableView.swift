@@ -1,14 +1,14 @@
 //
-//  SponsorReusableView.swift
+//  DonationStatsReusableView.swift
 //  RosterTableView
 //
-//  Created by Brian Naszradi on 12/22/21.
+//  Created by Brian Naszradi on 1/10/22.
 //
 
 import UIKit
 
-class SponsorReusableView: UICollectionReusableView {
-     
+class DonationStatsReusableView: UICollectionReusableView {
+        
     
     @IBOutlet weak var eventN: UILabel!
     
@@ -22,4 +22,4 @@ class SponsorReusableView: UICollectionReusableView {
     } // configure
     
     
-}  // SponsorReusableView
+}  // DonationStatsReuseableView

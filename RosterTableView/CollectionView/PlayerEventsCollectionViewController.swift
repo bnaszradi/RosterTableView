@@ -10,14 +10,14 @@ import CloudKit
 
 private let reuseIdentifier = "Cell"
 
-class PlayerEventsCollectionViewController: UICollectionViewController {
+class PlayerEventsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
      
     
     let updateDonationTotals = UpdateDonationsTotals()
-     
+    let eventsList = EventsList()
     
     var team: String = ""
     var playerN: String = ""
@@ -31,8 +31,16 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
     var totPerShotArray = [] as Array<Double>
     var totFlatDonArray = [] as Array<Double>
     var totalDonationArray = [] as Array<Double>
+    var eventDateArray = [] as Array<Date>
     
-   
+    
+    var selectedEvent: String = ""
+    var selectedDateEvent: Date = Date()
+    
+    /*
+    var resultsEventArray: Array<String> = []
+    var resultsDateArray: Array<Date> = []
+    */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +73,8 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
                 
             self.totalDonationArray = qqueryDonations.totalDonationArray
                 
+            self.eventDateArray = qqueryDonations.eventDateArray
+                
            self.collectionView.reloadData()
             print("reloadData")
                  
@@ -79,6 +89,23 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
         
     } // viewDidLoad
 
+    
+    
+    @IBOutlet weak var PlayerEventsCollectionViewFlowViewController: UICollectionViewFlowLayout!
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let height = view.frame.size.height
+        let width = view.frame.size.width
+        
+        return CGSize(width: width, height: height * 0.15)
+        
+    } // CollectionViewLayout
+    
+    
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
        
@@ -104,6 +131,7 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
         
        
     } // collectionView for viewForSupplementary
+    
     
     
     
@@ -137,6 +165,16 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
         
        // cell.event.text = "Event"
         cell.event.text = String(self.eventArray[indexPath.row])
+          
+        let dateFormatter = DateFormatter()
+                    
+        dateFormatter.dateStyle = .short
+            //  dateFormatter.dateFormat = "EEEE MMM d, yyyy"
+            // dateFormatter.timeStyle = .short
+                    
+        let eventDateValue =  dateFormatter.string(from: self.eventDateArray[indexPath.row])
+                
+        cell.eventD.text = eventDateValue
       
         cell.total.text = String(self.totalDonationArray[indexPath.row])
        
@@ -158,8 +196,41 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
         
     } // collectionView cellforat
 
-    // MARK: UICollectionViewDelegate
-
+    
+    // Code for selecting cell
+    func eventItem(at index:IndexPath) -> String {
+       
+        eventArray[index.item]
+        
+    } //eventItem func
+    
+    func eventDateItem(at index:IndexPath) -> Date {
+       
+        eventDateArray[index.item]
+        
+    } //eventItem func
+    
+    
+    
+    // Select Event to view player shot stats
+    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
+        selectedEvent = eventItem(at: indexPath)
+        print("selectedEvent: ", selectedEvent)
+    
+        selectedDateEvent = eventDateItem(at: indexPath)
+        print("selectedDateEvent: ", selectedDateEvent)
+        
+       performSegue(withIdentifier: "toEventPlayerShots", sender: selectedEvent)
+        
+        
+        return true
+        
+        
+    } // shouldSelectItemsAt
+    
+    
+    
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking
     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
@@ -167,12 +238,7 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
     }
     */
 
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
+
 
     /*
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
@@ -189,4 +255,57 @@ class PlayerEventsCollectionViewController: UICollectionViewController {
     }
     */
 
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        
+        
+        if segue.identifier == "toEventPlayerShots" {
+            
+            print("segue toEventPlayerShots started")
+            
+        
+        //   if let selectedEvent = sender as? String {
+        
+            let vcTeam = segue.destination as! UINavigationController
+               
+            let vcStats = vcTeam.viewControllers.first as! EventPlayerStatsCollectionViewController
+                
+               
+             //   vcStats.eDate = self.resultsDateArray[0]
+             //   print("vcStats.eDate: ", vcStats.eDate)
+               
+           // let Title = self.selectedEvent
+            let Title = self.team
+            print("Title: ", Title)
+            vcStats.title = Title
+            print("vcStats.title: ", vcStats.title!)
+                
+            vcStats.player = self.playerN
+            print("vcStats.player: ", vcStats.player)
+               
+            vcStats.team = self.team
+            print("vcStats.team: ", vcStats.team)
+                
+             //  vcStats.eventName = self.eventName
+            vcStats.eventName = self.selectedEvent
+             
+               vcStats.eDate = self.selectedDateEvent
+                print("vcStats.eDate: ", vcStats.eDate)
+                    
+      //  } // selectedEvent
+            
+        } // if toEventPlayerStats
+        
+        
+        } // prepare func
+    
+   
+    @IBAction func unwindEventPlayerStatsCollectionViewControllerCancel(segue: UIStoryboardSegue) {
+     
+    }  // UIStoryboardSegue
+    
+    
+    
+    
 }   // PlayerEventsCollecttionViewController

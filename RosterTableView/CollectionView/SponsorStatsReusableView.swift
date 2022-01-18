@@ -12,9 +12,13 @@ class SponsorStatsReusableView: UICollectionReusableView {
     
     @IBOutlet weak var eventN: UILabel!
     
-    func configure(with eventName: String) {
+    @IBOutlet weak var eventD: UILabel!
+    
+    
+    func configure(with eventName: String, eventDate: String) {
         
         eventN.text = eventName
+        eventD.text = eventDate
         
     } // configure
     

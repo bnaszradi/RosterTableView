@@ -10,7 +10,7 @@ import CloudKit
 
 // private let reuseIdentifier = "Cell"
 
-class PlayerStatsCollectionViewController: UICollectionViewController {
+class PlayerStatsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     
     let container = CloudKit.CKContainer(identifier: "ICloud.Brian-Naszradi.RosterTableView")
@@ -107,32 +107,19 @@ class PlayerStatsCollectionViewController: UICollectionViewController {
  //  lazy var resultsArray = statsDataLoad.playerQuery(pName: player, teamRecord: playerRecord)
    
     
-    /*
-    statsDataLoad.playerQuery(pName: player, teamRecord: results, completion: { playerQueryResults in
-        
    
-      DispatchQueue.main.async {
-            
-            self.playerArray = playerQueryResults.playerArray
-            
-            self.dateArray = playerQueryResults.dateArray
-            
-            self.attemptArray = playerQueryResults.attemptArray
-      
-            self.makesArray = playerQueryResults.makesArray
-            
-            self.percentArray = playerQueryResults.percentArray
-            
-           
-           self.collectionView.reloadData()
-           print("reloadData")
-            
-            print("playerArray after reloadData ", self.playerArray as Any)
+    @IBOutlet weak var PlayerStatsCollectionViewFlowViewController: UICollectionViewFlowLayout!
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let height = view.frame.size.height
+        let width = view.frame.size.width
         
-        } //DispatchQueue
-       
-    }  ) // playerQueryResults completion
-   */
+        return CGSize(width: width, height: height * 0.15)
+        
+    } // CollectionViewLayout
+    
+    
     
   
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
