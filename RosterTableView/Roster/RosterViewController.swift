@@ -79,6 +79,9 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBAction func rosterName(_ sender: Any) {
 
         name = teamName.text!
+        
+        print("teamName.text: ", teamName.text!)
+        print("name: ", name)
        
             // Add check if team roster already exists
             /*
@@ -121,7 +124,9 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
             }  // else Team exists
             */
     
-        performSegue(withIdentifier: "teamPasser", sender: self)
+    //    performSegue(withIdentifier: "teamPasser", sender: self)
+        
+        performSegue(withIdentifier: "eventRoster", sender: self)
         
     }  //IBAction func rosterName
     
@@ -142,18 +147,25 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        
+        /*
         if segue.identifier == "teamPasser" {
           
                     print("teamPasser Segue")
-             
+       */
+        if segue.identifier == "eventRoster" {
+            
+            print("eventRoster Segue")
+            
             let playersVar: Bool = true
             
             let vc = segue.destination as! UINavigationController
-            let tableVC = vc.viewControllers.first as! TeamTableViewTableViewController
+        //    let tableVC = vc.viewControllers.first as! TeamTableViewTableViewController
+            let tableVC = vc.viewControllers.first as! EventsCollectionViewController
+            print("name in RosterView in eventRoster Seque: ", self.name)
             tableVC.team = self.name
             tableVC.title = self.name
             tableVC.playerVariable = playersVar
+            print("playersVar in RosterView segue: ", playersVar)
             
             
             
@@ -176,15 +188,18 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
                         
                        // print("vcScore.team ", vcScore.team)
                     
-                  //  let eventVar: Bool = true
-                    let playerVar: Bool = true
+                 //  let eventVar: Bool = true
+                 //   let playerVar: Bool = true
+                let eventSponsorVar: Bool = true
                     var Title = name
                     Title.append(" Events")
                 
                     vc.title = Title
                     vc.team = self.name
                  //   vc.eventVariable = eventVar
-                vc.playerVariable = playerVar
+                //   vc.playerVariable = playerVar
+                vc.eventSponsorVariable = eventSponsorVar
+                
                         
                  //   } // if selecterdPlayer
 

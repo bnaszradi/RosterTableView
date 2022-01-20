@@ -40,6 +40,8 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
     
     var eventTotalsVariable: Bool = false
     
+    var eventSponsorVariable: Bool = false
+    
    // let queryEvents = QueryEvents()
     let eventsList = EventsList()
     
@@ -211,10 +213,15 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         
         
         // Add condition to route to appropriate segue either toPlayerList or backToScoreboard or toDonationStats or TotalStats
-        
+        print("eventVariable: ", eventVariable)
+        print("donationVariable: ", donationVariable)
+        print("playerVariable: ", playerVariable)
+        print("scoreboardVariable: ", scoreboardVariable)
         
         if eventVariable == true {
                
+            
+            
             performSegue(withIdentifier: "toEventMgmt", sender: selectedEvent)
 
             } //event segue
@@ -223,10 +230,19 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
           
         if playerVariable == true {
             
-        performSegue(withIdentifier: "toPlayerList", sender: selectedEvent)
-   
+           
+            self.performSegue(withIdentifier: "toPlayerList", sender: selectedEvent)
+
+                    
         } //if toPlayerList
         
+            
+            if eventSponsorVariable == true {
+                
+                performSegue(withIdentifier: "toPlayerList", sender: selectedEvent)
+           
+            } // if eventSponsorVariable
+            
        
         if donationVariable == true {
             
@@ -451,9 +467,9 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         print("toPlayerList Segue in EventsCollectionView")
         print("playerVariable in toPlayerList segue: ", playerVariable)
              
-                    let vcEvents = segue.destination as! UINavigationController
+        let vcEvents = segue.destination as! UINavigationController
                    
-                    let vcMgmt = vcEvents.viewControllers.first as! TeamTableViewTableViewController
+        let vcMgmt = vcEvents.viewControllers.first as! TeamTableViewTableViewController
                     
                  //  vcScore.playerN = selectedPlayer
                     
@@ -484,18 +500,27 @@ class EventsCollectionViewController: UICollectionViewController, UICollectionVi
         print("vcMgmt.team in toPlayerList: ", vcMgmt.team)
         print("eventN in toPlayerList: ", eventN)
             
-            let eventVar: Bool = true
+       //     let eventVar: Bool = true
                 
             vcMgmt.title = eventTitle
             vcMgmt.team = self.team
-            vcMgmt.eventVariable = eventVar
+          //  vcMgmt.eventVariable = eventVar
+            print("eventVariable in eventCV segue: ", eventVariable)
+            vcMgmt.eventVariable = self.eventVariable
+            vcMgmt.playerVariable = self.playerVariable
+            vcMgmt.eventSponsorVariable = self.eventSponsorVariable
+            
             vcMgmt.eventN = self.eventN
             vcMgmt.eventDate = eventD
+            vcMgmt.eventSwitch = true
+            
 
                     
                 } // toPlayerList
         
         
+       
+    
         if segue.identifier == "backToScoreboard" {
           
         print("backToScoreboard Segue in EventsCollectionView")

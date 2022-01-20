@@ -27,6 +27,13 @@ class TeamTableViewTableViewController: UITableViewController {
     
     var playerEventsVariable: Bool = false
     
+    var eventSwitch: Bool = false
+    
+    var eventSponsorVariable: Bool = false
+    
+    var totalMake: Int = 0
+    var totalMiss: Int = 0
+    
     var eventN: String = ""
     
     var eventDate: Date = Date()
@@ -34,6 +41,8 @@ class TeamTableViewTableViewController: UITableViewController {
   let teamDataLoad = TeamDataLoad()
     
   let updateTeamTotals = UpdateTeamTotals()
+    
+  let updateDonationsTotals = UpdateDonationsTotals()
     
   let PlayerCheck = TeamPlayerCheck()
     
@@ -178,16 +187,51 @@ class TeamTableViewTableViewController: UITableViewController {
       print("playerVariable: ", playerVariable)
       print("eventVariable: ", eventVariable)
       print("playerEventsVariable: ", playerEventsVariable)
+      print("eventSponsorVariable: ", eventSponsorVariable)
         
         // Add if conditions for segues
         
         if playerVariable == true {
         
-        performSegue(withIdentifier: "toPlayer", sender: selectedPlayer)
+            updateDonationsTotals.querySponsorWithShots(tName: team, pName: selectedPlayer, eDate: eventDate, completion: { qSponsWithShots in
+                 
+               //  print("updateDonationsTotals.querySponsorWithShots in scoreboardVariable")
+                
+                DispatchQueue.main.async {
+                     
+             //   let donationValues = qSponsWithShots
+                 
+              //  let totalAttempt = donationValues.totAttempt
+                let totalAttempt = qSponsWithShots.totAttempt
+                    
+            //    let totalMake = donationValues.totMake
+                self.totalMake = qSponsWithShots.totMake
+                print("totalMake in EventCollectionView segue backToScoreboard", self.totalMake)
+             
+                self.totalMiss = totalAttempt - self.totalMake
+                print("totalMiss in EventCollectionView segue backToScoreboard", self.totalMiss)
+            
+            self.performSegue(withIdentifier: "toPlayer", sender: selectedPlayer)
+   
+                } // DispatchQueue completionhandler
+                  
+               
+              } ) // Completionhandler updateDonationsTotals.querySponsorWithShots
+       
+            
+            
+      //  performSegue(withIdentifier: "toPlayer", sender: selectedPlayer)
           
        
         } // if playerVariable == true
             
+        if eventSponsorVariable == true {
+          
+            performSegue(withIdentifier: "toSponsorList", sender: selectedPlayer)
+            
+        } // if eventSponsorVariable
+        
+        
             if eventVariable == true {
           
             performSegue(withIdentifier: "toSponsorList", sender: selectedPlayer)
@@ -386,6 +430,16 @@ class TeamTableViewTableViewController: UITableViewController {
                     
                     vcScore.title = self.team
                     vcScore.team = self.team
+                    vcScore.eventN = eventN
+                    vcScore.eventDate = eventDate
+                    vcScore.eventSwitch = true
+                    
+                    print("totalMake in TeamTableView Segue: ", self.totalMake)
+                        
+                    print("totalMiss in TeamTableView Segue: ", self.totalMiss)
+                          
+                    vcScore.eMake = String(self.totalMake)
+                    vcScore.eMiss = String(self.totalMiss)
                     
                     } // if selected player
                     }  // segue toPlayer

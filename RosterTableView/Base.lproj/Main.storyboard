@@ -417,9 +417,9 @@
                                 <rect key="frame" x="15" y="15" width="345" height="102"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="fyZ-eI-Jll">
-                                <rect key="frame" x="20" y="252" width="335" height="61"/>
+                                <rect key="frame" x="20" y="252" width="335" height="81.5"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rx-ra-j3R">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="1rx-ra-j3R">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="60"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                                         <constraints>
@@ -427,7 +427,7 @@
                                             <constraint firstAttribute="width" constant="125" id="eBc-dk-Cdj"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <state key="normal" title="Scoring">
+                                        <state key="normal" title="Events &amp; Scoring">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -436,8 +436,8 @@
                                             <action selector="rosterName:" destination="ucO-ZF-RwQ" eventType="touchUpInside" id="f0I-ZO-qYa"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select to build roster and select Players to record scores" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GS9-9s-Yiv">
-                                        <rect key="frame" x="140" y="0.0" width="195" height="61"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select to create fundraiser Events, build roster and select Players to record scores" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GS9-9s-Yiv">
+                                        <rect key="frame" x="140" y="0.0" width="195" height="81.5"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="textColor" systemColor="systemGray6Color"/>
@@ -448,7 +448,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="wNh-iv-PTN">
-                                <rect key="frame" x="20" y="368" width="335" height="83"/>
+                                <rect key="frame" x="20" y="388.5" width="335" height="83"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="f9Z-Ck-02G">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="60"/>
@@ -507,7 +507,7 @@
                     <navigationItem key="navigationItem" id="4RS-8i-QA0"/>
                     <connections>
                         <outlet property="teamName" destination="aJ6-cB-Z3j" id="pie-nt-Uek"/>
-                        <segue destination="B2T-Rh-QVm" kind="presentation" identifier="teamPasser" id="mYd-EE-v39"/>
+                        <segue destination="Gzi-5f-KrH" kind="presentation" identifier="eventRoster" id="YPL-gG-XC5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Zn-xT-aFG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -755,30 +755,30 @@
                                 <rect key="frame" x="37.5" y="245" width="300" height="285"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SCOREBOARD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWB-ep-URD">
-                                        <rect key="frame" x="47.5" y="0.0" width="205.5" height="37"/>
+                                        <rect key="frame" x="47.5" y="0.0" width="205.5" height="36.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                         <color key="textColor" systemColor="systemGray6Color"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ex-rF-sdp">
-                                        <rect key="frame" x="0.0" y="37" width="300" height="30"/>
+                                        <rect key="frame" x="0.0" y="36.5" width="300" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="YqG-D4-crV"/>
                                             <constraint firstAttribute="height" constant="30" id="xzf-iq-aGj"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="275" id="yeS-DY-EDu"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="20"/>
+                                        <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="22"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="Event Name">
-                                            <color key="titleColor" systemColor="systemRedColor"/>
+                                            <color key="titleColor" systemColor="labelColor"/>
                                         </state>
                                         <connections>
                                             <segue destination="Gzi-5f-KrH" kind="presentation" identifier="toEventsList" id="byv-Zr-ee4"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name and Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKt-WW-lcQ">
-                                        <rect key="frame" x="65" y="67" width="170.5" height="22"/>
+                                        <rect key="frame" x="65" y="66.5" width="170.5" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="K5D-i7-6GX"/>
                                             <constraint firstAttribute="width" constant="170.5" id="K7s-ub-PIg"/>
@@ -788,7 +788,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P2a-Ju-aPj">
-                                        <rect key="frame" x="79" y="89" width="142" height="30"/>
+                                        <rect key="frame" x="79" y="88.5" width="142" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="142" id="dyn-WD-1SA"/>
@@ -799,10 +799,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="93" translatesAutoresizingMaskIntoConstraints="NO" id="xBL-45-Q41" userLabel="Score Event Date SV">
-                                        <rect key="frame" x="9.5" y="119" width="281" height="166"/>
+                                        <rect key="frame" x="9.5" y="118.5" width="281" height="166.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vg3-yh-vG4" userLabel="Make Score SV">
-                                                <rect key="frame" x="0.0" y="3" width="94" height="160"/>
+                                                <rect key="frame" x="0.0" y="3.5" width="94" height="160"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tox-yn-tBe">
                                                         <rect key="frame" x="5.5" y="0.0" width="83" height="27"/>
@@ -816,7 +816,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6OR-rd-jcf">
-                                                        <rect key="frame" x="5.5" y="29.5" width="83" height="54"/>
+                                                        <rect key="frame" x="5.5" y="29" width="83" height="54"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="54" id="3rT-6W-yFo"/>
@@ -851,7 +851,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="IXt-nx-nWs" userLabel="Miss Score SV">
-                                                <rect key="frame" x="187" y="3" width="94" height="160"/>
+                                                <rect key="frame" x="187" y="3.5" width="94" height="160"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Miss" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5v-9k-0Dv">
                                                         <rect key="frame" x="5.5" y="0.0" width="83" height="27"/>
@@ -865,7 +865,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLf-j0-nVf">
-                                                        <rect key="frame" x="5.5" y="29.5" width="83" height="54"/>
+                                                        <rect key="frame" x="5.5" y="29" width="83" height="54"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="54" id="9Hl-XD-rG1"/>
@@ -3469,9 +3469,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="SdZ-x9-8Yr"/>
         <segue reference="QOe-uh-aMb"/>
-        <segue reference="byv-Zr-ee4"/>
-        <segue reference="MDn-22-WK2"/>
-        <segue reference="SIf-vw-sTX"/>
+        <segue reference="C4k-67-kPf"/>
+        <segue reference="lOr-Pv-IVT"/>
+        <segue reference="SRN-na-blA"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="#3 HoopShoot-Athon logo" width="519" height="102"/>
@@ -3482,6 +3482,9 @@
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

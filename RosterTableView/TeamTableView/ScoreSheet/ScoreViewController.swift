@@ -26,7 +26,8 @@ class ScoreViewController: UIViewController {
     
     var team: String = ""
     
-    var eventN: String = "Press Here to Select Event"
+  //  var eventN: String = "Press Here to Select Event"
+    var eventN: String = ""
     
     var eventDate: Date = Date()
     
