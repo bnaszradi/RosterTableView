@@ -76,6 +76,21 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var teamName: UILabel!
     
 
+    
+    @IBAction func teamRoster(_ sender: UIButton) {
+        name = teamName.text!
+        
+        print("teamName.text: ", teamName.text!)
+        print("name: ", name)
+        
+        performSegue(withIdentifier: "toRoster", sender: self)
+        
+        
+    }  //teamRoster
+    
+    
+    
+    
     @IBAction func rosterName(_ sender: Any) {
 
         name = teamName.text!
@@ -167,9 +182,26 @@ class RosterViewController: UIViewController, UIImagePickerControllerDelegate, U
             tableVC.playerVariable = playersVar
             print("playersVar in RosterView segue: ", playersVar)
             
+        }  // to eventRoster segue
+        
+        if segue.identifier == "toRoster" {
             
+            print("toRoster Segue")
             
-            } else if segue.identifier == "eventsListPasser" {
+            let playersVar: Bool = true
+            
+            let vc = segue.destination as! UINavigationController
+           let tableVC = vc.viewControllers.first as! TeamTableViewTableViewController
+       //     let tableVC = vc.viewControllers.first as! EventsCollectionViewController
+            print("name in RosterView in toRoster Seque: ", self.name)
+            tableVC.team = self.name
+            tableVC.title = self.name
+            tableVC.playerVariable = playersVar
+            print("playersVar in RosterView segue: ", playersVar)
+       
+        } // toRoster segue
+            
+            if segue.identifier == "eventsListPasser" {
             
                     
                     print("eventsListPasser Segue")

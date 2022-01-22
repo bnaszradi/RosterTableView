@@ -139,7 +139,7 @@ class ScoreViewController: UIViewController {
        
          } ) // Completionhandler teamPlayerCheck.playerPhoto
         
-        
+        /*
         if eventSwitch == false {
         
         //Retrieve scores from team DB
@@ -170,6 +170,8 @@ class ScoreViewController: UIViewController {
             
                           
         }  // if eventSwitch = false
+        */
+        
         
     }  //viewDidLoad
     

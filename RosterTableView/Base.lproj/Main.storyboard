@@ -402,8 +402,8 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Center cut of basketball" translatesAutoresizingMaskIntoConstraints="NO" id="gBV-NK-hN8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="teamName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJ6-cB-Z3j">
-                                <rect key="frame" x="55.5" y="120" width="275" height="35"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="teamName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJ6-cB-Z3j">
+                                <rect key="frame" x="50" y="152" width="275" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="dJs-qB-D8M"/>
@@ -416,39 +416,8 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="#3 HoopShoot-Athon logo" translatesAutoresizingMaskIntoConstraints="NO" id="aKZ-5g-dgz">
                                 <rect key="frame" x="15" y="15" width="345" height="102"/>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="fyZ-eI-Jll">
-                                <rect key="frame" x="20" y="252" width="335" height="81.5"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="1rx-ra-j3R">
-                                        <rect key="frame" x="0.0" y="0.0" width="125" height="60"/>
-                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="BC8-wU-LFd"/>
-                                            <constraint firstAttribute="width" constant="125" id="eBc-dk-Cdj"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <state key="normal" title="Events &amp; Scoring">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="roster:" destination="dNw-mE-olm" eventType="touchUpInside" id="nOL-hH-vFa"/>
-                                            <action selector="rosterName:" destination="ucO-ZF-RwQ" eventType="touchUpInside" id="f0I-ZO-qYa"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select to create fundraiser Events, build roster and select Players to record scores" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GS9-9s-Yiv">
-                                        <rect key="frame" x="140" y="0.0" width="195" height="81.5"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                        <color key="textColor" systemColor="systemGray6Color"/>
-                                    </label>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="GS9-9s-Yiv" firstAttribute="leading" secondItem="1rx-ra-j3R" secondAttribute="trailing" constant="15" id="9z5-29-CfI"/>
-                                </constraints>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="wNh-iv-PTN">
-                                <rect key="frame" x="20" y="388.5" width="335" height="83"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="wNh-iv-PTN" userLabel="Sponsors">
+                                <rect key="frame" x="20" y="418.5" width="335" height="83"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="f9Z-Ck-02G">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="60"/>
@@ -458,7 +427,7 @@
                                             <constraint firstAttribute="height" constant="60" id="Zzf-6c-NE8"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <state key="normal" title="Events &amp; Sponsors">
+                                        <state key="normal" title="Event Sponsors">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -480,34 +449,100 @@
                                     <constraint firstItem="3uu-OX-Rzz" firstAttribute="leading" secondItem="f9Z-Ck-02G" secondAttribute="trailing" constant="15" id="oZh-9I-QnX"/>
                                 </constraints>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="AKL-pn-UaU" userLabel="Roster">
+                                <rect key="frame" x="20" y="217" width="335" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sRt-DU-B11">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="60"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="125" id="3zC-Ag-u4a"/>
+                                            <constraint firstAttribute="height" constant="60" id="e2B-C5-Klf"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Roster">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="teamRoster:" destination="ucO-ZF-RwQ" eventType="touchUpInside" id="G0D-V2-1Cq"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select to manage roster and record scores" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79T-i0-3cy">
+                                        <rect key="frame" x="140" y="0.0" width="195" height="41"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" systemColor="systemGray6Color"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="79T-i0-3cy" firstAttribute="leading" secondItem="sRt-DU-B11" secondAttribute="trailing" constant="15" id="yba-XV-ao4"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="fyZ-eI-Jll" userLabel="Scoring">
+                                <rect key="frame" x="20" y="307" width="335" height="81.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="1rx-ra-j3R">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="60"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="BC8-wU-LFd"/>
+                                            <constraint firstAttribute="width" constant="125" id="eBc-dk-Cdj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Event Scoring">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="roster:" destination="dNw-mE-olm" eventType="touchUpInside" id="nOL-hH-vFa"/>
+                                            <action selector="rosterName:" destination="ucO-ZF-RwQ" eventType="touchUpInside" id="f0I-ZO-qYa"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select to create fundraiser Events, build roster and select Players to record scores" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GS9-9s-Yiv">
+                                        <rect key="frame" x="140" y="0.0" width="195" height="81.5"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" systemColor="systemGray6Color"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="GS9-9s-Yiv" firstAttribute="leading" secondItem="1rx-ra-j3R" secondAttribute="trailing" constant="15" id="9z5-29-CfI"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="JfY-NW-irv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JfY-NW-irv" firstAttribute="trailing" secondItem="aKZ-5g-dgz" secondAttribute="trailing" constant="15" id="4Ja-Nf-Dax"/>
-                            <constraint firstItem="fyZ-eI-Jll" firstAttribute="top" secondItem="aJ6-cB-Z3j" secondAttribute="bottom" constant="65" id="9fk-CL-SPP"/>
                             <constraint firstItem="gBV-NK-hN8" firstAttribute="top" secondItem="ua4-dl-HVA" secondAttribute="top" id="B9g-M3-kry"/>
                             <constraint firstItem="aKZ-5g-dgz" firstAttribute="centerX" secondItem="ua4-dl-HVA" secondAttribute="centerX" id="BLb-0o-Hw4"/>
                             <constraint firstItem="aJ6-cB-Z3j" firstAttribute="top" secondItem="aKZ-5g-dgz" secondAttribute="bottom" constant="35" id="CHN-1c-2Mr"/>
-                            <constraint firstItem="wNh-iv-PTN" firstAttribute="top" secondItem="fyZ-eI-Jll" secondAttribute="bottom" constant="55" id="En5-4d-vRQ"/>
+                            <constraint firstItem="wNh-iv-PTN" firstAttribute="top" secondItem="fyZ-eI-Jll" secondAttribute="bottom" constant="30" id="En5-4d-vRQ"/>
+                            <constraint firstItem="AKL-pn-UaU" firstAttribute="top" secondItem="aJ6-cB-Z3j" secondAttribute="bottom" constant="30" id="FQB-11-NMt"/>
                             <constraint firstItem="fyZ-eI-Jll" firstAttribute="leading" secondItem="JfY-NW-irv" secondAttribute="leading" constant="20" id="GG5-4e-BzB"/>
                             <constraint firstItem="JfY-NW-irv" firstAttribute="trailing" secondItem="fyZ-eI-Jll" secondAttribute="trailing" constant="20" id="JaH-6e-dj0"/>
                             <constraint firstItem="wNh-iv-PTN" firstAttribute="centerX" secondItem="ua4-dl-HVA" secondAttribute="centerX" id="Rmj-Qh-mY0"/>
                             <constraint firstItem="gBV-NK-hN8" firstAttribute="trailing" secondItem="JfY-NW-irv" secondAttribute="trailing" id="dZ2-7X-LVS"/>
                             <constraint firstItem="aJ6-cB-Z3j" firstAttribute="centerX" secondItem="ua4-dl-HVA" secondAttribute="centerX" id="g9C-jp-K2L"/>
+                            <constraint firstItem="fyZ-eI-Jll" firstAttribute="top" secondItem="AKL-pn-UaU" secondAttribute="bottom" constant="30" id="i0z-x9-Id9"/>
                             <constraint firstAttribute="trailing" secondItem="wNh-iv-PTN" secondAttribute="trailing" constant="20" id="jns-IJ-yvq"/>
+                            <constraint firstItem="AKL-pn-UaU" firstAttribute="leading" secondItem="JfY-NW-irv" secondAttribute="leading" constant="20" id="lKn-a3-9Ys"/>
                             <constraint firstItem="gBV-NK-hN8" firstAttribute="leading" secondItem="JfY-NW-irv" secondAttribute="leading" id="mHD-Pl-6t4"/>
                             <constraint firstItem="wNh-iv-PTN" firstAttribute="leading" secondItem="ua4-dl-HVA" secondAttribute="leading" constant="20" id="sij-BN-3aW"/>
                             <constraint firstItem="fyZ-eI-Jll" firstAttribute="centerX" secondItem="ua4-dl-HVA" secondAttribute="centerX" id="tKS-kY-Uy7"/>
                             <constraint firstItem="aKZ-5g-dgz" firstAttribute="top" secondItem="ua4-dl-HVA" secondAttribute="top" constant="15" id="unu-5D-Sf1"/>
                             <constraint firstItem="aKZ-5g-dgz" firstAttribute="leading" secondItem="JfY-NW-irv" secondAttribute="leading" constant="15" id="vqA-uQ-tzy"/>
                             <constraint firstItem="JfY-NW-irv" firstAttribute="bottom" secondItem="gBV-NK-hN8" secondAttribute="bottom" id="wFv-oj-BR9"/>
+                            <constraint firstAttribute="trailing" secondItem="AKL-pn-UaU" secondAttribute="trailing" constant="20" id="y2a-J4-YdB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4RS-8i-QA0"/>
                     <connections>
                         <outlet property="teamName" destination="aJ6-cB-Z3j" id="pie-nt-Uek"/>
                         <segue destination="Gzi-5f-KrH" kind="presentation" identifier="eventRoster" id="YPL-gG-XC5"/>
+                        <segue destination="B2T-Rh-QVm" kind="presentation" identifier="toRoster" id="Dmf-y3-azR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Zn-xT-aFG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3471,7 +3506,7 @@
         <segue reference="QOe-uh-aMb"/>
         <segue reference="C4k-67-kPf"/>
         <segue reference="lOr-Pv-IVT"/>
-        <segue reference="SRN-na-blA"/>
+        <segue reference="Dmf-y3-azR"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="#3 HoopShoot-Athon logo" width="519" height="102"/>

@@ -410,6 +410,10 @@ class TeamTableViewTableViewController: UITableViewController {
         
            if segue.identifier == "toPlayer" {
                
+               if eventN == "" {
+               eventN = "Press here to select Event"
+               } // if eventN blank
+               
               //  if segue.destination is ScoreViewController {
                     
                     print("toPlayer Segue")
@@ -515,7 +519,7 @@ class TeamTableViewTableViewController: UITableViewController {
                  vcScore.team = self.team
                  
                  } // if selected player
-                 }  // segue toPlayer
+                 }  // segue toPlayerEvents
        
         
                         
